@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_bridetobe_comision_payment_form_inherit" model="ir.ui.view">
+            <field name="name">view.bridetobe.comision.payment.form.inherit</field>
+            <field name="model">bridetobe.comision.payment</field>
+            <field name="inherit_id" ref="website_bridetobe_comisiones.view_bridetobe_comision_payment_form"/>
+            <field name="arch" type="xml">
+<!--                <xpath expr="//page/field[@name='comision_ids']" position="after">-->
+                <xpath expr="//notebook" position="inside">
+                    <page string="Comisiones Recogida">
+                        <field name="pickup_comision_ids" attrs="{'readonly':[('state','!=','draft')]}"
+                               context="{'default_employee_id':employee_id}">
+                            <tree editable="bottom">
+                                <field name="pickup_id"/>
+                                <field name="delivery_id"/>
+                                <field name="state_internal"/>
+                                <field name="commission_date"/>
+                                <field name="amount" readonly="1" sum="Total"/>
+                                <field name="paid_amount" required="1" sum="Total"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+<!--                <xpath expr="//field[@name='comision_ids']" position="attributes">-->
+<!--                    <attribute name="attrs">{'invisible': [('comision_ids', '=', False)]}</attribute>-->
+<!--                </xpath>-->
+<!--                -->
+<!--                <xpath expr="//field[@name='pickup_comision_ids']" position="attributes">-->
+<!--                    <attribute name="attrs">{'invisible': [('pickup_comision_ids', '=', False)]}</attribute>-->
+<!--                </xpath>-->
+
+            </field>
+        </record>
+    </data>
+</odoo>

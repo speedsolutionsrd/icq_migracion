@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">res.partner.form.bride.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <!--<field name="vat" position="after">-->
+                <!--<field name="customer_code" placeholder="Customer Code"/>-->
+                <!--</field>-->
+                <field name="vat" position="replace"></field>
+
+                <xpath expr="//div[@class='o_row']" position="after">
+                    <div class="o_row">
+                        <label class="oe_edit_only" for="vat">RNC / Cedula</label>
+                        <field name="vat"/>
+                        <label class="oe_edit_only" for="customer_code">Customer Code</label>
+                        <field name="customer_code" placeholder="Customer Code"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Medidas Corporales">
+                        <field name="metric_ids">
+                            <tree editable="buttom">
+                                <field name="metric_id" options="{'no_create_edit': True}"/>
+                                <field name="amount"/>
+                            </tree>
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <field name="metric_id"/>
+                                        <field name="amount"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                    </page>
+                    <page string="Medidas Corporales Old">
+                        <group col="6">
+                            <field name="busto" readonly="1"/>
+                            <field name="cintura" readonly="1"/>
+                            <field name="cadera" readonly="1"/>
+                            <field name="falda" readonly="1"/>
+                            <field name="espalda" readonly="1"/>
+                            <field name="talle_delantero" readonly="1"/>
+                            <field name="altura_busto" readonly="1"/>
+                            <field name="separacion_busto" readonly="1"/>
+                            <field name="talle_trasero" readonly="1"/>
+                            <field name="largo_manga" readonly="1"/>
+                            <field name="ancho_manga" readonly="1"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_partner_logistic_form" model="ir.ui.view">
+            <field name="name">res.partner.form.bride.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <!-- <field name="groups_id" eval="[(6,0, [ref('bridetobe_caja_group'),ref('bridetobe_logistic_operation_group'),ref('bridetobe_alquiler_group')])]"/> -->
+            <field name="arch" type="xml">
+                <data groups="bridetobe_caja_group,bridetobe_logistic_operation_group,bridetobe_alquiler_group">
+                    <form position="attributes">
+                        <attribute name="edit">false</attribute>
+                        <attribute name="create">false</attribute>
+                    </form>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>

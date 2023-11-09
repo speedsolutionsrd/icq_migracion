@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <!-- <template id="assets_frontend" inherit_id="website.assets_frontend" name="Vestidores">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/rentq_vestidores/static/src/css/select2.min.css"/>
+                <link rel="stylesheet" href="/rentq_vestidores/static/src/css/style.css"/>
+                <link rel="stylesheet" href="/rentq_vestidores/static/src/css/jquery-ui.css"/>
+
+                <script type="text/javascript" src="/rentq_vestidores/static/src/js/sweetalert.min.js"></script>
+                <script type="text/javascript" src="/rentq_vestidores/static/src/js/select2.min.js"></script>
+                <script type="text/javascript" src="/rentq_vestidores/static/src/js/responsivevoice.js"></script>
+                <script type="text/javascript" src="/rentq_vestidores/static/src/js/vestidores.js"></script>
+                <script type="text/javascript" src="/rentq_vestidores/static/src/js/jquery-ui.js"></script>
+
+            </xpath>
+        </template> -->
+
+        <template id="homepage_inherit" inherit_id="website_bridetobe.homepage" name="homepage_inherit">
+            <xpath expr="//div[@id='col-left']" position="inside">
+
+                <div class="col-sm-12"
+                     groups="sales_team.group_sale_salesman,website_bridetobe.bridetobe_logistic_operation_group">
+                    <a href="/dressing_room" style="margin:auto;">
+                        <img class="pull-right"
+                             src="/website_bridetobe/static/description/images/vestidores.png"
+                             style="height: 30%; width: 30%;"/>
+                    </a>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

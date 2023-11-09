@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="web_quote_search_partner" name="Search Partner">
+            <t t-call="website.layout">
+                <div class="container">
+                    <div style="text-align:center;">
+                        <form t-att-action="form_action"
+                              t-att-method="form_method">
+                            <div>
+                                <img t-attf-src="/web_quote/static/description/menu_icons/qoutation.png"
+                                     style="height: 150px; width: 150px;"/>
+                                <h3 class="page-header mt16">
+                                    Buscador de Clientes
+                                </h3>
+                            </div>
+                            <div t-attf-class="form-group #{error.get('partner_vat') and 'has-error' or ''}">
+                                <input type="text" name="partner_vat"
+                                       class="form-control" t-att-value="partner_temp.get('partner_vat') or ''"
+                                       t-attf-autofocus="autofocus"/>
+                            </div>
+                            <div class="clearfix">
+                                <div t-if="error.get('partner_vat')" class="col-sm-6">
+                                    <button type="submit" class="btn btn-primary mb32 btn-bridetobe" name="submit"
+                                            value="new">
+                                        Crear Cliente
+                                        <span class="fa fa-plus-square"/>
+                                    </button>
+                                </div>
+                                <div t-attf-class="#{error.get('partner_vat') and 'col-sm-6' or 'col-sm-12'}">
+                                    <button type="submit" class="btn btn-default btn-primary mb32 btn-bridetobe "
+                                            name="submit" value="confirm">
+                                        Confirm
+                                        <span class="fa fa-long-arrow-right"/>
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        </form>
+                        <table align="center" t-if="error">
+                            <tr>
+                                <td class="text-danger">
+                                    <i class="fa fa-times-circle fa-10x" aria-hidden="true"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <t t-foreach="error.get('error_message', [])" t-as="err">
+                                        <p class="text-danger h1" t-esc="err"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

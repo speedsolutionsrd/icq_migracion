@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="assets_frontend" inherit_id="website_bridetobe.assets_frontend" name="Bridetobe">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src='/pickup_bridetobe/static/src/js/pickup_rental.js'></script>
+        </xpath>
+    </template>
+</odoo>

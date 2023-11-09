@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="account_journal_paypal" model="account.journal">
+            <field name="name">Pagos por Descuentos y o Reenvolsos</field>
+            <field name="type">bank</field>
+            <field name="code">PDR</field>
+        </record>
+
+        <!-- <record id="account_payment_electronic" model="account.payment.method">
+            <field name="name">Electronic</field>
+            <field name="code">electronic</field>
+            <field name="payment_type">inbound</field>
+        </record> -->
+
+        <record id="account_journal_tpopular" model="account.journal">
+            <field name="name">Transaccion Banco Popular</field>
+            <field name="type">bank</field>
+            <field name="code">TBpopular</field>
+        </record>
+
+        <record id="account_journal_tbanreservas" model="account.journal">
+            <field name="name">Transaccion Banreservas</field>
+            <field name="type">bank</field>
+            <field name="code">TBreservas</field>
+        </record>
+
+        <record id="account_journal_tleon" model="account.journal">
+            <field name="name">Transaccion Banco BHD Leon</field>
+            <field name="type">bank</field>
+            <field name="code">TBbhdleon</field>
+        </record>
+
+        <record id="account_journal_tscotiabank" model="account.journal">
+            <field name="name">Transaccion Scotiabanck</field>
+            <field name="type">bank</field>
+            <field name="code">TBScotiabank</field>
+        </record>
+
+        <record id="account_journal_tprogreso" model="account.journal">
+            <field name="name">Transaccion Banco del Progreso</field>
+            <field name="type">bank</field>
+            <field name="code">TBprogreso</field>
+        </record>
+
+        <record id="account_journal_tvimenca" model="account.journal">
+            <field name="name">Transaccion Banco Vimenca</field>
+            <field name="type">bank</field>
+            <field name="code">TBvimenca</field>
+        </record>
+
+        <record id="account_journal_tcaribe" model="account.journal">
+            <field name="name">Transaccion Banco Caribe</field>
+            <field name="type">bank</field>
+            <field name="code">TBcaribe</field>
+        </record>
+
+        <record id="account_journal_tcrvisa" model="account.journal">
+            <field name="name">Tarjeta Visa</field>
+            <field name="type">bank</field>
+            <field name="code">TCRvisa</field>
+        </record>
+
+        <record id="account_journal_tcramerican" model="account.journal">
+            <field name="name">Tarjeta American Express</field>
+            <field name="type">bank</field>
+            <field name="code">TCRamerican</field>
+        </record>
+
+        <record id="account_journal_cheque" model="account.journal">
+            <field name="name">Cheque</field>
+            <field name="type">bank</field>
+            <field name="code">CHE</field>
+        </record>
+    </data>
+</odoo>

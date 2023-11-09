@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="web_quote_partner_list" name="Partner List">
+            <t t-call="website.layout">
+                <div class="container">
+                    <h3 class="page-header mt16">
+                        Listado de Clientes
+                        <form t-att-action="form_action" method="post">
+                            <input type="hidden" name="submitted" value="1"/>
+                            <input type="hidden" name="partner_vat" value="False"/>
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <button type="submit" name="submit" class="pull-right btn-default
+                                                           btn-primary
+                                                           mb32
+                                                           a-submit
+                                                           a-submit-disable
+                                                           a-submit-loading" value="new">
+                                <span>Nuevo Cliente</span>
+                            </button>
+                        </form>
+                    </h3>
+                    <form t-att-action="form_action" t-att-method="form_method">
+                        <table class="table table-striped table-condensed"
+                               style="background-color:white;">
+                            <tr name="table-header">
+                                <th class="text-center">Nombre</th>
+                                <th class="text-center">Telefono</th>
+                                <th class="text-center">RNC / Cedula</th>
+                                <th class="text-center">Email</th>
+                                <th></th>
+                            </tr>
+                            <tr t-foreach="partner_ids" t-as="partner_id">
+                                <td>
+                                    <span t-esc="partner_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-esc="partner_id.phone"/>
+                                </td>
+                                <td>
+                                    <span t-esc="partner_id.vat"/>
+                                </td>
+                                <td>
+                                    <span t-esc="partner_id.email"/>
+                                </td>
+                                <td>
+                                    <button class="btn
+                                                           btn-default
+                                                           btn-primary
+                                                           pull-right
+                                                           mb32
+                                                           a-submit
+                                                           a-submit-disable
+                                                           a-submit-loading"
+                                            type="submit"
+                                            name="partner_id"
+                                            t-att-value="partner_id.id"
+                                    >
+                                        <span>Seleccionar</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="hidden"
+                               name="csrf_token"
+                               t-att-value="request.csrf_token()"/>
+                    </form>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

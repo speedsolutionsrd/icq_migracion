@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_sale_internal_state_form" model="ir.ui.view">
+            <field name="name">sale.rental.internal.state.form</field>
+            <field name="model">sale.rental.internal.state</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="group"/>
+                            <field name="state_color"/>
+                            <field name="message_send"/>
+                            <field name="sale_order_state"/>
+                        </group>
+                        <notebook attrs="{'invisible': [('message_send', '=', False)]}">
+                            <page string="Mensaje Rentas">
+                                <field name="message_body"/>
+                            </page>
+                            <page string="Mensaje Confecciones">
+                                <field name="message_body_confecciones"/>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_sale_internal_state_tree" model="ir.ui.view">
+            <field name="name">sale.rental.internal.state.tree</field>
+            <field name="model">sale.rental.internal.state</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="group"/>
+                    <field name="sale_order_state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='sale_internal_state_act'>
+            <field name="name">Internal States</field>
+            <field name="res_model">sale.rental.internal.state</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Internal States" id="sale_internal_state"
+                  parent="sales_team.menu_sale_config" groups="sales_team.group_sale_manager"
+                  action="sale_internal_state_act"/>
+    </data>
+</odoo>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="quote_items" name="Datos del Evento">
+            <t t-call="website.layout">
+                <div class="container">
+                    <div class='text-center'>
+                        <t t-if="error" t-foreach="error.get('error_message', [])" t-as="err">
+                            <h3 class="text-danger" t-esc="err"/>
+                        </t>
+                    </div>
+                    <form t-att-action="form_action" t-att-method="form_method">
+                        <div class="col-sm-6" id="left_column">
+                            <div class="page-header mt16 h3">
+                                Datos Adicionales
+                            </div>
+                            
+                            <div id="comments">
+                                <div t-attf-class="col-sm-12">
+                                    <label class="control-label" for="comments">Observaciones</label>
+                                    <textarea class="form-control" name="comments"><t t-esc="comments"/></textarea>
+                                </div>
+                            </div>
+                            <div class="text-center text-danger" id="amounts">
+                                <t t-set="sub_total" t-value='0.0'/>
+                                <t t-foreach="product_ids" t-as="product">
+                                    <t t-set="sub_total" t-value="sub_total + product['price']"/>
+                                </t>
+                                <h3>Sub Total :
+                                    <span t-esc="sub_total"/>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="oe_cart col-sm-6" id="right_column">
+                            <div class="col-sm-12">
+                                <div class="page-header mt16 h3" id="count_header">
+                                    Articulos Cotizados (<span t-esc="len(product_ids) or 0"/>)
+                                </div>
+                            </div>
+                            <div class="col-sm-10 form-group">
+                                <br/>
+                                <input type="text" name="item_code" class="col-sm-12 row form-control"
+                                       placeholder="Item code..."
+                                       t-attf-autofocus="autofocus"/>
+                            </div>
+                            <div class="row pull-left col-sm-2" id="bridetobe_template_search">
+                                <br/>
+                                <button class="get_item btn btn-default" type="submit"
+                                        value="get_item"
+                                        name="submit">
+                                    <span>Search</span>
+                                    <span class="fa fa-search"/>
+                                </button>
+                            </div>
+
+                            <table name="cart_products" id="cart_products" class="table table-striped table-condensed ">
+                                <tr t-foreach="product_ids" t-as="product">
+                                    <td class="text-center">
+                                        <img style="display:block; width:200px;height:200px;"
+                                             t-attf-src="data:image/jpeg;base64,#{product['image']}"
+                                             class="img img-responsive img-rounded"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <h3 t-esc="product['name']"/>
+                                        <h4 t-esc="product['price']" style="white-space: nowrap;"
+                                            t-options="{'widget': 'monetary','from_currency': partner_id.company_id.currency_id,'display_currency': partner_id.company_id.currency_id}"/>
+                                    </td>
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        <button class="remove_item btn btn-default" t-att-value="product['barcode']"
+                                                id="remove_item">
+                                            <span class="fa fa-trash fa-5x" aria-hidden="true"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="partner" t-att-value="partner_id.id"/>
+                        <input type="hidden" name="product_barcode" t-att-value="product_barcode"/>
+                        <div style="position: fixed;width: 10px;right: 33px; top: 89px;">
+                            <button class="btn btn-default btn-primary pull-right mb32 a-submit a-submit-disable a-submit-loading" type="submit" value="validate" name="submit">
+                                <span>Siguiente</span>
+                                <span class="fa fa-long-arrow-right"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

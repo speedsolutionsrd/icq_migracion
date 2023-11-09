@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="vestidor_list">
+            <div class="col-md-12 text-center">
+                <ul class="list-v">
+                    <li class="form-check" t-foreach="vestidores" t-as="vestidor"
+                        t-if="vestidor.occupation">
+                        <button class="btn btn-danger bvs linea" data-toggle="modal"
+                                t-att-data-target="'#v' + str(vestidor.id)" type="button">
+                            <label class="btn-title-lv" t-esc="vestidor.name"/>
+                            <br/>
+                            <span class="btn-hora-sv" t-esc="vestidor.time_elapsed_dressing_room"/>
+                        </button>
+                        <div class="modal fade" t-att-id="'v' + str(vestidor.id)" tabindex="-1"
+                             role="dialog"
+                             aria-labelledby="modalVestidor" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" t-foreach="items_colas" t-as="item_cola"
+                                     t-if="item_cola.vestidores_ids.id == vestidor.id">
+                                    <div class="modal-header">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h4 class="modal-title">
+                                                    Vestidor
+                                                    <t t-esc="vestidor.name"/>
+                                                </h4>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="button" class="close pull-rigth"
+                                                        data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">X</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <table t-if="item_cola.colas_vestidores_ids">
+                                                    <tr>
+                                                        <td>
+                                                            <span class="modal-title">Ticket:</span>
+                                                            <span t-esc="item_cola.colas_vestidores_ids.name"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span class="modal-title">Cliente:</span>
+                                                            <span t-esc="item_cola.colas_vestidores_ids.cliente_id.name"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr t-if="item_cola.colas_vestidores_ids.modista_id.name">
+                                                        <td>
+                                                            <span class="modal-title">Modista:</span>
+                                                            <span t-esc="item_cola.colas_vestidores_ids.modista_id.name"/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <h1 t-if="not item_cola.colas_vestidores_ids">Vestidor en Renta</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <div class="col-md-12">
+                                            <form action="/end_process_dressing_room" metho="post"
+                                                  t-att-id="item_cola.id">
+                                                <input type="hidden" name="item_id"
+                                                       t-att-value="item_cola.id"/>
+                                                <input type="hidden" name="ticket"
+                                                       t-att-value="item_cola.colas_vestidores_ids.name"/>
+                                                <input type="hidden" name="vestidor_id"
+                                                       t-att-value="item_cola.vestidores_ids.id"/>
+                                                <input type="hidden" name="vestidor"
+                                                       t-att-value="item_cola.vestidores_ids.name"/>
+                                                <input type="hidden" name="cola_vetidor_id"
+                                                       t-att-value="item_cola.colas_vestidores_ids.id"/>
+                                                <input type="hidden" name="csrf_token"
+                                                       t-att-value="request.csrf_token()"/>
+                                                <input type="hidden" name="redirect_to"
+                                                       value="/queue_test"/>
+                                                <button type="submit" id="dv"
+                                                        class="btn btn-primary onSubmitVestidores">
+                                                    <span>Desocupar Vestidor</span>
+                                                </button>
+                                                <button type="submit" id="dc"
+                                                        t-if="item_cola.colas_vestidores_ids"
+                                                        class="btn btn-primary onSubmitVestidores">
+                                                    <span>Detener Contador</span>
+                                                </button>
+                                                <button type="button" class="btn btn-warning"
+                                                        data-dismiss="modal">Cerrar
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="form-check" t-else="">
+                        <button class="btn btn-success bvs linea" t-att-id="vestidor.id"
+                                t-att-name="vestidor.name" ondrop="drop(event)"
+                                ondragover="allowDrop(event)">
+                            <label class="btn-title-lv" t-esc="vestidor.name"/>
+                            <br/>
+                            <span class="btn-hora-sv" t-esc="vestidor.time_elapsed_dressing_room"/>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </template>
+
+        <template id="vestidor_list_anfitrion" inherit_id="rentq_vestidores.vestidor_list" primary="True">
+            <xpath expr="//button[hasclass('btn-danger')]" position="attributes">
+                <attribute name="class">btn btn-danger bvs bvs_anfitrion linea</attribute>
+            </xpath>
+            <xpath expr="//button[hasclass('btn-success')]" position="replace">
+                <button class="btn btn-success bvs bvs_anfitrion linea" data-toggle="modal"
+                        t-att-data-target="'#v' + str(vestidor.id)" type="button">
+                    <label class="btn-title-lv" t-esc="vestidor.name"/>
+                    <br/>
+                    <span class="btn-hora-sv" t-esc="vestidor.time_elapsed_dressing_room"/>
+                </button>
+                <div class="modal fade" t-att-id="'v' + str(vestidor.id)" tabindex="-1"
+                     role="dialog"
+                     aria-labelledby="modalVestidor" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4 class="modal-title">
+                                            Vestidor <t t-esc="vestidor.name"/>
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="close pull-rigth"
+                                                data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">X</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12 pull-center text-center">
+                                        <h1 class="pull-center">Vestidor Disponible</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="col-md-12">
+                                    <form method="post">
+                                        <input type="hidden" name="vestidor_id"
+                                               id="vestidor_id"
+                                               t-att-value="vestidor.id"/>
+                                        <button type="submit"
+                                                data-dismiss="modal"
+                                                class="btn btn-primary onSubmitRenta">
+                                            Ocupar
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+
+            <xpath expr="//input[@name='redirect_to']" position="replace">
+                <input type="hidden" name="redirect_to"
+                       value="/queue_test_anfitrion"/>
+            </xpath>
+            <xpath expr="//button[@id='dc']" position="replace"></xpath>
+        </template>
+
+        <template id="data_modista">
+            <table class="table table-condensed table-sm table-md table-xs table-lg"
+                   cellspacing="0" width="100%">
+                <thead class="bg-black">
+                    <tr name="table-header">
+                        <th class="th-sm th-md th-xs th-lg">Ticket</th>
+                        <th class="th-sm th-md th-xs th-lg">Cliente</th>
+                        <th class="th-sm th-md th-xs th-lg">Vestido(s)</th>
+                        <th class="th-sm th-md th-xs th-lg">Fecha de Inicio</th>
+                        <th class="th-sm th-md th-xs th-lg">Fecha de Prueba</th>
+                        <th class="th-sm th-md th-xs th-lg">Estado Interno</th>
+                        <th class="th-sm th-md th-xs th-lg">Vestidor</th>
+                        <th class="th-sm th-md th-xs th-lg">Status</th>
+                        <th class="th-sm th-md th-xs th-lg">Tiempo Transcurrido</th>
+                        <th class="th-sm th-md th-xs th-lg">Hora Llegada</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="colas_vestidor" t-as="cola_vestidor">
+                        <tr t-att-class="cola_vestidor.state_ticket == 'execute' and 'btn-success'"
+                            t-att-id="str(cola_vestidor.id) + '-' + cola_vestidor.cliente_id.name"
+                            draggable="true" ondragstart="drag(event)">
+                            <td>
+                                <span t-esc="cola_vestidor.name"/>
+                            </td>
+                            <td>
+                                <span t-esc="cola_vestidor.cliente_id.name"/>
+                            </td>
+                            <td>
+                                <span t-field="cola_vestidor.sale_rental_id.rental_product_id"/>
+                            </td>
+                            <td>
+                                <span t-field="cola_vestidor.sale_rental_id.start_date"/>
+                            </td>
+                            <td>
+                                <span t-field="cola_vestidor.sale_rental_id.test_date"/>
+                            </td>
+                            <td>
+                                <span t-field="cola_vestidor.sale_rental_id.state"/>
+                            </td>
+                            <td>
+                                <span t-field="cola_vestidor.vestidor_id.vestidores_ids"/>
+                            </td>
+                            <td>
+                                <span t-field="cola_vestidor.state_ticket"/>
+                            </td>
+                            <td>
+                                <span t-esc="cola_vestidor.time_elapsed"/>
+                            </td>
+                            <td>
+                                <span t-esc="cola_vestidor.create_date_timezone()"/>
+                            </td>
+                            <td>
+                                <a t-if="cola_vestidor.state_ticket in ['wait','draft']"
+                                   class="btn btn-primary btn-shadow mt16" data-toggle="modal"
+                                   t-att-data-target="'#cv' + str(cola_vestidor.id)" type="button">
+                                    <span>Asignar</span>
+                                </a>
+                                <a t-if="cola_vestidor.state_ticket not in ['wait','draft']"
+                                   class="btn btn-primary btn-shadow mt16"
+                                   data-toggle="modal"
+                                   t-att-data-target="'#v' + str(cola_vestidor.vestidor_id.vestidores_ids.id)"
+                                   type="button">
+                                    <span>Detener</span>
+                                </a>
+                                <form action="/end_process_dressing_room" metho="post"
+                                      t-if="cola_vestidor.state_ticket == 'wait'">
+                                    <input type="hidden" name="ticket"
+                                           t-att-value="cola_vestidor.name"/>
+                                    <input type="hidden" name="cola_vetidor_id"
+                                           t-att-value="cola_vestidor.id"/>
+                                    <input type="hidden" name="csrf_token"
+                                           t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="redirect_to"
+                                           value="/queue_test"/>
+                                    <button type="submit" id="dv"
+                                            class="btn btn-primary btn-shadow mt16 onSubmitVestidores">
+                                        <span>Terminar</span>
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <a class="btn btn-primary btn-shadow mt16"
+                                   target="new"
+                                   t-attf-href="/web#id=#{cola_vestidor.sale_rental_id.id}&amp;view_type=form&amp;model=sale.rental">
+                                    <span class="fa fa fa-search"/>
+                                </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-primary btn-shadow mt16"
+                                   data-toggle="modal"
+                                   t-att-data-target="'#t' + str(cola_vestidor.id)"
+                                   t-if="cola_vestidor.state_ticket != 'wait'"
+                                   type="button">
+                                    <span class="fa fa fa-trash"/>
+                                </a>
+                            </td>
+                            <div class="modal fade" t-att-id="'cv' + str(cola_vestidor.id)"
+                                 tabindex="-1"
+                                 role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5 class="modal-title">Asignamiento de vestidores (
+                                                        <span t-esc="cola_vestidor.name"/>)
+                                                    </h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button type="button" class="close pull-rigth"
+                                                            data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">X</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-3" t-foreach="vestidores"
+                                                         t-as="vestidor">
+                                                        <div class="form-check"
+                                                             t-if="vestidor.occupation">
+                                                            <div>
+                                                                <input class="form-check-input option-input radio"
+                                                                       type="radio" disabled=""/>
+                                                            </div>
+                                                            <div class="modal-label-name">
+                                                                <label class="form-check-label"
+                                                                       t-att-for="vestidor.id"
+                                                                       style="color: red;">
+                                                                    <span t-esc="vestidor.name"/>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-check" t-else="">
+                                                            <div>
+                                                                <input class="form-check-input option-input radio inputVestidorRadio"
+                                                                       type="radio" name="vestidor_id"
+                                                                       t-att-value="vestidor.id"/>
+                                                                <input type="hidden" name="csrf_token"
+                                                                       t-att-value="request.csrf_token()"/>
+                                                            </div>
+                                                            <div class="modal-label-name">
+                                                                <label class="form-check-label"
+                                                                       t-att-for="vestidor.id"
+                                                                       style="color: green;">
+                                                                    <span t-esc="vestidor.name"/>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <div class="row">
+                                                <div class="col-md-6 text-left">
+                                                    <span style="color: red; font-weight: 600;">Ocupado
+                                                    </span>
+                                                    <br/>
+                                                    <span style="color: green; font-weight: 600;">
+                                                        Disponible
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button type="button"
+                                                            class="btn btn-primary onSumitAsigarColaAle"
+                                                            t-att-value="cola_vestidor.id">Asignar
+                                                    </button>
+                                                    <button type="button" class="btn btn-warning"
+                                                            data-dismiss="modal">Cerrar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" t-att-id="'t' + str(cola_vestidor.id)"
+                                 tabindex="-1"
+                                 role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5 class="modal-title">Retirar Cliente</h5>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button type="button" class="close pull-rigth"
+                                                            data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">X</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form action="/remove_customer" method="post">
+                                                        <input type="hidden" name="cola_vetidor_id"
+                                                               t-att-value="cola_vestidor.id"/>
+                                                        <input type="hidden" name="csrf_token"
+                                                               t-att-value="request.csrf_token()"/>
+                                                        <input type="hidden" name="redirect_to"
+                                                               value="/queue_test"/>
+                                                        <button type="submit"
+                                                                class="btn btn-primary btn-shadow">
+                                                            <span>Remover Cliente</span>
+                                                        </button>
+                                                    </form>
+                                                    <button type="button" class="btn btn-warning"
+                                                            data-dismiss="modal">Cerrar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </template>
+
+        <template id="page_queue_test" name="Cola para Pruebas">
+            <t t-call="website.layout">
+                <!--                <script type="text/javascript" src="/rentq_vestidores/static/src/js/dataTables.bootstrap.js"></script>-->
+                <!---->
+                <!--                <link rel="stylesheet" href="/rentq_vestidores/static/src/css/datatables.min.css"/>-->
+                <!--                <script type="text/javascript" src="/rentq_vestidores/static/src/js/datatables.min.js"></script>-->
+
+                <!-- <script type="text/javascript" src="/rentq_vestidores/static/src/js/queues.js"></script> -->
+
+                <div class="container">
+                    <input type="hidden" name="notify" id="notify" t-att-value="notify"/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="page-header mt16 page-title">Vestidores</h3>
+                        </div>
+                        <t t-call="rentq_vestidores.vestidor_list"/>
+
+                    </div>
+                    <div class="row" id="cola_probar">
+                        <div class="col-md-12 top">
+                            <!--                            <div class="col-md-12">-->
+                            <!--                                <h3 class="page-header mt16 page-title">Cola para probar</h3>-->
+                            <!--                            </div>-->
+                            <!--<div class="col-md-4">-->
+                            <!--<a class="btn btn-primary btn-shadow mt16 pull-right" style="margin-left: 10px;"-->
+                            <!--href="/assignment_to_test">-->
+                            <!--<span>Asignar Cliente</span>-->
+                            <!--<span class="fa fa fa-search"/>-->
+                            <!--</a>-->
+                            <!--<a class="btn btn-primary btn-shadow mt16 pull-right" href="/register_customer">-->
+                            <!--<span>Crear y Asignar</span>-->
+                            <!--<span class="fa fa-plus-square"/>-->
+                            <!--</a>-->
+                            <!--</div>-->
+                        </div>
+                        <ul class="nav nav-tabs" id="modista_tab_header" role="tablist">
+                            <t t-set="modista_ids" t-value="colas_vestidores_test.mapped('modista_id')"/>
+                            <t t-set="counter" t-value="0"/>
+                            <t t-foreach="modista_ids" t-as="modista_id">
+                                <li t-att-class="'nav-item' + (' active' if counter == 0 else '')">
+                                    <a class="nav-link" t-att-id="'tab-' + str(modista_id.id)" data-toggle="tab"
+                                       t-att-href="'#tab_' + str(modista_id.id)" role="tab"
+                                       t-att-aria-controls="'tab_' + str(modista_id.id)"><span
+                                            t-esc="modista_id.name"/></a>
+                                </li>
+                                <t t-set="counter" t-value="counter + 1"/>
+                            </t>
+                        </ul>
+                        <div class="tab-content" id="modista_tab_data">
+                            <t t-set="counter" t-value="0"/>
+                            <t t-foreach="modista_ids" t-as="modista_id">
+                                <div t-att-class="'tab-pane fade ' + ('active in' if counter == 0 else '') "
+                                     t-att-id="'tab_' + str(modista_id.id)" role="tabpanel"
+                                     t-att-aria-labelledby="'tab_' + str(modista_id.id)">
+                                    <t t-call="rentq_vestidores.data_modista">
+                                        <t t-set="colas_vestidor"
+                                           t-value="colas_vestidores_test.filtered(lambda x:x.modista_id == modista_id)"/>
+                                    </t>
+                                </div>
+                                <t t-set="counter" t-value="counter + 1"/>
+                            </t>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="page_queue_test_anfitrion" name="Cola para Pruebas" inherit_id="rentq_vestidores.page_queue_test"
+                  primary="True">
+            <xpath expr="//t[@t-call='rentq_vestidores.vestidor_list']" position="replace">
+                <t t-call="rentq_vestidores.vestidor_list_anfitrion"/>
+            </xpath>
+
+            <xpath expr="//div[@id='cola_probar']" position="replace"/>
+
+        </template>
+    </data>
+</odoo>

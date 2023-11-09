@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_bridetobe_confeccion_form" model="ir.ui.view">
+            <field name="name">bridetobe.confeccion.form</field>
+            <field name="model">bridetobe.confeccion</field>
+            <field name="arch" type="xml">
+                <form string="Confecciones" create="false">
+                    <header>
+                        <button name="create_invoice"
+                                string="Create Invoice"
+                                type="object"
+                                attrs="{'invisible':[('invoice_created', '=', True)]}"/>
+                        <field name="state_internal" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_invoice"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-pencil-square-o"
+                                    attrs="{'invisible':[('invoice_created', '=', False)]}">
+                                <span>Invoice</span>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group col="2">
+                            <group col="2" string="Datos Confeccion">
+                                <field name="tipo_confeccion"/>
+                                <field name="modista_id"/>
+                            </group>
+                            <group col="2" string="Datos del Cliente">
+                                <field name="partner_id"/>
+                                <field name="costo" required="1"/>
+                            </group>
+                        </group>
+                        <group col="4" string="Moda y Materiales">
+
+                            <field name="c_moda"/>
+                            <field name="suministro_materiales"/>
+                            <field name="tela"/>
+                            <field name="color"/>
+                            <field name="materiales"/>
+                        </group>
+                        <group col="4" string="Datos de Entrega">
+                            <field name="event_date"/>
+                            <field name="event_place"/>
+                            <field name="description" required="1"/>
+                            <field name="notes"/>
+                        </group>
+                        <field name="invoice_created" invisible="1"/>
+
+                        <notebook>
+                            <page string="Medidas">
+                                <field name="metric_ids">
+                                    <tree editable="bottom">
+                                        <field name="metric_id" options="{'no_create_edit': True}"/>
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Pruebas">
+                                <field name="medidas_pruebas">
+                                    <tree editable="bottom">
+                                        <field name="date_time"/>
+                                        <field name="observaciones"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+
+            </field>
+        </record>
+
+        <record id="view_bridetobe_confeccion_tree" model="ir.ui.view">
+            <field name="name">bridetobe.confeccion.tree</field>
+            <field name="model">bridetobe.confeccion</field>
+            <field name="arch" type="xml">
+                <tree string="Confecciones" editable="top" create="false">
+                    <field name="name"/>
+                    <field name="display_name"/>
+                    <field name="event_date" readonly="1"/>
+                    <field name="modista_id"/>
+                    <field name="invoice_created" readonly="1"/>
+                    <field name="event_place" readonly="1"/>
+                    <field name="next_test"/>
+                    <field name="delivery_date"/>
+                    <field name="state_internal" options="{'no_create_edit': True}"/>
+                    <button name="get_details" string="Detalles" type="object" icon="fa-search fa-2x"/>
+                    <button name="action_show_dates" string="Medidas / Pruebas" type="object" icon="fa-list fa-2x"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_bridetobe_medida_prueba_form" model="ir.ui.view">
+            <field name="name">bridetobe.medida_prueba.form</field>
+            <field name="model">bridetobe.medida_prueba</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="date_time"/>
+                            <field name="observaciones"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_bridetobe_confeccion_calendar" model="ir.ui.view">
+            <field name="name">confeccion_calendar</field>
+            <field name="model">bridetobe.confeccion</field>
+            <field name="arch" type="xml">
+                <calendar string="Confecciones"
+                          date_start="event_date"
+                          mode="month">
+                    <field name="partner_id"/>
+                    <field name="name"/>
+                    <field name="event_place"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="action_bridetobe_confeccion" model="ir.actions.act_window">
+            <field name="name">Confecciones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bridetobe.confeccion</field>
+            <field name="view_mode">tree,form,calendar</field>
+        </record>
+
+        <menuitem id="bridetobe_confeccion_menu_confeccion_group"
+                  action="action_bridetobe_confeccion" 
+                  sequence="1"
+                  groups="website_bridetobe.group_sale_bridetobe_confeccion_manager,website_bridetobe.group_sale_bridetobe_confeccion_user"
+                  web_icon="website_bridetobe,static/description/images/confeccion.png"
+
+        />
+
+        <menuitem id="bridetobe_confecciones_menu" 
+            parent="sale.sale_order_menu"
+                  action="action_bridetobe_confeccion" 
+                  sequence="100"
+                  groups="website_bridetobe.group_sale_bridetobe_confeccion_manager,sales_team.group_sale_manager"/>
+
+        <record id="confeccion_medida_prueba_form" model="ir.ui.view">
+            <field name="name">Medidas / Pruebas</field>
+            <field name="model">bridetobe.confeccion</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <notebook>
+                        <page string="Pruebas">
+                            <field name="medidas_pruebas">
+                                <tree editable="bottom">
+                                    <field name="date_time"/>
+                                    <field name="observaciones"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Medidas">
+                            <field name="metric_ids">
+                                <tree editable="bottom">
+                                    <field name="metric_id" options="{'no_create_edit': True}"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

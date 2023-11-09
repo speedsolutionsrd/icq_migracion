@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="quote_confirmation" name="Confirmacion de Cotizacion">
+            <t t-call="website.layout">
+                <div class="container">
+                    <div class='text-center'>
+                        <t t-if="error" t-foreach="error.get('error_message', [])" t-as="err">
+                            <h4 class="text-danger" t-esc="err"/>
+                        </t>
+                    </div>
+                    <form t-att-action="form_action" t-att-method="form_method">
+                        <div class='cols-sm-12 text-center'>
+                            <span>
+                                <h1>Estimad@
+                                    <strong t-esc="partner_id.name"/>
+                                </h1>
+                            </span>
+                            <span>
+                                <h2>Detalles de la orden No: <strong t-esc="order.name"/></h2>
+                            </span>
+                            <table class="table table-striped table-condensed ">
+                                <tr t-foreach="order.order_line" t-as="line">
+                                    <td class="text-center">
+                                        <strong t-esc="line.product_id.name"/>
+                                        <br/>
+                                        <img style="width:200px;height:200px;"
+                                             t-attf-src="data:image/jpeg;base64,#{line.product_id.image_medium}"/>
+                                    </td>
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        <span t-esc="line.price_unit" style="white-space: nowrap;"
+                                              t-options="{'widget': 'monetary','from_currency': partner_id.company_id.currency_id,'display_currency': partner_id.company_id.currency_id}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong class="pull-right">Subtotal :</strong>
+                                        <br/>
+                                        <strong class="pull-right">ITBIS :</strong>
+                                        <br/>
+                                        <strong class="pull-right">Total :</strong>
+                                    </td>
+                                    <td class="pull-left">
+                                        <span t-esc="order.amount_untaxed" style="white-space: nowrap;"
+                                              t-options="{'widget': 'monetary','from_currency': partner_id.company_id.currency_id,'display_currency': partner_id.company_id.currency_id}"/>
+                                        <br/>
+                                        <span t-esc="order.amount_tax" style="white-space: nowrap;"
+                                              t-options="{'widget': 'monetary','from_currency': partner_id.company_id.currency_id,'display_currency': partner_id.company_id.currency_id}"/>
+                                        <br/>
+                                        <span t-esc="order.amount_total" style="white-space: nowrap;"
+                                              t-options="{'widget': 'monetary','from_currency': partner_id.company_id.currency_id,'display_currency': partner_id.company_id.currency_id}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="submitted" value="1"/>
+                        <input type="hidden" name="partner" t-att-value="partner_id.id"/>
+                        <input type="hidden" name="order" t-att-value="order.id"/>
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <button class="btn btn-default btn-primary pull-right mb32 a-submit a-submit-disable a-submit-loading"
+                                        value="print"
+                                        name="submit"
+                                        type="submit">
+                                    <span>Imprimir</span>
+                                    <span class="fa fa-print"/>
+                                </button>
+                            </div>
+
+                            <div class="col-sm-4 text-center">
+                                <button class="btn btn-default btn-primary mb32 a-submit a-submit-disable a-submit-loading"
+                                        value="email"
+                                        name="submit"
+                                        type="submit">
+                                    <span>Enviar por Correo</span>
+                                    <span class="fa fa-envelope"/>
+                                </button>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <button class="btn btn-default btn-primary pull-left mb32 a-submit a-submit-disable a-submit-loading"
+                                        value="confirm"
+                                        name="submit"
+                                        type="submit">
+                                    <span>Continuar</span>
+                                    <span class="fa fa-long-arrow-right"/>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

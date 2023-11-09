@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sale_internal_state_form" model="ir.ui.view">
+            <field name="name">sale.rental.internal.state.form</field>
+            <field name="model">sale.rental.internal.state</field>
+            <field name="inherit_id" ref="website_bridetobe.view_sale_internal_state_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='sale_order_state']" position="after">
+                    <field name="whatsapp_template_id" domain="[('state','=','APPROVED')]"/>
+                    <field name="whatsapp_template_confeccion_id" domain="[('state','=','APPROVED')]"/>
+                </xpath>
+
+                <notebook position="inside">
+                    <page string="Whatsapp Message Renta" >
+                        <field name="parameter_count" invisible="1"/>
+                        <group>
+                            <group string="Template Body">
+                                <field name="whatsapp_template_body" nolabel="1"/>
+                            </group>
+                            <group string="Template Parameters" attrs="{'invisible': [('parameter_count','=',0)]}">
+                                <field name="whatsapp_template_body_parameter_ids" nolabel="1">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="value"/>
+                                    </tree>
+                                    <form>
+                                        <field name="name"/>
+                                        <field name="value"/>
+                                    </form>
+                                </field>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Whatsapp Message Confeccion" >
+                        <field name="parameter_count_confeccion" invisible="1"/>
+                        <group>
+                            <group string="Template Body">
+                                <field name="whatsapp_template_confeccion_body" nolabel="1"/>
+                            </group>
+                            <group string="Template Parameters" attrs="{'invisible': [('parameter_count_confeccion','=',0)]}">
+                                <field name="whatsapp_template_body_parameter_confeccion_ids" nolabel="1">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="value"/>
+                                    </tree>
+                                    <form>
+                                        <field name="name"/>
+                                        <field name="value"/>
+                                    </form>
+                                </field>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_pickup_tree_inherit">
+            <field name="name">pickup.pickup.tree.inherit</field>
+            <field name="model">pickup.pickup</field>
+            <field name="inherit_id" ref="pickup.view_pickup_tree"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <field name="rental_id" readonly="1"/>
+                </field>
+                <field name="partner_id" position="replace">
+                    <field name="partner_id"/>
+                </field>
+                <field name="estimated_date" position="replace">
+                    <field name="estimated_date"/>
+                </field>
+                <field name="estimated_date" position="before">
+                    <field name="event_date"/>
+                </field>
+                <field name="pickup_date" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

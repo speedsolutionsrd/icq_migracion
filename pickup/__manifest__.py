@@ -1,0 +1,26 @@
+{
+    "name": "Pickup",
+    "summary": "",
+    "version": "10.0.0.0.0",
+    "category": "",
+    "website": "https://www.icq24.com",
+    "description": "",
+    "author": "Escarly Dominguez, ICQ24",
+    "license": "LGPL-3",
+    "installable": True,
+    "depends": ['base', 'hr', 'product', 'website'],
+    "data": [
+        'security/pickup_security.xml',
+        'security/ir.model.access.csv',
+        'data/default_products.xml',
+        'data/hr_department.xml',
+        'views/pickup_view.xml',
+        'views/pickup_attempt_view.xml',
+        'views/pickup_route_view.xml',
+        'views/pickup_template.xml',
+        'views/pickup_try_template.xml',
+        'views/res_country_views.xml',
+        'views/pickup_commission_view.xml',
+        'views/menu_items.xml',
+    ]
+}

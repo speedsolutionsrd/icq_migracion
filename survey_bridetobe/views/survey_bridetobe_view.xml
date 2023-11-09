@@ -1,0 +1,15 @@
+<odoo>
+    <record id="survey_bridetobe_view" model="ir.ui.view">
+        <field name="name">sale.config.settings</field>
+        <field name="model">sale.config.settings</field>
+        <field name="inherit_id" ref="sales_team.view_sale_config_settings"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='main']" position="inside">
+                    <group string="Surveys">
+                        <field name="survey_id"/>
+                    </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

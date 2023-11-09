@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_vestidores_config_settings" model="ir.ui.view">
+            <field name="name">Vestidor Settings</field>
+            <field name="model">rentq.vestidores.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configure Vestidores" class="oe_form_configuration">
+                    <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        <button string="Cancel" type="object" name="cancel" class="oe_link" special="cancel"/>
+                    </header>
+                    <sheet>
+                        <group string="Printer Settings">
+                            <field name="company_id" invisible="1"/>
+                            <field name="vestidor_printer_url" class="oe_inline"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_vestidores_config" model="ir.actions.act_window">
+            <field name="name">Vestidor Settings</field>
+            <field name="res_model">rentq.vestidores.config.settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="menu_vestidores_config" name="Settings" parent="vestidores_menu_base"
+                  action="action_vestidores_config" groups="base.group_system" sequence="100"/>
+
+    </data>
+</odoo>

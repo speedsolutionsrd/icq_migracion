@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <template id="homepage_inherit_assistance" inherit_id="website_bridetobe.homepage" name="homepage_inherit_assistance">
+            <xpath expr="//div[@id='col-left']" position="inside">
+                <div class="col-sm-12" groups="rental_assistance.group_bridetobe_assistance,sales_team.group_sale_salesman">
+
+                            <a href="/assistance" style="margin:auto;">
+<!--                                <img src="/rental_assistance/static/description/images/logo-rentq.png"-->
+<!--                                     style="height: 15%; width: 15%;"/>-->
+                                <img class="pull-right" t-attf-src="/rental_assistance/static/description/images/asistance_menu.png"
+                                     style="height: 30%; width: 30%;"/>
+                            </a>
+
+
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="report_ficha_trabajo_modista"
+                model="report.bridetobe.ficha_trabajo_modista"
+                report_type="qweb-pdf"
+                string="Fichas Trabajo Modistas"
+                name="website_bridetobe.template_ficha_trabajo_modista"
+        />
+        <report
+                id="report_ficha_trabajo_modista_single"
+                model="sale.rental"
+                report_type="qweb-pdf"
+                string="Fichas Trabajo"
+                name="website_bridetobe.template_ficha_trabajo_modista_single"
+        />
+
+        <report
+                id="report_ficha_trabajo_modista_single_no_test"
+                model="sale.rental"
+                report_type="qweb-pdf"
+                string="Ficha Trabajo sin Prueba"
+                name="website_bridetobe.template_ficha_trabajo_modista_single_no_test"
+        />
+
+
+        <template id="website_bridetobe.ficha_trabajo_modista_lines">
+            <t t-foreach="docs" t-as="doc">
+                <h3 class="page-header mt16 text-center">
+
+                </h3>
+                <div class="col-xs-6">
+                    <h3 class="page-header mt16">
+                        Datos del Evento
+                    </h3>
+                    <div class="col-xs-12">
+                        <strong>Vestido</strong>
+                        <p>
+                            [<span t-field="doc.rental_product_id.barcode"/>]
+                            <span t-esc="doc.rental_product_id.name.replace('Rental of ','')"/>
+                        </p>
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>Vendedor</strong>
+                        <p t-field="doc.seller_id"/>
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>Modista</strong>
+                        <p t-field="doc.modista"/>
+                        <strong>Bordador(a)</strong>
+                        <p t-field="doc.bordador_id"/>
+                    </div>
+
+                    <div class="col-xs-6">
+                        <strong>Fecha del Evento</strong>
+                        <p t-field="doc.start_date"/>
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>Lugar del Evento</strong>
+                        <p t-field="doc.event_place"/>
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>Fecha de Prueba</strong>
+                        <p t-field="doc.test_date"/>
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>Fecha de Entrega</strong>
+                        <p t-field="doc.delivery_date"/>
+                    </div>
+                    <div class="col-xs-12">
+                        <strong>Comentarios</strong>
+                        <p t-field="doc.comments"/>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <h3 class="page-header mt16">
+                        Datos del Cliente
+                    </h3>
+                    <div class="col-xs-12">
+                        <strong>Nombre de Cliente :</strong>
+                        <span t-field="doc.partner_id"/>
+                    </div>
+                    <div class="col-xs-12">
+                        <strong>Email :</strong>
+                        <span t-field="doc.partner_id.email"/>
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>Whatsapp</strong>
+                        <p t-field="doc.partner_id.mobile"/>
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>Telefono</strong>
+                        <p t-field="doc.partner_id.phone"/>
+                    </div>
+                    <t t-foreach="doc.partner_id.metric_ids" t-as="metric_id">
+                        <div class="col-xs-4">
+                            <strong><span t-field="metric_id.metric_id"/> </strong>
+                            <p t-field="metric_id.amount"/>
+                        </div>
+                    </t>
+                    <div class="col-xs-6">
+                        <strong>Notas Internas</strong>
+                        <p t-field="doc.internal_comment"/>
+                    </div>
+                    <div class="col-xs-12">
+                        <strong>Detalles</strong>
+                        <p t-field="doc.details"/>
+                    </div>
+                </div>
+                <div class="col-xs-12 text-center">
+                    <img t-if="doc.rental_product_id.image"
+                         t-att-src="'data:image/png;base64,%s' % doc.rental_product_id.image"
+                         style="max-height: 500px;"/>
+                </div>
+                <div class="col-xs-12 text-center mt-20">
+                    <t t-if="no_test">
+                        <span>
+                            <t t-if="doc.start_order_line_id.order_id.invoice_ids">
+                                <span t-raw="doc.start_order_line_id.order_id.invoice_ids[0].receipt_no_test_message()"/>
+                            </t>
+                            ___________________________________________________________________________________
+                        </span>
+                    </t>
+                </div>
+                <p style="page-break-after:always"></p>
+            </t>
+        </template>
+
+        <template id="website_bridetobe.template_ficha_trabajo_modista">
+            <t t-call="report.html_container">
+                <t t-call="report.internal_layout">
+                    <div class="page">
+                        <t t-set="sale_rental_ids" t-value="docs.get_rentals()"/>
+                        <t t-if="docs.modista_ids">
+                            <t t-foreach="docs.modista_ids" t-as="modista_id">
+                                <t t-set="sale_rentals" t-value="docs.get_rentals(modista_id)"/>
+                                <t t-if="sale_rentals">
+                                    <t t-call="website_bridetobe.ficha_trabajo_modista_lines">
+                                        <t t-set="docs" t-value="sale_rentals"/>
+                                    </t>
+                                </t>
+                                <p style="page-break-after:always"></p>
+                            </t>
+                        </t>
+
+                        <t t-if="not docs.modista_ids">
+                            <t t-foreach="docs.get_modistas()" t-as="modista_id">
+                                <t t-set="sale_rentals" t-value="docs.get_rentals(modista_id)"/>
+                                <t t-if="sale_rentals">
+                                    <t t-call="website_bridetobe.ficha_trabajo_modista_lines">
+                                        <t t-set="docs" t-value="sale_rentals"/>
+                                    </t>
+                                </t>
+                                <p style="page-break-after:always"></p>
+                            </t>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="website_bridetobe.template_ficha_trabajo_modista_single">
+            <t t-call="report.html_container">
+                <t t-call="report.internal_layout">
+                    <div class="page">
+                        <t t-call="website_bridetobe.ficha_trabajo_modista_lines"/>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="website_bridetobe.template_ficha_trabajo_modista_single_no_test">
+            <t t-call="report.html_container">
+                <t t-call="report.internal_layout">
+                    <div class="page">
+                        <t t-call="website_bridetobe.ficha_trabajo_modista_lines">
+                            <t t-set="no_test" t-value="true"/>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <record id="report_ficha_trabajo_modista_view" model="ir.ui.view">
+            <field name="name">report_ficha_trabajo_modista_view</field>
+            <field name="model">report.bridetobe.ficha_trabajo_modista</field>
+            <field name="arch" type="xml">
+                <form string="Ficha Trabajo Modistas">
+                    <sheet>
+                        <group>
+                            <field name="modista_ids" widget="many2many_tags"/>
+                        </group>
+                        <group col="4">
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="check_report" string="Print" type="object" default_focus="1"
+                                class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="report_ficha_trabajo_modista_action" model="ir.actions.act_window">
+            <field name="name">Ficha Trabajo Modistas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">report.bridetobe.ficha_trabajo_modista</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+    </data>
+</odoo>

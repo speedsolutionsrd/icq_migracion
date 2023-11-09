@@ -1,0 +1,514 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<odoo>-->
+<!--    <template id="template_menu" inherit_id="website_bridetobe.homepage">-->
+<!--        <xpath expr="//div[hasclass('text-center')]" position="replace">-->
+<!--            <div class="">-->
+<!--                <div class="col-sm-12 text-center main menusize">-->
+<!--    &lt;!&ndash;1st Section&ndash;&gt;-->
+<!--                    <div class="col-sm-12" style="margin-top: 8%; margin-left: -3%;">-->
+<!--                        &lt;!&ndash;<div class="col-sm-6" style="margin-left: 21%;">&ndash;&gt;-->
+<!--    &lt;!&ndash;****Alquiler&ndash;&gt;-->
+<!--                            <a href="/renta" style="">-->
+<!--                                <img src="/website_bridetobe/static/description/images/renta_menu.png"-->
+<!--                                     style="height: 10%; width: 10%; margin-left:0%; margin-top:-6%;"/>-->
+<!--                            </a>-->
+<!--                        &lt;!&ndash;</div>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-12" style="margin-top: 3%; margin-left: -3%;">-->
+<!--    &lt;!&ndash;2nd Section&ndash;&gt;-->
+<!--    &lt;!&ndash;Consultas&ndash;&gt;-->
+<!--                            <a class="lineover" href="/search_available" style="margin-right: 25%;">-->
+<!--                                <img src="/website_bridetobe/static/description/images/busquedas_menu.png"-->
+<!--                                     style="height: 10%; width: 10%"/>-->
+<!--                            </a>-->
+<!--&lt;!&ndash;****************Vestidores********************&ndash;&gt;-->
+<!--                        <a href="/dressing_room">-->
+<!--                            <img src="/website_bridetobe/static/description/images/vestidores.png"-->
+<!--                                 style="height: 10%; width: 10%;"/>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--&lt;!&ndash;*********************&ndash;&gt;-->
+<!--    &lt;!&ndash;Logo RentQ&ndash;&gt;&lt;!&ndash;Logo-img&ndash;&gt;-->
+<!--                    <div class="col-sm-12" style="margin-top: 3%; margin-left: -3%;">-->
+<!--                        <img src="/website_bridetobe_rentq/static/description/images/logo.svg" class="logo_menu"/>-->
+<!--                    </div>-->
+<!--    &lt;!&ndash;******************Prueba************************&ndash;&gt;-->
+<!--    &lt;!&ndash;3rd Section&ndash;&gt;-->
+<!--                    <div class="col-sm-12" style="margin-top: 8%; margin-left: -3%;">-->
+<!--    &lt;!&ndash;****Cambios&ndash;&gt;-->
+<!--                        <a class="lineover" href="/" style=" margin-right: 9%;">-->
+<!--                            <img src="/website_bridetobe/static/description/images/cambios_menu.png"-->
+<!--                                 style="height: 10%; width: 10%;"/>-->
+<!--                        </a>-->
+<!--    &lt;!&ndash;****************Cotizaciones****************&ndash;&gt;-->
+<!--                        <a href="/web_quote" style="">-->
+<!--                            <img src="/website_bridetobe/static/description/images/cotizaciones.png"-->
+<!--                                 style="height: 10%; width: 10%;"/>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <input type="hidden" id="order" t-att-value="order.name if order else ''"/>-->
+<!--        </xpath>-->
+<!--    </template>-->
+<!--&lt;!&ndash;**************************Navegation Bar**************************&ndash;&gt;-->
+<!--    <template id="web_bar" inherit_id="website.layout">                                 &lt;!&ndash;Navbar&ndash;&gt;-->
+<!--        <xpath expr="//ul[@id='top_menu']" position="before">-->
+<!--            <ul class="nav navbar-nav menu-bar" id="top_menu">-->
+<!--                <li><a href="/renta">ALQUILER</a></li>-->
+<!--                <li><a href="/search_available">CONSULTAS</a></li>-->
+<!--                <li><a href="/dressing_room">VESTIDORES</a></li>-->
+<!--                <li><a href="/">CAMBIOS</a></li>-->
+<!--                <li><a href="/web_quote">COTIZACIONES</a></li>-->
+<!--            </ul>-->
+
+
+
+<!--&lt;!&ndash;********************NAVBAR IMAGEN SELLER*************************************************************************************************&ndash;&gt;-->
+<!--            <ul class="navbar-right">-->
+<!--               <nav>-->
+<!--                    <t t-if="seller">-->
+<!--                        <img class="img-circle navbar_seller" t-if="seller.image" t-att-src="'data:image/png;base64,'+seller.image"/>-->
+<!--                        <span t-esc="seller.name" class="lineover" style="color: #000000;"/>-->
+<!--                    </t>-->
+<!--               </nav>-->
+<!--            </ul>-->
+<!--        </xpath>-->
+<!--&lt;!&ndash;Logo navbar rentq&ndash;&gt;-->
+<!--&lt;!&ndash;****Container****&ndash;&gt;-->
+<!--        <xpath expr="//div[hasclass('container')]" position="attributes">-->
+<!--            <attribute name="class">container container_modified</attribute>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+
+
+
+
+<!--&lt;!&ndash;****Footer*********************************************************************************************************&ndash;&gt;-->
+<!--    <template id="website.layout_footer_rentq" inherit_id="website.layout">-->
+<!--        <xpath expr="//footer" position="inside">-->
+<!--            <div class="pull-left foot_q" t-ignore="true" t-if="not editable">-->
+<!--                Powered by <a style="color:#0b45a3;" href="http://www.icq247.com/">ICQ24</a>.-->
+<!--            </div>-->
+<!--        </xpath>-->
+<!--    </template>-->
+<!--&lt;!&ndash;*******************************************************************************************************************&ndash;&gt;-->
+<!--    &lt;!&ndash;***********************Set_partner****************************&ndash;&gt;-->
+<!--    <template id="set_partner_img" inherit_id="website_bridetobe.set_partner">-->
+<!--&lt;!&ndash;Imagen alquiler&ndash;&gt;-->
+<!--&lt;!&ndash;Formato ventana datos del cliente&ndash;&gt;-->
+<!--        <xpath expr="//form[@method ='post']" position="replace">-->
+<!--&lt;!&ndash;Inicio Form set_partner original&ndash;&gt;-->
+<!--            <form t-attf-action="/#{view_id}/partner" method="post">-->
+<!--                <table width="100%" height="100%">-->
+<!--                    <tr>-->
+<!--                        <td>-->
+<!--                            <img t-attf-src="/website_bridetobe/static/description/images/#{view_id}_menu.png"-->
+<!--                                 style="height: 200px; width: 200px;"/>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--                <span><h1 class="dato_cliente_title">Datos del Cliente</h1></span>-->
+<!--                <div class="col-sm-12">-->
+<!--                    <h4><font size="5">RNC / Cédula / Código de Cliente</font></h4>-->
+<!--                    <div t-attf-class="col-sm-12 form-group #{error.get('partner_vat') and 'has-error' or ''}">-->
+<!--                        <input type="text" name="partner_vat" class="form-control" t-att-value="partner_vat"-->
+<!--                           t-attf-autofocus="autofocus" placeholder="Identificación Del Cliente"/>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash;<h3 class="page-header mt16">&ndash;&gt;-->
+<!--                        &lt;!&ndash;&lt;!&ndash;Datos del Evento&ndash;&gt;&ndash;&gt;-->
+<!--                    &lt;!&ndash;</h3>&ndash;&gt;-->
+<!--                    <div>-->
+<!--                        <div t-attf-class="form-group #{error.get('product_barcode') and 'has-error' or ''} col-sm-12">-->
+<!--                            <label class="control-label" for="product_barcode">Vestidos</label>-->
+<!--                            <input type="text" name="product_barcode" t-att-value="product_barcode"-->
+<!--                                   class="form-control" placeholder="Código (Vestido1, Vestido2)"/>-->
+<!--                        </div>-->
+<!--                        <div t-attf-class="form-group #{error.get('event_date') and 'has-error' or ''} col-sm-6">-->
+<!--                            <label class="control-label" for="event_date">Fecha del Evento</label>-->
+<!--                            <input type="date" name="event_date" t-att-value="event_date" class="form-control" placeholder="Fecha Del Evento"/>-->
+<!--                        </div>-->
+
+<!--                        <div t-attf-class="form-group #{error.get('event_place') and 'has-error' or ''} col-sm-6">-->
+<!--                            <label class="control-label" for="event_place">Lugar del Evento</label>-->
+<!--                            <input type="text" name="event_place" t-att-value="event_place"-->
+<!--                                   class="form-control" placeholder="Lugar Del Evento"/>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <h3 class="page-header mt16">-->
+<!--                        Medidas del Cliente-->
+<!--                    </h3>-->
+<!--                    <div>-->
+<!--                        <div t-attf-class="form-group #{error.get('busto') and 'has-error' or ''} col-sm-6">-->
+<!--                            <label class="control-label" for="busto">Busto</label>-->
+<!--                            <input type="number" step="any" min="0" name="busto" class="form-control"-->
+<!--                                   t-att-value="busto"/>-->
+<!--                        </div>-->
+<!--                        <div t-attf-class="form-group #{error.get('cintura') and 'has-error' or ''} col-sm-6">-->
+<!--                            <label class="control-label" for="cintura">Cintura</label>-->
+<!--                            <input type="number" step="any" min="0" name="cintura" class="form-control"-->
+<!--                                   t-att-value="cintura"/>-->
+<!--                        </div>-->
+<!--                        <div t-attf-class="form-group #{error.get('cadera') and 'has-error' or ''} col-sm-6">-->
+<!--                            <label class="control-label" for="cadera">Cadera</label>-->
+<!--                            <input type="number" step="any" min="0" name="cadera" class="form-control"-->
+<!--                                   t-att-value="cadera"/>-->
+<!--                        </div>-->
+<!--                        <div t-attf-class="form-group #{error.get('falda') and 'has-error' or ''} col-sm-6">-->
+<!--                            <label class="control-label" for="falda">Largo de Falda</label>-->
+<!--                            <input type="number" step="any" min="0" name="falda" class="form-control"-->
+<!--                                   t-att-value="falda"/>-->
+<!--                        </div>-->
+<!--                        <div t-attf-class="col-sm-12">-->
+<!--                            <label class="control-label" for="comments">Observaciones</label>-->
+<!--                            <textarea class="form-control" name="comments" placeholder="Otros Detalles"><t t-esc="comments"/></textarea>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>-->
+<!--                <input type="hidden" name="submitted" value="1"/>-->
+<!--                <input type="hidden" name="view_id" t-att-value="view_id"/>-->
+<!--                <input type="hidden" name="seller" t-att-value="seller.id"/>-->
+<!--                <div class="clearfix">-->
+<!--                    <div t-if="error.get('partner_vat')" class="col-sm-6">-->
+<!--                        <button type="submit" class="btn btn-primary mb32 btn-bridetobe" name="submit"-->
+<!--                                value="new">-->
+<!--                            Crear Cliente-->
+<!--                            <span class="fa fa-plus-square"/>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                    <div t-attf-class="#{error.get('partner_vat') and 'col-sm-6' or 'col-sm-12'}">-->
+<!--                        <button type="submit" class="btn btn-default btn-primary mb32 btn-bridetobe " style="margin-top:1%; width: 97%;"-->
+<!--                                name="submit">-->
+<!--                            Confirmar-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--&lt;!&ndash;Fin original&ndash;&gt;-->
+<!--        </xpath>-->
+<!--    </template>-->
+<!--&lt;!&ndash;Set_partner_data&ndash;&gt;-->
+<!--    <template id="partner_data_modified" inherit_id="website_bridetobe.partner_data">-->
+<!--        <xpath expr="//div[@class='container']" position="replace">-->
+<!--            <div class="container">-->
+<!--                <h3 class="page-header mt16 dato_cliente_title pd_title">-->
+<!--                    Registro De Cliente         &lt;!&ndash;Datos del Cliente&ndash;&gt;-->
+<!--                </h3>-->
+
+<!--                <t t-if="error" t-foreach="error.get('error_message', [])" t-as="err">-->
+<!--                    <h4 class="text-danger text-center" t-esc="err"/>-->
+<!--                </t>-->
+
+<!--                <form t-attf-action="/#{view_id}/partner/update" method="post">-->
+<!--                    <div t-attf-class="form-group #{error.get('name') and 'has-error' or ''} col-sm-8">-->
+<!--                        <label class="control-label" for="name">Nombre del Cliente</label>-->
+<!--                        <input type="text" name="name" class="form-control"-->
+<!--                               t-att-value="partner_temp.get('name') if not partner.name else partner.name"-->
+<!--                               t-attf-autofocus="autofocus" placeholder="Nombre / Apellido"/>-->
+<!--                    </div>-->
+
+<!--                    <div t-attf-class="form-group #{error.get('customer_code') and 'has-error' or ''} col-sm-4">-->
+<!--                        <label class="control-label" for="name">Código de Cliente</label>-->
+<!--                        <input type="text" name="customer_code" class="form-control" placeholder="Código "-->
+<!--                               t-att-value="partner_temp.get('vat') if not partner.customer_code and not partner.vat else partner.customer_code or partner.vat"-->
+<!--                        />-->
+<!--                    </div>-->
+
+<!--                    <div class="clearfix"/>-->
+<!--                    <div t-attf-class="form-group #{error.get('mobile') and 'has-error' or ''} col-sm-4">-->
+<!--                        <label class="control-label" for="mobile">Celular</label>-->
+<!--                        <input type="text" name="mobile" class="form-control" placeholder="Número De Celular"-->
+<!--                               t-att-value="partner_temp.get('mobile') if not partner.mobile else partner.mobile"/>-->
+<!--                    </div>-->
+
+<!--                    <div t-attf-class="form-group #{error.get('phone') and 'has-error' or ''} col-sm-4">-->
+<!--                        <label class="control-label" for="phone">Telefono</label>-->
+<!--                        <input type="text" name="phone" class="form-control" placeholder="Número De Teléfono"-->
+<!--                               t-att-value="partner_temp.get('phone') if not partner.phone else partner.phone"/>-->
+<!--                    </div>-->
+<!--                    <div t-attf-class="form-group #{error.get('vat') and 'has-error' or ''} col-sm-4">-->
+<!--                        <label class="control-label" for="vat">RNC / Cedula</label>-->
+<!--                        <input type="text" name="vat" class="form-control" placeholder="Número De Identificación"-->
+<!--                               t-att-value="partner_temp.get('vat') if not partner.vat else partner.vat"/>-->
+<!--                    </div>-->
+
+<!--                    <div class="clearfix"/>-->
+<!--                    <div t-attf-class="form-group #{error.get('email') and 'has-error' or ''} col-sm-12">-->
+<!--                        <label class="control-label" for="email">Email</label>-->
+<!--                        <input type="text" name="email" class="form-control" placeholder="Correo_electronico@ejemplo.com"-->
+<!--                               t-att-value="partner_temp.get('email') if not partner.email else partner.email"/>-->
+<!--                    </div>-->
+
+<!--                    <div class="clearfix"/>-->
+<!--                    <div t-attf-class="form-group #{error.get('street') and 'has-error' or ''} col-sm-8">-->
+<!--                        <label class="control-label" for="street">Calle y Número</label>-->
+<!--                        <input type="text" name="street" class="form-control" placeholder="Localidad"-->
+<!--                               t-att-value="partner_temp.get('street') if not partner.street else partner.street"/>-->
+<!--                    </div>-->
+
+<!--                    <div t-attf-class="form-group #{error.get('city') and 'has-error' or ''} col-sm-4">-->
+<!--                        <label class="control-label" for="city">Ciudad</label>-->
+<!--                        <input type="text" name="city" class="form-control" placeholder="Ciudad"-->
+<!--                               t-att-value="partner_temp.get('city') if not partner.city else partner.city"/>-->
+<!--                    </div>-->
+
+<!--                    <div t-attf-class="form-group #{error.get('country_id') and 'has-error' or ''} col-sm-12">-->
+<!--                        <label class="control-label" for="country_id">Pais</label>-->
+<!--                        <select id="country_id" name="country_id" class="form-control">-->
+<!--                            <option value="0">Country...</option>-->
+<!--                            <t t-foreach="countries" t-as="c">-->
+<!--                                <option t-att-value="c.id"-->
+<!--                                        t-att-selected="c.id == 62">-->
+<!--                                    <t t-esc="c.name"/>-->
+<!--                                </option>-->
+<!--                            </t>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                    <div class="clearfix"/>-->
+<!--                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>-->
+<!--                        <input type="hidden" name="submitted" value="1"/>-->
+<!--                        <input type="hidden" name="view_id" t-att-value="view_id"/>-->
+<!--                        <input type="hidden" name="seller" t-att-value="seller.id"/>-->
+<!--                        <input type="hidden" name="partner_vat" t-att-value="partner.vat"/>-->
+<!--                        <input type="hidden" name="partner" t-att-value="partner.id"/>-->
+<!--                        <input type="hidden" name="country" t-att-value="country_id"/>-->
+<!--                        <input type="hidden" name="product_barcode" t-att-value="product_barcode" />-->
+<!--                        <input type="hidden" name="event_date" t-att-value="event_date" />-->
+<!--                        <input type="hidden" name="event_place" t-att-value="event_place" />-->
+<!--                        <input type="hidden" name="busto" t-att-value="busto"/>-->
+<!--                        <input type="hidden" name="cintura" t-att-value="cintura"/>-->
+<!--                        <input type="hidden" name="cadera" t-att-value="cadera"/>-->
+<!--                        <input type="hidden" name="falda" t-att-value="falda"/>-->
+<!--                        <input type="hidden" name="comments" t-att-value="comments"/>-->
+<!--                    <div>-->
+<!--                        <button class="btn btn-default btn-primary pull-right mb32 a-submit a-submit-disable a-submit-loading btn-bridetobe"-->
+<!--                                type="submit">-->
+<!--                            <span>Siguiente</span>-->
+<!--                            <span class="fa fa-long-arrow-right"/>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </xpath>-->
+<!--    </template>-->
+<!--&lt;!&ndash;Fin original&ndash;&gt;-->
+
+<!--&lt;!&ndash;*******************event_data**************NAVBAR IMAGEN SELLER&ndash;&gt;-->
+
+<!--    <template id="event_data_modified" inherit_id="website_bridetobe.event_data">-->
+<!--        <xpath expr="//form[@id='event_data_form']" position="replace">-->
+<!--            <form t-attf-action="/#{view_id}/event_data" method="post" id="event_data_form">-->
+<!--                <div class="col-sm-6">-->
+<!--                    <h3 class="dato_cliente_title" style="font-size:216%;">Datos del Evento</h3>-->
+<!--&lt;!&ndash;*****************&ndash;&gt;-->
+<!--                    <div>-->
+<!--                        <div t-attf-class="form-group #{error.get('event_date') and 'has-error' or ''} col-sm-12">-->
+<!--                            <label class="control-label" for="event_date">Fecha del Evento</label>-->
+<!--                            <input type="date" name="event_date" t-att-value="event_date" class="form-control"/>-->
+<!--                        </div>-->
+<!--                        <div t-attf-class="form-group #{error.get('event_place') and 'has-error' or ''} col-sm-12">-->
+<!--                            <label class="control-label" for="event_place">Lugar del Evento</label>-->
+<!--                            <input type="text" name="event_place" t-att-value="event_place" class="form-control"/>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--&lt;!&ndash;********Medida Cliente (Confirmación)***********&ndash;&gt;-->
+<!--                    <h3 class="page-header mt16 dato_cliente_title" style="font-size:216%; margin-bottom:0%;">Medidas del Cliente</h3>-->
+<!--&lt;!&ndash;*****************&ndash;&gt;-->
+<!--                    <div>-->
+<!--                        <div t-attf-class="form-group #{error.get('busto') and 'has-error' or ''} col-sm-6">-->
+<!--                            <label class="control-label" for="busto">Busto</label>-->
+<!--                            <input type="number" step="any" min="0" name="busto" class="form-control"-->
+<!--                                   t-att-value="busto" readonly="1"/>-->
+<!--                        </div>-->
+<!--                        <div t-attf-class="form-group #{error.get('cintura') and 'has-error' or ''} col-sm-6">-->
+<!--                            <label class="control-label" for="cintura">Cintura</label>-->
+<!--                            <input type="number" step="any" min="0" name="cintura" class="form-control"-->
+<!--                                   t-att-value="cintura" readonly="1"/>-->
+<!--                        </div>-->
+<!--                        <div t-attf-class="form-group #{error.get('cadera') and 'has-error' or ''} col-sm-6">-->
+<!--                            <label class="control-label" for="cadera">Cadera</label>-->
+<!--                            <input type="number" step="any" min="0" name="cadera" class="form-control"-->
+<!--                                   t-att-value="cadera" readonly="1"/>-->
+<!--                        </div>-->
+<!--                        <div t-attf-class="form-group #{error.get('falda') and 'has-error' or ''} col-sm-6">-->
+<!--                            <label class="control-label" for="falda">Largo de Falda</label>-->
+<!--                            <input type="number" step="any" min="0" name="falda" class="form-control"-->
+<!--                                   t-att-value="falda" readonly="1"/>-->
+<!--                        </div>-->
+<!--                        <div t-attf-class="col-sm-12">-->
+<!--                            <label class="control-label" for="comments">Observaciones</label>-->
+<!--                            <textarea class="form-control" t-esc="comments" name="comments" ></textarea>-->
+<!--                        </div>-->
+<!--&lt;!&ndash;Button**************&ndash;&gt;-->
+<!--                        <div>-->
+<!--                            <button class="btn_config btn_conf btn btn-default btn-primary mb32 a-submit a-submit-disable a-submit-loading btn-bridetobe"-->
+<!--                                    type="submit" value="validate" name="submit" style="width: 94%; margin-top: 2%">-->
+<!--                                <span>Siguiente</span>-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="text-center text-danger">-->
+<!--                        <t t-set="sub_total" t-value='0.0'/>-->
+<!--                        <t t-foreach="product_ids" t-as="product">-->
+<!--                            <t t-set="sub_total" t-value="sub_total + product['price']"/>-->
+<!--                        </t>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--&lt;!&ndash;********************Artículos Rentados(Confirmación cantidad)******************&ndash;&gt;-->
+<!--                <div class="oe_cart col-sm-6">-->
+<!--                    <div class="art_rent" >-->
+<!--                        <h3 class="dato_cliente_title" style="font-size:216%;">Artículos Rentados (<span t-esc="len(product_ids) or 0"/>)</h3>-->
+<!--                        <table name="cart_products" id="cart_products" class="table table-striped table-condensed">-->
+<!--                            <tr t-foreach="product_ids" t-as="product">-->
+<!--                                <td class="text-center">-->
+<!--                                    <img style="display:block; width:200px;height:200px;"-->
+<!--                                         t-attf-src="data:image/jpeg;base64,#{product['image']}"-->
+<!--                                         class="img img-responsive img-rounded"/>-->
+<!--                                </td>-->
+<!--&lt;!&ndash;***********************************################################Price simbol#####################################***************************************************&ndash;&gt;-->
+<!--                                <td class="text-center">-->
+<!--                                    <h3 t-esc="product['name']"/>-->
+<!--                                    <h4 t-esc="product['price']" style="white-space: nowrap;"-->
+<!--                                        t-options="{'widget': 'monetary','from_currency': partner.company_id.currency_id,'display_currency': partner.company_id.currency_id}"/>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+<!--                        <div class="art-subtotal">-->
+<!--                            Sub-total: RD$ <span t-esc="sub_total"/>-->
+<!--                        </div>-->
+<!--                        <br/>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>-->
+<!--                <input type="hidden" name="submitted" value="1"/>-->
+<!--                <input type="hidden" name="view_id" t-att-value="view_id"/>-->
+<!--&lt;!&ndash;Se obtiene del objeto hr.employee(en renta/patner/update) se usa solo id&ndash;&gt;-->
+<!--                <input type="hidden" name="seller" t-att-value="seller.id"/>-->
+<!--                <input type="hidden" name="partner_vat" t-att-value="partner.vat"/>-->
+<!--                <input type="hidden" name="partner" t-att-value="partner.id"/>-->
+<!--                <input type="hidden" name="product_barcode" t-att-value="product_barcode"/>-->
+<!--            </form>-->
+<!--        </xpath>-->
+<!--&lt;!&ndash;*******************Fin Event_data*********************&ndash;&gt;-->
+<!--    </template>-->
+<!--&lt;!&ndash;****************Website_templates****************&ndash;&gt;-->
+<!--    <template id="order_confirmation_modified" inherit_id="website_bridetobe.order_confirmation">-->
+<!--        <xpath expr="//div[@class='cols-sm-12 text-center']" position="replace">-->
+<!--            <div class='text-center' style="width: 75%; margin-left:auto;">-->
+<!--                <div class="art_rent" >-->
+<!--                    <h2 class="dato_cliente_title" style="font-size:263%;">Detalles de la orden </h2>-->
+<!--                    <table name="cart_products" id="cart_products" class="table table-striped table-condensed">-->
+<!--                        <tr t-foreach="product_ids" t-as="product">-->
+<!--                            <td class="text-center">-->
+<!--                                <img style="display:block; width:200px;height:200px;"-->
+<!--                                     t-attf-src="data:image/jpeg;base64,#{product['image']}"-->
+<!--                                     class="img img-responsive img-rounded"/>-->
+<!--                            </td>-->
+<!--                            <td class="text-center">-->
+<!--                                <h3 t-esc="product['name']"/>-->
+<!--                                <h4 t-esc="product['price']" style="white-space: nowrap;"-->
+<!--                                    t-options="{'widget': 'monetary','from_currency': partner.company_id.currency_id,'display_currency': partner.company_id.currency_id}"/>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                    </table>-->
+<!--                    <div class="art-subtotal">-->
+<!--                        Sub-total: RD$ <span t-esc="order.amount_untaxed"/>-->
+<!--                    </div>-->
+<!--                    <br/>-->
+<!--                    <div class="art-itbis">-->
+<!--                        ITBIS:  RD$ <span t-esc="order.amount_tax"/>-->
+<!--                    </div>-->
+<!--                    <br/>-->
+<!--                    <div class="art-total">-->
+<!--                        Total:  RD$ <span t-esc="order.amount_total"/>-->
+<!--                    </div>-->
+<!--                    <br/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </xpath>-->
+<!--        <xpath expr="//button" position="replace">-->
+<!--            <button class="btn btn-default btn-primary pull-right mb32 a-submit a-submit-disable a-submit-loading btn_config btn-bridetobe" style="margin-top: 1%;"-->
+<!--                    type="submit">-->
+<!--                <span>Confirmar</span>-->
+<!--            </button>-->
+<!--        </xpath>-->
+<!--    </template>-->
+<!--&lt;!&ndash;************************Website logueos***************&ndash;&gt;-->
+<!--<template id="search_available_modified" inherit_id="website_bridetobe.search_available">-->
+<!--    <xpath expr="//div[@class='container']" position="replace">-->
+<!--        <div class="container">-->
+<!--            <div style="text-align:center">-->
+<!--                <form t-attf-action="/search_available_calendar" method="post">-->
+<!--&lt;!&ndash;******************Logueo Consultas(margin-top)****************************&ndash;&gt;-->
+<!--                    <img t-attf-src="/website_bridetobe/static/description/images/busquedas_menu.png"-->
+<!--                         style="height: 150px; width: 150px;"/>-->
+<!--                    <h1 class="dato_cliente_title">Código de Artículo</h1>&lt;!&ndash;####################################### /SEARCH AVAILABLE #########################&ndash;&gt;-->
+<!--                    <input type="text" name="product_barcode" class="form-control" t-attf-autofocus="autofocus"/>-->
+<!--                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>-->
+<!--                    <div class="clearfix">-->
+<!--                        <button type="submit" class="btn btn-default btn-primary mb32 btn-bridetobe" style="margin-top: 1%;">-->
+<!--                            Confirm-->
+<!--                            <span class="fa fa-long-arrow-right"/>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--                <table align="center" t-if="error">-->
+<!--                    <tr>-->
+<!--                        <td class="text-danger">-->
+<!--                            <i class="fa fa-times-circle fa-10x" aria-hidden="true"/>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td>-->
+<!--                            <t t-foreach="error.get('error_message', [])" t-as="err">-->
+<!--                                <h1 class="text-danger" t-esc="err"/>-->
+<!--                            </t>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </xpath>-->
+<!--</template>-->
+<!--<template id="set_seller_modified" inherit_id="website_bridetobe.set_seller" >-->
+<!--    <xpath expr="//div[@class='container']" position="replace">-->
+<!--        <div class="container">-->
+<!--            <div style="text-align:center">-->
+<!--                <form t-attf-action="/#{view_id}" method="post">-->
+<!--                    <img t-attf-src="/website_bridetobe/static/description/images/#{view_id}_menu.png"-->
+<!--                         style="height: 150px; width: 150px;"/>-->
+<!--                    <h1 class="dato_cliente_title">Código de Vendedor</h1>-->
+<!--                    <div t-attf-class="form-group #{error.get('seller_code') and 'has-error' or ''}">-->
+<!--                        <input type="text" name="seller_code" class="form-control" t-attf-autofocus="autofocus"/>-->
+<!--                    </div>-->
+<!--                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>-->
+<!--                    <input type="hidden" name="submitted" value="1"/>-->
+<!--                    <input type="hidden" name="view_id" t-att-value="view_id"/>-->
+<!--                    <div class="clearfix">-->
+<!--                        <button type="submit" class="btn btn-default btn-primary mb32 btn-bridetobe ">-->
+<!--                            Confirm-->
+<!--                            <span class="fa fa-long-arrow-right"/>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--                <table align="center" t-if="error">-->
+<!--                    <tr>-->
+<!--                        <td class="text-danger">-->
+<!--                            <i class="fa fa-times-circle fa-10x" aria-hidden="true"/>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td>-->
+<!--                            <t t-foreach="error.get('error_message', [])" t-as="err">-->
+<!--                                <h1 class="text-danger" t-esc="err"/>-->
+<!--                            </t>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </xpath>-->
+<!--</template>-->
+<!--</odoo>-->

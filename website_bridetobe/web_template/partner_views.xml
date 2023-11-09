@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="set_partner" name="Cliente">
+        <t t-call="website.layout">
+            <div class="container oe_website_sale">
+                <div class="row">
+                    <div class="text-center">
+                        <t t-set="partner_id" t-value="partner_id or request.env['res.partner']"/>
+
+                        <t t-set="seller_id"
+                           t-value="request.env['hr.employee'].sudo().browse(int(seller_id))"/>
+
+                        <div class="col-xs-6">
+                            <img t-attf-src="/website_bridetobe/static/description/images/#{view_id}_menu.png"
+                                 style="height: 150px; width: 150px;"/>
+                        </div>
+                        <div class="col-xs-6">
+                            <img t-if="seller_id.image" t-att-src="'data:image/png;base64,'+seller_id.image"
+                                 style="height: 150px; width: 150px;"/>
+                            <img t-if="not seller_id.image" src="base/static/src/img/avatar.png"
+                                 style="height: 150px; width: 150px;"/>
+                            <h3>
+                                <span t-esc="seller_id.name"/>
+                            </h3>
+                        </div>
+                    </div>
+                    <t t-if="error" t-foreach="error.get('error_message', [])" t-as="err">
+                        <h4 class="text-danger" t-esc="err"/>
+                    </t>
+
+                    <form t-attf-action="/#{view_id}/partner" method="post">
+                        <h3 class="page-header mt16">
+                            Datos del Cliente
+                        </h3>
+                        <div id="web_customer_info">
+                            <div t-attf-class="form-group #{error.get('vat') and 'has-error' or ''} col-sm-5">
+                                <label class="control-label" for="vat">RNC / Cedula <t t-if="'vat' in error">/ Whatsapp</t></label>
+                                <input type="search" name="vat" class="form-control"
+                                       t-att-value="partner_id.vat or vat"
+                                       t-attf-autofocus="autofocus"/>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="submit" class="btn btn-primary mt24" name="search_partner"
+                                        title="Validar Cliente">
+                                    <span class="fa fa-search"/>
+                                </button>
+                            </div>
+
+                            <div t-attf-class="form-group #{error.get('event_date') and 'has-error' or ''} col-sm-3">
+                                <label class="control-label" for="event_date">Fecha del Evento</label>
+                                <input type="date" name="event_date" t-att-value="event_date"
+                                       class="form-control"/>
+                            </div>
+
+                            <div t-attf-class="form-group #{error.get('event_place') and 'has-error' or ''} col-sm-3">
+                                <label class="control-label" for="event_place">Lugar del Evento</label>
+                                <input type="text" name="event_place" t-att-value="event_place" readonly="1"
+                                       class="form-control"/>
+                            </div>
+
+                            <div t-attf-class="form-group #{error.get('name') and 'has-error' or ''} col-sm-12">
+                                <label class="control-label" for="name">Nombre del Cliente</label>
+                                <input type="text" name="name" class="form-control"
+                                       t-att-value="partner_id.name or name"/>
+                            </div>
+
+                            <div t-attf-class="form-group #{error.get('customer_code') and 'has-error' or ''} col-sm-4">
+                                <label class="control-label" for="name">Codigo de Cliente</label>
+                                <input type="text" name="customer_code" class="form-control" readonly="1"
+                                       t-att-value="partner_id.customer_code or partner_id.vat or vat"
+                                />
+                            </div>
+
+                            <div t-attf-class="form-group #{error.get('mobile') and 'has-error' or ''} col-sm-4">
+                                <label class="control-label" for="mobile">Whatsapp</label>
+                                <input type="text" name="mobile" class="form-control" placeholder="18295555555"
+                                       t-att-value="partner_id.mobile or mobile"/>
+                            </div>
+
+                            <div t-attf-class="form-group #{error.get('phone') and 'has-error' or ''} col-sm-4">
+                                <label class="control-label" for="phone">Telefono</label>
+                                <input type="text" name="phone" class="form-control" placeholder="18095555555"
+                                       t-att-value="partner_id.phone or phone"/>
+                            </div>
+
+                            <div class="clearfix"/>
+                            <div t-attf-class="form-group #{error.get('email') and 'has-error' or ''} col-sm-12">
+                                <label class="control-label" for="email">Email</label>
+                                <input type="text" name="email" class="form-control"
+                                       t-att-value="partner_id.email or email"/>
+                            </div>
+
+                            <div class="clearfix"/>
+                            <div t-attf-class="form-group #{error.get('street') and 'has-error' or ''} col-sm-8">
+                                <label class="control-label" for="street">Calle y Numero</label>
+                                <input type="text" name="street" class="form-control"
+                                       t-att-value="partner_id.street or street"/>
+                            </div>
+
+                            <div t-attf-class="form-group #{error.get('city') and 'has-error' or ''} col-sm-4">
+                                <label class="control-label" for="city">Ciudad</label>
+                                <input type="text" name="city" class="form-control"
+                                       t-att-value="partner_id.city or city"/>
+                            </div>
+
+                            <div t-attf-class="form-group #{error.get('country_id') and 'has-error' or ''} col-sm-12">
+                                <label class="control-label" for="country_id">Pais <t t-esc="partner_id.country_id.id"/></label>
+                                <select id="country_id" name="country_id" class="form-control">
+                                    <option value="0">Pais...</option>
+                                    <t t-foreach="country_ids" t-as="c">
+                                        <option t-att-value="c.id"
+                                                t-att-selected="c.id == (partner_id.country_id.id or 62)">
+                                            <t t-esc="c.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-default btn-primary mb32 btn-bridetobe"
+                                    name="submit">
+                                Continuar
+                            </button>
+                        </div>
+
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="view_id" t-att-value="view_id"/>
+                        <input type="hidden" name="seller_id" t-att-value="seller_id.id"/>
+                        <input type="hidden" name="partner_id" t-att-value="partner_id.id"/>
+                        <input type="hidden" name="busto" t-att-value="busto"/>
+                        <input type="hidden" name="cintura" t-att-value="cintura"/>
+                        <input type="hidden" name="cadera" t-att-value="cadera"/>
+                        <input type="hidden" name="comments" t-att-value="comments"/>
+                        <input type="hidden" name="product_ids" t-att-value="product_ids"/>
+                        <input type="hidden" name="old_event_date" t-att-value="old_event_date or event_date"/>
+                        <input type="hidden" name="modista_id" t-att-value="modista_id"/>
+                        <input type="hidden" name="delivery_date" t-att-value="delivery_date"/>
+                        <input type="hidden" name="delivery_time" t-att-value="delivery_time"/>
+                    </form>
+
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

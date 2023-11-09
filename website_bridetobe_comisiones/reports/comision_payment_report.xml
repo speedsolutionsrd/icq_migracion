@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="comision_report_act"
+                model="bridetobe.comision.payment"
+                report_type="qweb-pdf"
+                string="Reporte de Comisiones"
+                name="website_bridetobe_comisiones.comision_report_report"
+                file="website_bridetobe_comisiones.comision_report_report"
+        />
+
+        <report
+                id="comision_payment_report_act"
+                model="bridetobe.comision.payment"
+                report_type="qweb-pdf"
+                string="Reporte de Comisiones Pagadas"
+                name="website_bridetobe_comisiones.comision_payment_report_report"
+                file="website_bridetobe_comisiones.comision_payment_report_report"
+        />
+
+        <template id="website_bridetobe_comisiones.comision_report_document">
+            <t t-call="report.html_container">
+                <t t-call="report.internal_layout">
+                    <div class="page">
+                        <div class="text-center" name="report_header">
+                            <h2 name="report_label">Reporte de Comisiones</h2>
+                            <h3>
+                                <span t-field="o.employee_id"/>
+                            </h3>
+                            <h3>Periodo
+                                <span t-field="o.start_date"/>
+                                -
+                                <span t-field="o.end_date"/>
+                            </h3>
+                        </div>
+
+                        <!--                            <t t-set="total_paid" t-value="0.0"/>-->
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Vestido</th>
+                                    <th>Codigo Vestido</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha de Evento</th>
+                                    <th name="payment_label">A Pagar</th>
+                                    <th>Comentarios</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr t-foreach="o.comision_ids" t-as="comision_id">
+                                    <td>
+                                        <span t-field="comision_id.rental_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="comision_id.code"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="comision_id.partner_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="comision_id.start_date"/>
+                                    </td>
+                                    <td name="payment_amount">
+                                        <span t-field="comision_id.amount"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="comision_id.comments"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tr>
+                                <th colspan="3"></th>
+                                <th class="border-black">
+                                    <strong>Total:</strong>
+                                </th>
+                                <th name="payment_total">
+                                    <span t-esc="sum(o.comision_ids.mapped('amount'))"/>
+                                </th>
+                                <th colspan="3"></th>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="website_bridetobe_comisiones.comision_report_report">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="website_bridetobe_comisiones.comision_report_document"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="website_bridetobe_comisiones.comision_payment_report_document"
+                  inherit_id="website_bridetobe_comisiones.comision_report_document"
+                  primary="True">
+            <xpath expr="//h2[@name='report_label']" position="replace">
+                <h2 name="report_label">Reporte de Comisiones Pagadas</h2>
+            </xpath>
+            <xpath expr="//div[@name='report_header']" position="inside">
+                <h3>Fecha de Pago <span t-field="o.payment_date"/></h3>
+            </xpath>
+            <xpath expr="//th[@name='payment_label']" position="replace">
+                <th name="payment_label">Pagado</th>
+            </xpath>
+            <xpath expr="//td[@name='payment_amount']" position="replace">
+                <td name="payment_amount">
+                    <span t-field="comision_id.paid_amount"/>
+                </td>
+            </xpath>
+            <xpath expr="//th[@name='payment_total']" position="replace">
+                <th name="payment_total">
+                    <span t-esc="sum(o.comision_ids.mapped('paid_amount'))"/>
+                </th>
+            </xpath>
+        </template>
+
+        <template id="website_bridetobe_comisiones.comision_payment_report_report">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="website_bridetobe_comisiones.comision_payment_report_document"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

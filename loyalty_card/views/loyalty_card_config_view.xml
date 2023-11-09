@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_loyalty_card_cumulative_config_form" model="ir.ui.view">
+            <field name="name">loyalty.card.cumulative.config.form</field>
+            <field name="model">loyalty.card.cumulative.config</field>
+            <field name="arch" type="xml">
+                <form string="Loyalty Card Cumulative Configuration">
+                    <sheet>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="client_only"/>
+                            <field name="amount"/>
+                            <field name="calc_type"/>
+                            <field name="loyalty_point_time"/>
+                            <field name="loyalty_point_time_period"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_loyalty_card_cumulative_config_tree" model="ir.ui.view">
+            <field name="name">loyalty.card.config.tree</field>
+            <field name="model">loyalty.card.cumulative.config</field>
+            <field name="arch" type="xml">
+                <tree string="Loyalty Card Cumulative Configuration">
+                    <field name="name"/>
+                    <field name="client_only"/>
+                    <field name="amount"/>
+                    <field name="calc_type"/>
+                    <field name="loyalty_point_time"/>
+                    <field name="loyalty_point_time_period"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_loyalty_card_cumulative_config" model="ir.actions.act_window">
+            <field name="name">Loyalty Card Cumulative Configuration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">loyalty.card.cumulative.config</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem name="Configuration" id="menu_loyalty_card_config_base"
+                  parent="menu_loyalty_card_parent"
+                  groups="sales_team.group_sale_manager"/>
+
+        <menuitem name="Cumulative Configuration" id="menu_loyalty_card_cumulative_config"
+                  parent="menu_loyalty_card_config_base"
+                  action="action_loyalty_card_cumulative_config"
+                  groups="sales_team.group_sale_manager"
+                  sequence="2"/>
+
+        <record id="view_loyalty_configuration" model="ir.ui.view">
+            <field name="name">loyalty.config.view</field>
+            <field name="model">loyalty.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configure Loyalty" class="oe_form_configuration">
+                    <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        <button string="Cancel" type="object" name="cancel" class="oe_link" special="cancel"/>
+                    </header>
+                    <group string="Point Costs">
+                        <div>
+                            <label for="points_equivalent" class="oe_inline"/>
+                            <field name="points_equivalent" class="oe_inline"/>
+                            <span> = 1 DOP</span>
+                        </div>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="action_loyalty_configuration" model="ir.actions.act_window">
+            <field name="name">Configure Loyalty</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">loyalty.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem name="Loyalty Configuration" id="menu_loyalty_config"
+                  parent="menu_loyalty_card_config_base"
+                  action="action_loyalty_configuration"
+                  groups="sales_team.group_sale_manager"
+                  sequence="1"
+        />
+    </data>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Sequences for Confecciones -->
+        <record id="seq_bridetobe_confeccion" model="ir.sequence">
+            <field name="name">Confecciones</field>
+            <field name="code">bridetobe.confeccion</field>
+            <field name="prefix">CNF</field>
+            <field name="padding">3</field>
+        </record>
+
+    </data>
+</odoo>

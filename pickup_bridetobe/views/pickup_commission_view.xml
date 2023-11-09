@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_pickup_commission_tree_inherit">
+            <field name="name">view.pickup.commission.tree.inherit</field>
+            <field name="model">pickup.commission</field>
+            <field name="inherit_id" ref="pickup.view_pickup_commission_tree"/>
+            <field name="arch" type="xml">
+                <field name="status" position="after">
+                    <field name="comision_payment_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_pickup_commission_form_inherit">
+            <field name="name">view.pickup.commission.form.inherit</field>
+            <field name="model">pickup.commission</field>
+            <field name="inherit_id" ref="pickup.view_pickup_commission_form"/>
+            <field name="arch" type="xml">
+                <field name="status" position="after">
+                    <field name="comision_payment_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

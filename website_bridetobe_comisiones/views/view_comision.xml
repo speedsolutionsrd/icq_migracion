@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_bridetobe_comision_form" model="ir.ui.view">
+            <field name="name">view.bridetobe.comision.form</field>
+            <field name="model">bridetobe.comision</field>
+            <field name="arch" type="xml">
+                <form string="Comisiones" create="false" edit="false">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="rental_id"/>
+                            <field name="employee_id"/>
+                            <field name="department_id" readonly="1"/>
+                            <field name="date"/>
+                            <field name="state_internal" options="{'no_create_edit': True}"/>
+                            <field name="amount"/>
+                            <field name="tarifa_aplicada"/>
+                            <field name="comision_type"/>
+                            <field name="payment_date"/>
+                            <field name="paid_amount"/>
+                        </group>
+                        <notebook>
+                            <page string="Comentarios">
+                                <field name="comments"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+<!--                    <div class="oe_chatter">-->
+<!--                        <field name="message_follower_ids" widget="mail_followers"/>-->
+<!--                        <field name="message_ids" widget="mail_thread"/>-->
+<!--                    </div>-->
+                </form>
+            </field>
+        </record>
+
+        <record id="view_bridetobe_comision_tree" model="ir.ui.view">
+            <field name="name">view.bridetobe.comision.tree</field>
+            <field name="model">bridetobe.comision</field>
+            <field name="arch" type="xml">
+                <tree string="Comisiones" create="false" edit="false"
+                      decoration-warning="state=='pending'"
+                      decoration-danger="state=='rejected'"
+                      decoration-sucess="state=='paid'"
+                >
+                    <field name="name"/>
+                    <field name="old_rented_product_id"/>
+
+                    <field name="state_internal" options="{'no_create_edit': True}"/>
+                    <!--<field name="comision_type"/>-->
+                    <field name="employee_id" string="Prestador de Servicio"/>
+                    <field name="department_id" readonly="1"/>
+                    <field name="partner_id"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_bridetobe_comision_pivot">
+            <field name="name">view.bridetobe.comision.pivot</field>
+            <field name="model">bridetobe.comision</field>
+            <field name="arch" type="xml">
+                <pivot string="payments" display_quantity="true">
+                    <field name="employee_id"/>
+                    <field name="amount" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="bridetobe_comision_search" model="ir.ui.view">
+            <field name="name">bridetobe.comision.search</field>
+            <field name="model">bridetobe.comision</field>
+            <field name="arch" type="xml">
+                <search string="Search Rentals">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="comision_type"/>
+                    <field name="payment_date"/>
+
+
+                    <filter string="Comisiones del Dia"
+                            domain="[('date','&gt;=', time.strftime('%%Y-%%m-%%d')),('date', '&lt;=', time.strftime('%%Y-%%m-%%d'))]"/>
+                    <filter string="Comisiones de la Semana" domain="[('date', '&gt;=', ((context_today()+relativedelta(weeks=-2, weekday=0)).strftime('%%Y-%%m-%%d'))),
+                                                                      ('date', '&lt;=', ((context_today()+relativedelta(weeks=1, weekday=6)).strftime('%%Y-%%m-%%d')))]"/>
+                    <filter string="Comisiones del Mes" domain="[('date', '&gt;=', time.strftime('%%Y-%%m-01')),
+                                                                 ('date', '&lt;=', time.strftime('%%Y-%%m-%%d'))]"/>
+                    <separator/>
+                    <filter string="Pendientes" domain="[('state','=','pending')]"/>
+                    <filter string="Pagadas" domain="[('state','=','paid')]"/>
+                    <filter string="Rechazadas" domain="[('state','=','rejected')]"/>
+                    <group name="groupby" position="inside">
+                        <filter string="Empleado" context="{'group_by': 'employee_id'}"/>
+                        <filter string="Departamento" context="{'group_by': 'tarifa_aplicada'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_bridetobe_comision" model="ir.actions.act_window">
+            <field name="name">Comisiones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bridetobe.comision</field>
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+
+    </data>
+</odoo>

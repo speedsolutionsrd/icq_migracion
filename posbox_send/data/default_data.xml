@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="posbox_url" model="ir.config_parameter">
+            <field name="key">posbox_url</field>
+            <field name="value">http://</field>
+        </record>
+
+    </data>
+</odoo>

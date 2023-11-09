@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="web_quote_partner_details" name="Partner Details">
+            <t t-call="website.layout">
+                    <div class="container">
+                        <h3 class="page-header mt16">
+                            Datos del Cliente
+                        </h3>
+                        <t t-if="error" t-foreach="error.get('error_message', [])" t-as="err">
+                            <h4 class="text-danger text-center" t-esc="err"/>
+                        </t>
+                        <form t-att-action="form_action" t-att-method="form_method">
+                            <div t-attf-class="form-group #{error.get('name') and 'has-error' or ''} col-sm-8">
+                                <label class="control-label" for="name">Nombre del Cliente</label>
+                                <input type="text" name="name" class="form-control"
+                                    t-att-value="partner_temp.get('name') if not partner_id.name else partner_id.name"
+                                    t-attf-autofocus="autofocus"/>
+                            </div>
+                            <div t-attf-class="form-group #{error.get('customer_code') and 'has-error' or ''} col-sm-4">
+                                <label class="control-label" for="name">Codigo de Cliente</label>
+                                <input type="text" name="customer_code" class="form-control"
+                                    t-att-value="partner_temp.get('customer_code') if not partner_id.customer_code and not partner_id.vat else partner_id.customer_code or partner_id.vat"
+                                />
+                            </div>
+                            <div class="clearfix"/>
+                            <div t-attf-class="form-group #{error.get('mobile') and 'has-error' or ''} col-sm-4">
+                                <label class="control-label" for="mobile">Celular</label>
+                                <input type="text" name="mobile" class="form-control"
+                                    t-att-value="partner_temp.get('mobile') if not partner_id.mobile else partner_id.mobile"/>
+                            </div>
+                            <div t-attf-class="form-group #{error.get('phone') and 'has-error' or ''} col-sm-4">
+                                <label class="control-label" for="phone">Telefono</label>
+                                <input type="text" name="phone" class="form-control"
+                                    t-att-value="partner_temp.get('phone') if not partner_id.phone else partner_id.phone"/>
+                            </div>
+                            <div t-attf-class="form-group #{error.get('vat') and 'has-error' or ''} col-sm-4">
+                                <label class="control-label" for="vat">RNC / Cedula</label>
+                                <input type="text" name="vat" class="form-control"
+                                    t-att-value="partner_temp.get('vat') if not partner_id.vat else partner_id.vat"/>
+                            </div>
+
+                            <div class="clearfix"/>
+                            <div t-attf-class="form-group #{error.get('email') and 'has-error' or ''} col-sm-12">
+                                <label class="control-label" for="email">Email</label>
+                                <input type="text" name="email" class="form-control"
+                                    t-att-value="partner_temp.get('email') if not partner_id.email else partner_id.email"/>
+                            </div>
+
+                            <div class="clearfix"/>
+                            <div t-attf-class="form-group #{error.get('street') and 'has-error' or ''} col-sm-8">
+                                <label class="control-label" for="street">Calle y Numero</label>
+                                <input type="text" name="street" class="form-control"
+                                    t-att-value="partner_temp.get('street') if not partner_id.street else partner_id.street"/>
+                            </div>
+
+                            <div t-attf-class="form-group #{error.get('city') and 'has-error' or ''} col-sm-4">
+                                <label class="control-label" for="city">Ciudad</label>
+                                <input type="text" name="city" class="form-control"
+                                    t-att-value="partner_temp.get('city') if not partner_id.city else partner_id.city"/>
+                            </div>
+
+                            <div t-attf-class="form-group #{error.get('country_id') and 'has-error' or ''} col-sm-12">
+                                <label class="control-label" for="country_id">Pais</label>
+                                <select id="country_id" name="country_id" class="form-control">
+                                    <option value="0">Country...</option>
+                                    <t t-foreach="country_ids" t-as="c">
+                                        <option t-att-value="c.id"
+                                                t-att-selected="c.id == 62">
+                                            <t t-esc="c.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+
+                            <div class="clearfix"/>
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="partner_id" t-att-value="partner_id.id"/>
+                            <input type="hidden" name="country" t-att-value="country_id"/>
+                            <div>
+                                <button class="btn btn-default btn-primary pull-right mb32 a-submit a-submit-disable a-submit-loading btn-bridetobe"
+                                        type="submit">
+                                    <span>Siguiente</span>
+                                    <span class="fa fa-long-arrow-right"/>
+                                </button>
+                            </div>
+                        </form>
+                    
+                    </div>
+            </t>
+        </template>
+    </data>
+</odoo>

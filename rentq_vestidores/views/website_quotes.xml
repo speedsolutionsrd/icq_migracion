@@ -1,0 +1,89 @@
+<odoo>
+    <data>
+        <template id="page_quotes_form" name="Mi Cita">
+            <t t-call="website.layout">
+                <div class="container">
+                    <div style="text-align:center; margin-top:120px;">
+                        <form t-attf-action="/#{view_id}" method="post">
+                            <span class="h1">Introduzca<br/>
+                                Cédula/Código Vestido/Celular</span>
+                            <div t-attf-class="form-group #{error.get('customer') and 'has-error' or ''}">
+                                <input type="text" name="customer" class="form-control" t-attf-autofocus="autofocus"/>
+                            </div>
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="submitted" value="1"/>
+                            <input type="hidden" name="view_id" t-att-value="view_id"/>
+                            <div class="clearfix">
+                                <button type="submit" class="btn btn-primary btn-bridetobe btn-shadow">
+                                    Siguiente
+                                    <span class="fa fa-arrow-right"/>
+                                </button>
+                            </div>
+                        </form>
+                        <table align="center" t-if="error">
+                            <tr>
+                                <td class="text-danger">
+                                    <i class="fa fa-times-circle fa-10x" aria-hidden="true"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <t t-foreach="error.get('error_message', [])" t-as="err">
+                                        <h1 class="text-danger" t-esc="err"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="page_quotes" name="Mi Cita">
+            <t t-call="website.layout">
+                <div class="container">
+                    <h2 class="text-center page-title">Bienvenido</h2>
+                    <!--<h3 class="page-header mt16 text-center page-title">-->
+                        <!--<t t-esc="res_partner.name"/>-->
+                    <!--</h3>-->
+                    <table class="table table-striped table-condensed" style="background-color:white;">
+                        <tr name="table-header">
+                            <th class="text-left">Customer</th>
+                            <th class="text-left">Modista</th>
+<!--                            <th class="text-left">Tipo de cita</th>-->
+                            <th class="text-left">Vestido(s)</th>
+                            <th></th>
+                        </tr>
+                        <tr t-foreach="sale_rentals" t-as="sale_rental">
+                            <td>
+                                <span t-field="sale_rental.partner_id"/>
+                            </td>
+                            <td>
+                                <span t-field="sale_rental.modista"/>
+                            </td>
+                            <td>
+                                <span t-esc="sale_rental.rental_product_id.default_code"/>
+                            </td>
+                            <td>
+                                <form action="/take_turn_in_queue" method="post" t-att-id="sale_rental.id">
+                                    <input type="hidden" name="cliente_id" t-att-value="sale_rental.partner_id.id"/>
+                                    <input type="hidden" name="cliente_nombre"
+                                           t-att-value="sale_rental.partner_id.name"/>
+                                    <input type="hidden" name="producto_ids"
+                                           t-att-value="sale_rental.rental_product_id.id"/>
+                                    <input type="hidden" name="sale_rental_id" t-att-value="sale_rental.id"/>
+                                    <input type="hidden" name="redirect_to" value="/quotes"/>
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <button class="btn btn-primary pull-right onSubmitMyRental" type="submit"
+                                            name="sale_rental_id" t-att-value="sale_rental.id">
+                                        <span>Tomar Turno</span>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

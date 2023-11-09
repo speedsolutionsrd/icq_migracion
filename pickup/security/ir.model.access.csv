@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pickup_pickup,access_pickup_pickup,model_pickup_pickup,,1,1,1,0
+access_pickup_route,access_pickup_route,model_pickup_route,,1,1,1,0
+access_pickup_attempt,access_pickup_attempt,model_pickup_attempt,,1,1,1,0
+access_pickup_commission,access_pickup_commission,model_pickup_commission,,1,0,0,0

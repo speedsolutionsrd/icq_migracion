@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="metric_busto" model="bridetobe.metric">
+            <field name="name">Busto</field>
+        </record>
+        <record id="metric_cintura" model="bridetobe.metric">
+            <field name="name">Cintura</field>
+        </record>
+        <record id="metric_cadera" model="bridetobe.metric">
+            <field name="name">Cadera</field>
+        </record>
+        <record id="metric_falda" model="bridetobe.metric">
+            <field name="name">Falda</field>
+        </record>
+        <record id="metric_espalda" model="bridetobe.metric">
+            <field name="name">Espalda</field>
+        </record>
+        <record id="metric_talle_delantero" model="bridetobe.metric">
+            <field name="name">Talle Delantero</field>
+        </record>
+        <record id="metric_altura_busto" model="bridetobe.metric">
+            <field name="name">Altura Busto</field>
+        </record>
+        <record id="metric_separacion_busto" model="bridetobe.metric">
+            <field name="name">Separacion Busto</field>
+        </record>
+        <record id="metric_talle_trasero" model="bridetobe.metric">
+            <field name="name">Talle Trasero</field>
+        </record>
+        <record id="metric_largo_manga" model="bridetobe.metric">
+            <field name="name">Largo de Manga</field>
+        </record>
+        <record id="metric_ancho_manga" model="bridetobe.metric">
+            <field name="name">Ancho Manga</field>
+        </record>
+
+        <record id="metric_puno" model="bridetobe.metric">
+            <field name="name">Puño</field>
+        </record>
+        <record id="metric_revoque_cuello" model="bridetobe.metric">
+            <field name="name">Revoque Cuello</field>
+        </record>
+        <record id="metric_largo_pantalon" model="bridetobe.metric">
+            <field name="name">Largo del pantalón</field>
+        </record>
+        <record id="metric_sisa" model="bridetobe.metric">
+            <field name="name">Sisa</field>
+        </record>
+        <record id="metric_talle_imperio" model="bridetobe.metric">
+            <field name="name">Talle Imperio</field>
+        </record>
+        <record id="metric_talle_bajo_busto" model="bridetobe.metric">
+            <field name="name">Talla bajo busto</field>
+        </record>
+
+    </data>
+</odoo>

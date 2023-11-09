@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="report_ficha_trabajo_confeccion"
+                model="bridetobe.confeccion"
+                report_type="qweb-pdf"
+                string="Fichas Trabajo"
+                name="website_bridetobe.template_ficha_trabajo_confeccion"
+        />
+
+        <template id="website_bridetobe.template_ficha_trabajo_confeccion">
+            <t t-call="report.html_container">
+                <t t-call="report.internal_layout">
+                    <div class="page">
+                        <t t-foreach="docs.sorted(key=lambda x:x.modista_id.id)" t-as="o">
+                            <div class="col-xs-12">
+                                <strong>
+                                    <h1>
+                                        <span t-esc="o.name"/>
+                                    </h1>
+                                </strong>
+                            </div>
+                            <div class="col-xs-6">
+                                <h3 class="page-header mt16">
+                                    Datos Confeccion
+                                </h3>
+                                <div class="col-xs-12">
+                                    <strong>Tipo Confeccions</strong>
+                                    <p t-field="o.tipo_confeccion"/>
+                                </div>
+                                <div class="col-xs-12">
+                                    <strong>Modista</strong>
+                                    <p t-field="o.modista_id"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <h3 class="page-header mt16">
+                                    Datos del Cliente
+                                </h3>
+                                <div class="col-xs-12">
+                                    <strong>Cliente</strong>
+                                    <p t-field="o.partner_id"/>
+                                </div>
+                                <div class="col-xs-12">
+                                    <strong>Precio Final</strong>
+                                    <p t-field="o.costo"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <h3 class="page-header mt16">
+                                    Moda y Materiales
+                                </h3>
+                                <div class="col-xs-4">
+                                    <strong>Suministro de Moda</strong>
+                                    <p t-field="o.c_moda"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Compra de Tela</strong>
+                                    <p t-field="o.suministro_materiales"/>
+
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Color</strong>
+                                    <p t-field="o.color"/>
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>Tipo de Tela</strong>
+                                    <p t-field="o.tela"/>
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>Materiales</strong>
+                                    <p t-field="o.materiales"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <h3 class="page-header mt16">
+                                    Datos de Entrega
+                                </h3>
+                                <div class="col-xs-6">
+                                    <strong>Fecha de Evento</strong>
+                                    <p t-field="o.event_date"/>
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>Lugar de Evento</strong>
+                                    <p t-field="o.event_place"/>
+                                </div>
+                                <div class="col-xs-12">
+                                    <strong>Descripcion</strong>
+                                    <p t-field="o.description"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <h3 class="page-header mt16">
+                                    Medidas
+                                </h3>
+                                <t t-foreach="o.metric_ids" t-as="metric_id">
+                                    <div class="col-xs-6">
+                                        <strong>
+                                            <span t-field="metric_id.metric_id"/>
+                                        </strong>
+                                        <p t-field="metric_id.amount"/>
+                                    </div>
+                                </t>
+                            </div>
+                            <p style="page-break-after:always">
+                                <br/>
+                            </p>
+                        </t>
+
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

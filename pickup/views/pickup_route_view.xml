@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_pickup_route" model="ir.actions.act_window">
+            <field name="name">Pickup Route</field>
+            <field name="res_model">pickup.route</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="view_pickup_route_tree">
+            <field name="name">view.pickup.route.tree</field>
+            <field name="model">pickup.route</field>
+            <field name="arch" type="xml">
+                <tree string="Pickup Route" edit="false">
+                    <field name="name"/>
+                    <field name="state_id"/>
+                    <field name="delivery_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_pickup_route_form">
+            <field name="name">view.pickup.route.form</field>
+            <field name="model">pickup.route</field>
+            <field name="arch" type="xml">
+                <form name="Pickup Route" string="Pickup Route">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="state_id"/>
+                            <field name="delivery_ids" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="pickup_service" model="product.product">
+            <field name="name">Pickup Service</field>
+            <field name="type">service</field>
+            <field name="sale_ok" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

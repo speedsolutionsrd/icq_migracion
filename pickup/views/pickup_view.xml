@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_pickup" model="ir.actions.act_window" >
+            <field name="name">Pickup</field>
+            <field name="res_model">pickup.pickup</field>
+            <field name="view_mode">tree,search,form</field>
+        </record>
+        <record model="ir.ui.view" id="view_pickup_tree">
+            <field name="name">pickup.pickup.tree</field>
+            <field name="model">pickup.pickup</field>
+            <field name="arch" type="xml">
+                <tree string="Pickup" editable="top" create="0">
+                    <field name="state_id" invisible="1"/>
+                    <field name="partner_id" string="Customer" />
+                    <field name="partner_address" string="Address" readonly="1"/>
+                    <field name="pickup_date" string="Date"/>
+                    <field name="estimated_date" string="Estimated date" readonly="1"/>
+                    <field name="status" string="Status" readonly="1"/>
+                    <field name="route_id" string="Route" domain="[('state_id', '=', state_id)]" attrs="{'readonly': [('status', 'not in', ('try','pending'))]}"/>
+                    <field name="delivery_id" domain="[('route_ids','in',route_id)]"
+                           options="{'no_create_edit':True,'no_create': True, 'no_open': True}" attrs="{'readonly': [('status', 'not in', ('try','pending'))]}"/>
+                    <field name="pickup_delivery_id" readonly="1" invisible="1"/>
+                    <button name="pickup_confirmation" string="Confirmation" type="object"
+                            attrs="{'invisible': [('status', '!=', 'pickup')]}"
+                            groups="pickup.group_pickup_admin"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

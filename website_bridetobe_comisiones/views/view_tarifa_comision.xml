@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_bridetobe_tarifa_comision_form" model="ir.ui.view">
+            <field name="name">view.bridetobe.tarifa.comision.form</field>
+            <field name="model">bridetobe.tarifa.comision</field>
+            <field name="arch" type="xml">
+                <form string="Tarifa Comisiones">
+                    <sheet>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="category_id"/>
+                            <field name="fix_comision"/>
+                            <field name="payment_frequency"/>
+                            <field name="calc_type"
+                                   attrs="{'invisible':[('fix_comision','=',False)],
+                                           'required':[('fix_comision','=',True)]}"/>
+                            <field name="amount" attrs="{'invisible':[('fix_comision','=',False)]}"/>
+                        </group>
+                        <group attrs="{'invisible':[('fix_comision','=',True)]}">
+                            <field name="comision_line" attrs="{'required':[('fix_comision','=',False)]}">
+                                <tree editable="bottom">
+                                    <field name="internal_state"/>
+                                    <field name="invoice_state"/>
+                                    <field name="invoice_balance"/>
+                                    <field name="change"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_bridetobe_tarifa_comision_tree" model="ir.ui.view">
+            <field name="name">view.bridetobe.tarifa.comision.tree</field>
+            <field name="model">bridetobe.tarifa.comision</field>
+            <field name="arch" type="xml">
+                <tree string="Tarifa Comisiones">
+                    <field name="name"/>
+                    <field name="category_id"/>
+                    <field name="payment_frequency"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_bridetobe_tarifa_comision" model="ir.actions.act_window">
+            <field name="name">Tarifa Comisiones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bridetobe.tarifa.comision</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

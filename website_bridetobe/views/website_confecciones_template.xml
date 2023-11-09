@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="confeccion_data" name="Confeccion">
+            <t t-call="website.layout">
+                <div t-attf-class="container">
+                    <div t-attf-class='text-center'>
+                        <t t-if="error" t-foreach="error.get('error_message', [])" t-as="err">
+                            <h3 t-attf-class="text-danger" t-esc="err"/>
+                        </t>
+                    </div>
+                    <form t-attf-action="/#{view_id}/confeccion_data#{confirmation}" method="post"
+                          id="confeccion_data_form">
+                        <div t-attf-class="col-sm-11">
+                            <h3 t-attf-class="page-header mt16">
+                                TIPO DE CONFECCION
+                            </h3>
+                            <fieldset data-role="controlgroup" t-attf-class="col-sm-8">
+                                <div t-attf-class="col-sm-6 form-group">
+                                    <label for="cliente">CLIENTE</label>
+                                    <input type="radio" name="tipo_confeccion"
+                                           id="cliente" value="cliente"
+                                           t-if="confeccion_data.get('tipo_confeccion', True) or confeccion_data.get('tipo_confeccion') == 'cliente'"
+                                           t-attf-checked="checked"
+                                           t-att-disabled="disabled"
+                                    />
+                                    <input type="radio" name="tipo_confeccion"
+                                           id="cliente" value="cliente"
+                                           t-if="not confeccion_data.get('tipo_confeccion', True) and confeccion_data.get('tipo_confeccion') != 'cliente'"
+                                           t-att-disabled="disabled"
+                                    />
+
+                                </div>
+                                <div t-attf-class="col-sm-6 form-group">
+                                    <label for="renta">RENTA EXCLUSIVA</label>
+                                    <input type="radio" name="tipo_confeccion"
+                                           id="renta" value="renta"
+                                           t-if="confeccion_data.get('tipo_confeccion') != 'renta'"
+                                           t-att-disabled="disabled"
+                                    />
+                                    <input type="radio" name="tipo_confeccion"
+                                           id="renta" value="renta"
+                                           t-attf-checked="checked"
+                                           t-if="confeccion_data.get('tipo_confeccion') == 'renta'"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                            </fieldset>
+
+                            <div t-attf-class="form-group #{error.get('modista_id') and 'has-error' or ''} col-sm-4">
+                                <label t-attf-class="control-label" for="country_id">Modista</label>
+                                <select id="modista_id" name="modista_id" t-attf-class="form-control"
+                                        t-att-disabled="disabled">
+                                    <option value="0">Modista...</option>
+                                    <t t-foreach="modista_ids" t-as="c">
+                                        <option t-att-value="c.id"
+                                                t-att-selected="c.id == (int(confeccion_data.get('modista_ids', 0)))">
+                                            <t t-esc="c.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div t-attf-class="col-sm-11" t-if="disabled">
+                            <h3 t-attf-class="page-header mt16">
+                                DATOS DEL CLIENTE
+                            </h3>
+                            <div t-attf-class="col-sm-12">
+                                <label for="partner_name" t-attf-class="control-label">NOMBRE</label>
+                                <input type="text" t-attf-class="form-control" id="partner_name"
+                                       name="partner_name" t-att-value="partner.name"
+                                       t-att-disabled="disabled"/>
+                            </div>
+
+                            <div t-attf-class="col-sm-4">
+                                <label for="partner_phone" t-attf-class="control-label">TELEFONO</label>
+                                <input type="text" t-attf-class="form-control" id="partner_phone"
+                                       name="partner_phone" t-att-value="partner.phone"
+                                       t-att-disabled="disabled"/>
+                            </div>
+                            <div t-attf-class="col-sm-4">
+                                <label for="partner_mobile" t-attf-class="control-label">CELULAR</label>
+                                <input type="text" t-attf-class="form-control" id="partner_mobile"
+                                       name="partner_mobile" t-att-value="partner.mobile"
+                                       t-att-disabled="disabled"/>
+                            </div>
+                            <div t-attf-class="col-sm-4">
+                                <label for="partner_email" t-attf-class="control-label">EMAIL</label>
+                                <input type="text" t-attf-class="form-control" id="partner_mobile"
+                                       name="partner_email" t-att-value="partner.email"
+                                       t-att-disabled="disabled"/>
+                            </div>
+                            <div t-attf-class="col-sm-12">
+                                <label for="partner_address" t-attf-class="control-label">EMAIL</label>
+                                <input type="text" t-attf-class="form-control" id="partner_address"
+                                       name="partner_address"
+                                       t-attf-value="#{partner.street} #{partner.street2} #{partner.city} #{partner.country_id.name}"
+                                       t-att-disabled="disabled"/>
+                            </div>
+
+                        </div>
+
+                        <div t-attf-class="col-sm-11">
+                            <h3 t-attf-class="page-header mt16">
+                                Detalles del Vestido
+                            </h3>
+                            <div t-attf-class="col-sm-12 form-group">
+                                <label for="description" t-attf-class="control-label">Description</label>
+                                <textarea t-attf-class="form-control" name="description"
+                                          id="description" t-att-disabled="disabled">
+                                    <t t-esc="confeccion_data.get('description', '')"/>
+                                </textarea>
+                            </div>
+                        </div>
+
+                        <div t-attf-class="col-sm-11">
+                            <h3 t-attf-class="page-header mt16">
+                                MATERIAL
+                            </h3>
+                            <div t-attf-class="col-sm-6 form-group">
+                                <label for="cliente" t-attf-class="control-label">CANTIDAD Y TIPO DE TELA</label>
+                                <textarea t-attf-class="form-control" name="tela"
+                                          id="tela" t-att-disabled="disabled">
+                                    <t t-esc="confeccion_data.get('tela', '')"/>
+                                </textarea>
+                            </div>
+                            <div t-attf-class="col-sm-6 form-group">
+                                <label for="materiales" t-attf-class="control-label">MATERIALES ADICIONALES</label>
+                                <textarea t-attf-class="form-control" name="materiales"
+                                          id="materiales" t-att-disabled="disabled">
+                                    <t t-esc="confeccion_data.get('materiales', '')"/>
+                                </textarea>
+                            </div>
+                        </div>
+
+                        <div t-attf-class="col-sm-11">
+                            <h3 t-attf-class="page-header mt16">
+                                SUMINISTRO DE MATERIALES
+                            </h3>
+                            <fieldset data-role="controlgroup" t-attf-class="col-sm-8">
+                                <div t-attf-class="col-sm-6 form-group">
+                                    <label for="p_cliente">PENDIENTE RECIBIR DEL CLIENTE</label>
+                                    <input type="radio" name="suministro_materiales"
+                                           id="p_cliente" value="p_cliente"
+                                           t-attf-checked="checked" t-att-disabled="disabled"
+                                           t-if="confeccion_data.get('suministro_materiales', True) or confeccion_data.get('tipo_confeccion') == 'p_cliente'"
+                                    />
+                                    <input type="radio" name="suministro_materiales"
+                                           id="p_cliente" value="p_cliente"
+                                           t-if="not confeccion_data.get('suministro_materiales', true) and confeccion_data.get('suministro_materiales') != 'p_cliente'"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                                <div t-attf-class="col-sm-6 form-group">
+                                    <label for="e_cliente">ENTREGADA POR CLIENTE</label>
+                                    <input type="radio" name="suministro_materiales"
+                                           id="e_cliente" value="e_cliente"
+                                           t-attf-checked="checked" t-att-disabled="disabled"
+                                           t-if="confeccion_data.get('suministro_materiales', True) or confeccion_data.get('tipo_confeccion') == 'e_cliente'"
+                                    />
+                                    <input type="radio" name="suministro_materiales"
+                                           id="e_cliente" value="e_cliente"
+                                           t-if="not confeccion_data.get('suministro_materiales', true) and confeccion_data.get('suministro_materiales') != 'e_cliente'"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                                <div t-attf-class="col-sm-6 form-group">
+                                    <label for="c_tienda">PENDIENTE DE COMPRAR POR TIENDA</label>
+                                    <input type="radio" name="suministro_materiales" id="c_tienda"
+                                           value="c_tienda" t-attf-checked="checked"
+                                           t-if="confeccion_data.get('suministro_materiales', True) == 'c_tienda'"
+                                           t-att-disabled="disabled"/>
+                                    <input type="radio" name="suministro_materiales" id="c_tienda" value="c_tienda"
+                                           t-if="confeccion_data.get('suministro_materiales') != 'c_tienda'"
+                                           t-att-disabled="disabled"/>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div t-attf-class="col-sm-11">
+                            <h3 t-attf-class="page-header mt16">
+                                DATOS DE ENTREGA
+                            </h3>
+                            <div t-attf-class="col-sm-6 form-group #{error.get('event_date') and 'has-error' or ''}">
+                                <label for="event_date" t-attf-class="control-label">FECHA DEL EVENTO</label>
+                                <input type="date" t-attf-class="form-control" name="event_date"
+                                       id="event_date" t-att-value="confeccion_data.get('event_date')"
+                                       t-att-disabled="disabled"/>
+                            </div>
+                            <div t-attf-class="col-sm-6 form-group #{error.get('event_place') and 'has-error' or ''}">
+                                <label for="event_place" t-attf-class="control-label">LUGAR DEL EVENTO</label>
+                                <input type="text" t-attf-class="form-control" name="event_place"
+                                       id="event_place" t-att-value="confeccion_data.get('event_place')"
+                                       t-att-disabled="disabled"/>
+                            </div>
+                        </div>
+
+                        <div t-attf-class="col-sm-11">
+                            <h3 t-attf-class="page-header mt16">
+                                MEDIDAS
+                            </h3>
+                            <div t-attf-class="col-sm-12 form-group ">
+                                <div t-attf-class="col-sm-4 #{error.get('espalda') and 'has-error' or ''}">
+                                    <label for="espalda" t-attf-class="control-label">ESPALDA</label>
+                                    <input type="text" t-attf-class="form-control"
+                                           name="espalda" id="espalda"
+                                           t-att-value="partner.espalda"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                                <div t-attf-class="col-sm-4 #{error.get('altura_busto') and 'has-error' or ''}">
+                                    <label for="altura_busto" t-attf-class="control-label">ALTURA BUSTO</label>
+                                    <input type="text" t-attf-class="form-control"
+                                           name="altura_busto" id="altura_busto"
+                                           t-att-value="partner.altura_busto"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                                <div t-attf-class="col-sm-4 #{error.get('falda') and 'has-error' or ''}">
+                                    <label for="falda" t-attf-class="control-label">LARGO DE FALDA</label>
+                                    <input type="text" t-attf-class="form-control"
+                                           name="falda" id="falda"
+                                           t-att-value="partner.falda"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                            </div>
+                            <div t-attf-class="col-sm-12 form-group">
+                                <div t-attf-class="col-sm-4 #{error.get('busto') and 'has-error' or ''}">
+                                    <label for="busto" t-attf-class="control-label">BUSTO</label>
+                                    <input type="text" t-attf-class="form-control"
+                                           name="busto" id="busto"
+                                           t-att-value="partner.busto"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                                <div t-attf-class="col-sm-4 #{error.get('separacion_busto') and 'has-error' or ''}">
+                                    <label for="separacion_busto" t-attf-class="control-label">SEPARACION DE BUSTO</label>
+                                    <input type="text" t-attf-class="form-control"
+                                           name="separacion_busto" id="separacion_busto"
+                                           t-att-value="partner.separacion_busto"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                                <div t-attf-class="col-sm-4 #{error.get('talle_trasero') and 'has-error' or ''}">
+                                    <label for="talle_trasero" t-attf-class="control-label">TALLE TRASERO</label>
+                                    <input type="text" t-attf-class="form-control"
+                                           name="talle_trasero" id="talle_trasero"
+                                           t-att-value="partner.talle_trasero"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                            </div>
+                            <div t-attf-class="col-sm-12 form-group">
+                                <div t-attf-class="col-sm-4 #{error.get('talle_delantero') and 'has-error' or ''}">
+                                    <label for="talle_delantero" t-attf-class="control-label">TALLE DELANTERO</label>
+                                    <input type="text" t-attf-class="form-control"
+                                           name="talle_delantero" id="talle_delantero"
+                                           t-att-value="partner.talle_delantero"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                                <div t-attf-class="col-sm-4 #{error.get('cintura') and 'has-error' or ''}">
+                                    <label for="cintura" t-attf-class="control-label">CINTURA</label>
+                                    <input type="text" t-attf-class="form-control"
+                                           name="cintura" id="cintura"
+                                           t-att-value="partner.cintura"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                                <div t-attf-class="col-sm-4 #{error.get('largo_manga') and 'has-error' or ''}">
+                                    <label for="largo_manga" t-attf-class="control-label">LARGO DE MANGA</label>
+                                    <input type="text" t-attf-class="form-control"
+                                           name="largo_manga" id="largo_manga"
+                                           t-att-value="partner.largo_manga"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                            </div>
+                            <div t-attf-class="col-sm-12 form-group">
+                                <div t-attf-class="col-sm-4 #{error.get('cadera') and 'has-error' or ''}">
+                                    <label for="cadera" t-attf-class="control-label">CADERA</label>
+                                    <input type="text" t-attf-class="form-control"
+                                           name="cadera" id="cadera"
+                                           t-att-value="partner.cadera"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                                <div t-attf-class="col-sm-4 #{error.get('ancho_manga') and 'has-error' or ''}">
+                                    <label for="ancho_manga" t-attf-class="control-label">ANCHO DE MANGA</label>
+                                    <input type="text" t-attf-class="form-control"
+                                           name="ancho_manga" id="ancho_manga"
+                                           t-att-value="partner.ancho_manga"
+                                           t-att-disabled="disabled"
+                                    />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div t-attf-class="col-sm-11 text-danger">
+                            <h3 t-attf-class="page-header mt16">
+                                POLITICAS DE CONFECCION
+                            </h3>
+                            <p>**SE HARAN TANTAS PRUEBAS COMO SEAN NECESARIAS SEGUN COORDINE LA TIENDA</p>
+                            <p>**TOMAR LAS MEDIDAS, PRESENTAR DISENO, ENTREGAR MATERIALES, ETC NO CUENTA COMO PRUEBA</p>
+                            <p>**LAS PRUEBAS SON COORDINADAS POR EL TALLER U SE HACEN PROXIMO AL EVENTRO (DENTRO DEL MES
+                                DE EVENTO)
+                            </p>
+                            <p>**LAS ENTREGAS SE HACEN EN LA SEMANA DEL EVENTO COMO FECHA LIMITE EL DIA ANTES</p>
+                            <p>**NO SE PRESENTE A PRUEBA O RETIRO SON SER LLAMADO, EN CASI CONTRARIO CORRE EL RIESGO DE
+                                NO PODER REALIZAR LA PRUEBA Y ENTREGA
+                            </p>
+                            <p>**PARA APARTAR EL SERVICIO DENE ABONAR EL 30% DEL VALOR FACTURADO Y EL SALDO CONTRA
+                                ENTREGA
+                            </p>
+                            <p>**LAS CONFECCIONES NO SE FACTURAN O SE PAUTAN HASTA NO RECIBIR EL ABONO DEL 30%</p>
+
+                        </div>
+
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="submitted" value="1"/>
+                        <input type="hidden" name="view_id" t-att-value="view_id"/>
+                        <input type="hidden" name="seller" t-att-value="seller.id"/>
+                        <input type="hidden" name="partner_vat" t-att-value="partner.vat"/>
+                        <input type="hidden" name="partner" t-att-value="partner.id"/>
+                        <div id="bridetobe_template_continue">
+                            <button t-attf-class="btn btn-default btn-primary pull-right mb32 a-submit a-submit-disable a-submit-loading"
+                                    type="submit" value="validate" name="submit">
+                                <span>Siguiente</span>
+                                <span t-attf-class="fa fa-long-arrow-right"/>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_vestidor_template" model="ir.actions.act_window" >
+            <field name="name">Menú de Vestidores</field>
+            <field name="res_model">rentq.vestidores</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.ui.view" id="view_vestidores_tree">
+            <field name="name">view.vestidores.tree</field>
+            <field name="model">rentq.vestidores</field>
+            <field name="arch" type="xml">
+                <tree string="Idea list">
+                    <field name="name"/>
+                    <field name="status"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_vestidores_form">
+            <field name='name'>view.vestidores.form</field>
+            <field name="model">rentq.vestidores</field>
+            <field name="arch" type="xml">
+                <form string="vestidor form">
+                    <header>
+                        <field name="status" widget="statusbar" clickable="True"/>
+                    </header>
+                    <sheet>
+                        <group colspan="1" col="2">
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <menuitem id="vestidores_menu_base" name="Vestidores" sequence="30" groups="sales_team.group_sale_manager"/>
+        <menuitem id="vestidor_template_1" name="Vestidor" parent="vestidores_menu_base" action="action_vestidor_template"/>
+
+        <record id="action_vestidores" model="ir.actions.act_url">
+            <field name="name">Vestidores</field>
+            <field name="type">ir.actions.act_url</field>
+            <field name="target">self</field>
+            <field name="url">/dressing_room</field>
+        </record>
+
+        <menuitem id="vestidores_menu_web" name="Vestidores" sequence="30"
+                  action="action_vestidores"
+                  web_icon="website_bridetobe,static/description/images/vestidores.png"
+                  groups="sales_team.group_sale_salesman,website_bridetobe.bridetobe_logistic_operation_group"/>
+    </data>
+</odoo>

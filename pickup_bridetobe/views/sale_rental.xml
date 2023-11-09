@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sale_rental_inherit_tree" model="ir.ui.view">
+            <field name="name">sale.rental.tree.inherit</field>
+            <field name="model">sale.rental</field>
+            <field name="inherit_id" ref="sale_rental.sale_rental_tree"/>
+            <field name="arch" type="xml">
+                <field name="exchange" position="after">
+                    <field name="pickup"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

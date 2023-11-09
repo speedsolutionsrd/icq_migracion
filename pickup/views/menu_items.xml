@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="pickup" name="Pickup" groups="pickup.group_pickup"/>
+            <menuitem id="pickups" name="Pickup" parent="pickup" action="pickup.action_pickup" groups="pickup.group_pickup"/>
+            <menuitem id="pickup_attempt" name="Pickup Attempt" parent="pickup" action="pickup.action_pickup_attempt" groups="pickup.group_pickup"/>
+            <menuitem id="pickup_commission" name="Commission" parent="pickup" action="pickup.action_pickup_commission" groups="pickup.group_pickup_cont"/>
+            <menuitem id="pickup_route" name="Routes" parent="pickup" action="pickup.action_pickup_route" groups="pickup.group_pickup"/>
+            <menuitem id="menu_localization" name="Localization" parent="pickup" groups="pickup.group_pickup_admin"/>
+                <menuitem action="base.action_country" id="menu_country_partner" name="Country" parent="menu_localization"/>
+                <menuitem action="base.action_country_state" id="menu_country_state_partner" name="State" parent="menu_localization"/>
+    </data>
+</odoo>

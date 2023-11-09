@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record model="ir.ui.view" id="view_employee_form">
+        <field name="name">hr.employee.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="category_ids" position="after">
+                <group>
+                    <field name="seller_code" placeholder="Seller Code"/>
+                    <field name="rental_cancel_code" password="True"/>
+                </group>
+            </field>
+        </field>
+    </record>
+</odoo>

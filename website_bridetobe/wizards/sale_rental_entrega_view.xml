@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <record id="sale_rental_entrega" model="ir.ui.view">
+           <field name="name">Articulos a Entregar</field>
+           <field name="model">sale.rental.entrega</field>
+           <field name="arch" type="xml">
+               <form string="">
+                   <sheet>
+                       <field name="sale_rental_line_ids" nolabel="1">
+                           <tree editable="top" create="false">
+                               <field name="sale_rental_product" readonly="1"/>
+                           </tree>
+                       </field>
+                       <field name="related_picking" invisible="1"/>
+                   </sheet>
+                   <footer>
+                       <button name="process" type="object" string="Procesar Entrega" class="oe_highlight"/>
+                       or
+                       <button string="Cancelar" class="oe_link" special="cancel"/>
+                   </footer>
+               </form>
+           </field>
+       </record>
+
+    </data>
+</odoo>

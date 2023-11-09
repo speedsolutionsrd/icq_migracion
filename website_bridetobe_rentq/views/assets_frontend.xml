@@ -1,0 +1,10 @@
+<odoo>
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Bridetobe">
+        <xpath expr="link[last()]" position="after">
+            <link href="/website_bridetobe_rentq/static/src/less/style_menu.less" rel="stylesheet"/>
+        </xpath>
+        <xpath expr="script[last()]" position="after">
+            <script type="text/javascript" src="/website_bridetobe_rentq/static/src/js/navbar_menu.js"></script>
+        </xpath>
+    </template>
+</odoo>

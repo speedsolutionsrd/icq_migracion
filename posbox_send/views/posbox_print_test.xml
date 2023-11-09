@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="PosboxPrintTest">
+            <receipt align='center'>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div>
+
+                    <span>POS Print Test</span>
+                </div>
+                <div>
+                    Posbox Url :
+                    <span t-esc="posbox_url"/>
+                </div>
+                <!--<div>-->
+                    <!--Posbox State :-->
+                    <!--<span t-esc="posbox_state"/>-->
+                <!--</div>-->
+                <!--<div>-->
+                    <!--Printer State :-->
+                    <!--<span t-esc="printer_state"/>-->
+                <!--</div>-->
+                <!--<div>-->
+                    <!--Printer Info :-->
+                    <!--<span t-esc="printer_info"/>-->
+                <!--</div>-->
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+            </receipt>
+        </template>
+
+    </data>
+</odoo>

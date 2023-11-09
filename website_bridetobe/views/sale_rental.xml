@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sale_rental.sale_rental_form" model="ir.ui.view">
+            <field name="name">sale.rental.form</field>
+            <field name="model">sale.rental</field>
+            <field name="arch" type="xml">
+                <form string="Rental">
+                    <header>
+                        <button name="%(action_sale_rental_cancelation_wizard)d" string="Cancel"
+                                groups="sales_team.group_sale_manager"
+                                type="action" attrs="{'invisible' : [('state','=','cancel')]}"
+                        />
+                        <button name="send_custom_message" string="Custom Message"
+                                groups="sales_team.group_sale_manager,website_bridetobe.bridetobe_logistic_operation_group"
+                                type="object"
+                        />
+                        <button name="action_view_invoice"
+                                string="Open Invoices"
+                                groups="sales_team.group_sale_manager,website_bridetobe.bridetobe_logistic_operation_group"
+                                type="object"/>
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group name="main" col="4">
+                            <field name="partner_id"/>
+                            <field name="rental_product_id" domain="[('rented_product_id', '!=', False)]" groups="website_bridetobe.bridetobe_logistic_operation_group" readonly="1"/>
+                            <field name="rental_product_id" domain="[('rented_product_id', '!=', False)]" groups="sales_team.group_sale_manager"/>
+                            <field name="rented_product_id"/>
+                            <field name="start_date" groups="sales_team.group_sale_manager"/>
+                            <field name="start_date" readonly="1" groups="website_bridetobe.bridetobe_logistic_operation_group"/>
+                            <field name="test_date"/>
+                            <field name="delivery_date"/>
+                            <field name="end_date"/>
+                            <field name="rental_qty"/>
+                            <field name="start_order_line_id"/>
+                            <field name="start_order_id"/>
+                            <field name="event_place" readonly="1"/>
+                            <!-- <field name="procurement_id"/> -->
+                            <field name="state_internal" options="{'no_create_edit': True}"/>
+                            <field name="modista" readonly="1"/>
+                            <field name="bordador_id" readonly="1"/>
+                            <field name="seller_id" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="old_rental_product_id"/>
+                            <field name="change_rental_product_date" groups="website_bridetobe.bridetobe_logistic_operation_group" readonly="1"/>
+                            <field name="change_rental_product_date" groups="sales_team.group_sale_manager"/>
+                            <field name="parent_rental_id"/>
+                            <field name="payment_status"/>
+<!--                            <button name="compute_payment_status" string="lala" type="object"/>-->
+                        </group>
+                        <notebook>
+                            <page string="Comentarios">
+                                <field name="comments"/>
+                            </page>
+                            <page string="Detalles">
+                                <field name="details"/>
+                            </page>
+                            <page string="Medidas Corporales">
+                                <field name="metric_ids">
+                                    <tree editable="buttom">
+                                        <field name="metric_id" options="{'no_create_edit': True}"/>
+                                        <field name="amount"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <field name="metric_id" options="{'no_create_edit': True}"/>
+                                            <field name="amount"/>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Entrega / Recepcion" groups="sales_team.group_sale_manager">
+                                <group col="2">
+                                    <group name="stock-out" string="Delivery" col="2">
+                                        <field name="out_move_id"/>
+                                        <field name="out_state"/>
+                                        <field name="out_picking_id"/>
+                                    </group>
+                                    <group name="stock-in" string="Return" col="2">
+                                        <field name="in_move_id"/>
+                                        <field name="in_state"/>
+                                        <field name="in_picking_id"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <group name="sell" position="after">
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- editable="top" create="false" colors="inherit:True" color_field="alert_color" -->
+        <record id="sale_rental.sale_rental_tree" model="ir.ui.view">
+            <field name="name">sale.rental.tree</field>
+            <field name="model">sale.rental</field>
+            <field name="arch" type="xml">
+                <tree editable="top" create="false"  >
+                    <field name="id" invisible="1"/>
+                    <field name="partner_id"/>
+                    <field name="rental_product_id"
+                           domain="[('rented_product_id', '!=', False)]" options="{'no_create': True}"/>
+                    <field name="start_date"/>
+                    <field name="same_week_rentals"/>
+                    <field name="extra_weeks" string="SE" />
+                    <field name="has_product_change"/>
+                    <field name="exchange" string="IT" />
+                    <field name="test_date"/>
+                    <field name="delivery_date" groups="sales_team.group_sale_manager,website_bridetobe.bridetobe_logistic_operation_group,website_bridetobe.bridetobe_alquiler_group"/>
+                    <field name="modista" options="{'no_create_edit': True}"/>
+                    <field name="bordador_id" options="{'no_create_edit': True}"/>
+                    <field name="state_internal" options="{'no_create_edit': True}"/>
+                    <field name="alert_color" invisible="1"/>
+                    <field name="end_date" invisible="1"/>
+                    <field name="state" string="Estado Cliente"/>
+                    <field name="out_state" invisible="1"/>
+                    <field name="in_state" invisible="1"/>
+                    <field name="rented_product_id" invisible="1"/>
+                    <field name="payment_status"/>
+                    <field name="internal_comment"/>
+                    <field name="out_picking_id" invisible="1"/>
+                    <field name="in_picking_id" invisible="1"/>
+                    <button name="action_view_invoice"
+                            string="Open Invoices"
+                            groups="sales_team.group_sale_manager,website_bridetobe.bridetobe_logistic_operation_group"
+                            icon="fa-money fa-2x"
+                            type="object"/>
+                    <button name="process_delivery"
+                            string="Process Delivery"
+                            groups="sales_team.group_sale_manager,website_bridetobe.bridetobe_logistic_operation_group"
+                            icon="fa-sign-out fa-2x"
+                            type="object"
+                            attrs="{'invisible' : ['|',('out_picking_id','=',False),('state','not in',['tested','tested_out'])]}"
+                    />
+                    <button name="process_reception"
+                            string="Process Receipt"
+                            groups="sales_team.group_sale_manager,website_bridetobe.bridetobe_logistic_operation_group"
+                            icon="fa-sign-in fa-2x"
+                            type="object"
+                            attrs="{'invisible' : ['|',('in_picking_id','=',False),('state','!=','out')]}"
+                    />
+                    <button name="get_details" string="Detalles" type="object" icon="fa-search fa-2x"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- colors="inherit:True" color_field="alert_color" -->
+        <record id="sale_rental_tree_restricted" model="ir.ui.view">
+            <field name="name">sale.rental.tree.restricted</field>
+            <field name="model">sale.rental</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="sale_rental.sale_rental_tree"/>
+            <field name="arch" type="xml">
+                <tree position="replace">
+                    <tree  create="false">
+                        <field name="partner_id" readonly="1"/>
+                        <field name="rental_product_id" readonly="1"/>
+                        <field name="start_date" string="Fecha Evento" readonly="1"/>
+                        <field name="test_date" groups="website_bridetobe.group_sale_bridetobe_modista" readonly="1"/>
+                        <field name="delivery_date" groups="website_bridetobe.group_sale_bridetobe_terminacion"
+                               readonly="1"/>
+                        <field name="modista" readonly="1"/>
+                        <field name="alert_color" invisible="1"/>
+                        <field name="state_internal" readonly="1"/>
+                        <field name="internal_comment" groups="website_bridetobe.group_sale_bridetobe_terminacion"
+                               readonly="1"/>
+                        <button name="next_state" string="Trabajado" type="object"
+                                groups="website_bridetobe.group_sale_bridetobe_lavanderia,
+                                    website_bridetobe.group_sale_bridetobe_modista"
+                        />
+                        <button name="print_receipt" string="Trabajado" type="object"
+                                groups="website_bridetobe.group_sale_bridetobe_terminacion"/>
+                    </tree>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sale_rental_form_restricted" model="ir.ui.view">
+            <field name="name">sale.rental.form.restricted</field>
+            <field name="model">sale.rental</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="sale_rental.sale_rental_form"/>
+            <field name="arch" type="xml">
+                <form position="replace">
+                    <form string="Rental" create="false" edit="false">
+                        <header>
+                            <button name="send_custom_message" string="Custom Message"
+                                    groups="sales_team.group_sale_manager,website_bridetobe.bridetobe_logistic_operation_group"
+                                    type="object"
+                            />
+                            <field name="state" widget="statusbar"/>
+                        </header>
+                        <sheet>
+                            <group name="main" col="4">
+                                <field name="partner_id"/>
+                                <field name="rental_product_id" domain="[('rented_product_id', '!=', False)]"/>
+                                <field name="start_date"/>
+                                <field name="test_date"/>
+                                <field name="delivery_date"/>
+                                <field name="event_place" readonly="1"/>
+                                <field name="state_internal" options="{'no_create_edit': True}"/>
+                                <field name="modista" readonly="1"/>
+                                <field name="seller_id" readonly="1"/>
+                            </group>
+                            <notebook>
+                                <page string="Comentarios">
+                                    <field name="comments"/>
+                                </page>
+                                <page string="Detalles">
+                                    <field name="details"/>
+                                </page>
+                            </notebook>
+                        </sheet>
+                        <group name="sell" position="after">
+                            <div class="oe_chatter">
+                                <field name="message_follower_ids" widget="mail_followers"/>
+                                <field name="message_ids" widget="mail_thread"/>
+                            </div>
+                        </group>
+                    </form>
+                </form>
+            </field>
+        </record>
+
+        <record id="sale_rental_search" model="ir.ui.view">
+            <field name="name">sale.rental.search</field>
+            <field name="model">sale.rental</field>
+            <field name="inherit_id" ref="sale_rental.sale_rental_search"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <field name="rental_product_id"/>
+                    <field name="start_order_id"/>
+                    <field name="modista"/>
+                    <field name="bordador_id"/>
+                    <field name="payment_status"/>
+                </field>
+
+               <filter name="ordered" position="before">
+                    <filter string="Pruebas de Hoy" name="phoy" domain="[('test_date','&gt;=', time.strftime('%%Y-%%m-%%d')),('test_date', '&lt;=', time.strftime('%%Y-%%m-%%d'))]"/>
+
+                    <filter string="Entregas de Hoy" name="ehoy"
+                            domain="[('delivery_date','&gt;=', time.strftime('%%Y-%%m-%%d')),('delivery_date', '&lt;=', time.strftime('%%Y-%%m-%%d'))]"/>
+
+                    <filter string="Pruebas de la Semana" name="pdls" domain="[('test_date', '&gt;=', ((context_today()+relativedelta(weeks=-2, weekday=0)).strftime('%%Y-%%m-%%d'))),
+                                                        ('test_date', '&lt;=', ((context_today()+relativedelta(weeks=1, weekday=6)).strftime('%%Y-%%m-%%d')))]"/>
+                    <filter string="Entregas de la Semana" name="edls" domain="[('delivery_date', '&gt;=', ((context_today()+relativedelta(weeks=-2, weekday=0)).strftime('%%Y-%%m-%%d'))),
+                                                        ('delivery_date', '&lt;=', ((context_today()+relativedelta(weeks=1, weekday=6)).strftime('%%Y-%%m-%%d')))]"/>
+                     <separator/>
+                    <filter name="internal_new" string="New" 
+                            domain="[('state_internal','=',%(website_bridetobe.internal_state_new)d)]"/>
+                    <filter name="internal_ajustes" string="Ajustes" 
+                            domain="[('state_internal','=',%(website_bridetobe.internal_state_ajuste)d)]"/>
+                    <filter name="internal_pruebas" string="Pruebas" 
+                            domain="[('state_internal','=',%(website_bridetobe.internal_state_pruebas)d)]"/>
+                    <filter name="internal_probado" string="Probado" 
+                            domain="[('state','=','tested')]"/>
+                    <filter name="internal_terminacion" string="Terminacion" 
+                            domain="[('state_internal','=',%(website_bridetobe.internal_state_terminacion)d)]"/>
+                    <filter name="internal_terminado" string="Terminado" 
+                            domain="[('state_internal','=',%(website_bridetobe.internal_state_terminado)d)]"/>
+                    <filter name="internal_entregado" string="Entregado" 
+                            domain="[('state_internal','=',%(website_bridetobe.internal_state_entregado)d)]"/>
+                    <separator/>
+                    <filter string="Entregado" name="entregado"
+                            domain="[('state','=','out')]"/>
+                    <filter string="Pendiente Prueba" name="pendiente_prueba"
+                            domain="[('state','=','pending')]"/>
+                    <filter string="Probado" name="probado"
+                            domain="[('state','=','tested')]"/>
+                    <separator/>
+                    <filter string="Saldo Pendiente" name="saldopendiente"
+                                domain="[('payment_status','=','pending')]"/>
+                    <filter string="Saldo Parcial" name="saldoparcial"
+                                domain="[('payment_status','=','parcial')]"/>
+                    <separator/>
+                    <filter name="group_by_modista" string="Modista" context="{'group_by':'modista'}"/>
+                    <filter name="group_by_bordador" string="Bordador" context="{'group_by':'bordador_id'}"/>
+                    <separator/>
+                </filter>
+
+                <!-- <group name="groupby" position="inside">
+                    <filter string="Modista" context="{'group_by': 'modista'}"/>
+                    <filter string="Estado Cliente" context="{'group_by': 'state_internal'}"/>
+                </group>  -->
+            </field>
+        </record>
+
+        <record id="view_sale_rental_calendar" model="ir.ui.view">
+            <field name="name">sale.rental.calendar</field>
+            <field name="model">sale.rental</field>
+            <field name="arch" type="xml">
+                <calendar string="Rentals"
+                          date_start="delivery_date"
+                          mode="month"
+                >
+                    <field name="partner_id"/>
+                    <field name="rented_product_id"/>
+                    <field name="event_place"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="sale_rental_in_tree" model="ir.ui.view">
+            <field name="name">sale.rental.tree</field>
+            <field name="model">sale.rental</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="partner_id"/>
+                    <field name="rental_product_id"/>
+                    <field name="start_date" string="Fecha Evento"/>
+                    <field name="modista"/>
+                    <field name="seller_id"/>
+                    <field name="current_days"/>
+                    <button name="send_return_email" string="Notificar Devolucion" type="object"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sale_rental_tree_alquiler" model="ir.ui.view">
+            <field name="name">sale.rental.tree.alquiler</field>
+            <field name="model">sale.rental</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="sale_rental.sale_rental_tree"/>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="editable"></attribute>
+                </tree>
+                <button name="action_view_invoice" position="replace"/>
+                <button name="process_delivery" position="replace"/>
+                <button name="process_reception" position="replace"/>
+                <button name="get_details" position="replace"/>
+            </field>
+        </record>
+
+        <record id="sale_rental.sale_rental_action" model="ir.actions.act_window">
+            <field name="name">Rental Administration</field>
+            <field name="res_model">sale.rental</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="sale_rental.sale_rental_tree"/>
+        </record>
+
+        <record id="sale_rental_action" model="ir.actions.act_window">
+            <field name="name">Rental Administration</field>
+            <field name="res_model">sale.rental</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('state', 'not in', ('cancel', 'in', 'out')),('start_date','&gt;=',(context_today()-datetime.timedelta(days=90)).strftime('%Y-%m-%d'))]</field>
+            <field name="view_id" ref="sale_rental.sale_rental_tree"/>
+        </record>
+
+        <record id="sale_rental_action_logistic" model="ir.actions.act_window">
+            <field name="name">Rental Administration</field>
+            <field name="res_model">sale.rental</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('start_date','&gt;=',(context_today()-datetime.timedelta(days=90)).strftime('%Y-%m-%d'))]</field>
+            <field name="view_id" ref="sale_rental.sale_rental_tree"/>
+        </record>
+
+        <record id="sale_rental_action_alquiler" model="ir.actions.act_window">
+            <field name="name">Rental Administration</field>
+            <field name="res_model">sale.rental</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="domain">[('start_date','&gt;=',(context_today()-datetime.timedelta(days=90)).strftime('%Y-%m-%d'))]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                        (0, 0, {'view_mode': 'tree', 'view_id': ref('sale_rental_tree_alquiler')}),
+                        (0, 0, {'view_mode': 'form', 'view_id': ref('sale_rental_form_restricted')})]"/>
+        </record>
+
+        <record id="sale_rental_action_restricted" model="ir.actions.act_window">
+            <field name="name">Rental Administration</field>
+            <field name="res_model">sale.rental</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', 'not in', ('cancel', 'in', 'out')),('start_date','&gt;=',(context_today()-datetime.timedelta(days=90)).strftime('%Y-%m-%d'))]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                        (0, 0, {'view_mode': 'tree', 'view_id': ref('sale_rental_tree_restricted')}),
+                        (0, 0, {'view_mode': 'form', 'view_id': ref('sale_rental_form_restricted')})]"/>
+        </record>
+
+        <record id="sale_rental_in_action" model="ir.actions.act_window">
+            <field name="name">Recepciones Pendientes</field>
+            <field name="res_model">sale.rental</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="domain">[('state', '=', 'out'),('start_date','&gt;=',(context_today()-datetime.timedelta(days=90)).strftime('%Y-%m-%d'))]</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="website_bridetobe.sale_rental_in_tree"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="whatsapp_promotion_list_form" model="ir.ui.view">
+            <field name="name">whatsapp.promotion.list.form</field>
+            <field name="model">whatsapp.promotion.list</field>
+            <field name="arch" type="xml">
+                <form string="Partner List">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <notebook>
+                            <page string="Partners">
+                                <field name="partner_ids"
+                                       options="{'no_create': True}"
+                                       context="{'tree_view_ref' : 'whatsapp_connect_promotion.res_partner_search_tree'}">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="mobile"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="whatsapp_promotion_list_tree" model="ir.ui.view">
+            <field name="name">whatsapp.promotion.list.tree</field>
+            <field name="model">whatsapp.promotion.list</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="whatsapp_promotion_list_action" model="ir.actions.act_window">
+            <field name="name">Whatsapp Promotion List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">whatsapp.promotion.list</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="whatsapp_promotion_list" name="Partner List" parent="whatsapp_promotion_root"
+                  action="whatsapp_promotion_list_action"/>
+
+    </data>
+</odoo>

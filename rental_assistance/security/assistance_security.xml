@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_bridetobe_assistance" model="res.groups">
+        <field name="name">Asistencia</field>
+        <field name="category_id" ref="base.module_category_bridetobe"/>
+        <field name="comment">the user will have access to Rentals with state on his group in the rentals application.</field>
+    </record>
+</odoo>

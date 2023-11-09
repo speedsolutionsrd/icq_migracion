@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="web_confeccion" name="Confecciones">
+            <t t-call="website.layout">
+                <t t-set="partner_id" t-value="partner_id or request.env['res.partner']"/>
+
+                <div class="container oe_website_sale">
+                    <div class="row">
+
+                        <div class="oe_cart">
+                            <div class="row">
+                                <t t-if="error">
+                                    <t t-foreach="error.get('error_message', [])" t-as="err">
+                                        <h4 class="text-danger" t-esc="err"/>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <t t-set="error" t-value="{}"/>
+                                </t>
+
+                                <form t-att-action="'/confeccion' if not action else action" method="post">
+                                    <h3 class="page-header mt16 col-sm-12">
+                                        Datos del Cliente
+                                    </h3>
+                                    <div id="web_customer_info" class="row">
+                                        <div t-attf-class="form-group #{error.get('vat') and 'has-error' or ''} col-sm-5">
+                                            <label class="control-label" for="vat">RNC / Cedula
+                                                <t t-if="'vat' in error">/ Whatsapp</t>
+                                            </label>
+                                            <input type="search" name="vat" class="form-control" id="vat"
+                                                   required="True"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   t-att-value="partner_id.vat or vat"/>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button type="submit" class="btn btn-primary mt24" name="search_partner"
+                                                    id="search_partner"
+                                                    t-att-disabled="'readonly' if confirmation else None"
+                                                    title="Validar Cliente">
+                                                <span class="fa fa-search"/>
+                                            </button>
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('name') and 'has-error' or ''} col-sm-6">
+                                            <label class="control-label" for="name">Nombre del Cliente</label>
+                                            <input type="text" name="partner_name" class="form-control"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   t-att-value="partner_id.name or partner_name" onkeyup="showupper(this);"/>
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('customer_code') and 'has-error' or ''} col-sm-4">
+                                            <label class="control-label" for="name">Codigo de Cliente</label>
+                                            <input type="text" name="customer_code" class="form-control" readonly="1"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   t-att-value="partner_id.customer_code or partner_id.vat or vat"
+                                            />
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('mobile') and 'has-error' or ''} col-sm-4">
+                                            <label class="control-label" for="mobile">Whatsapp</label>
+                                            <input type="text" name="mobile" class="form-control"
+                                                   placeholder="18295555555"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   t-att-value="partner_id.mobile or mobile"/>
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('phone') and 'has-error' or ''} col-sm-4">
+                                            <label class="control-label" for="phone">Telefono</label>
+                                            <input type="text" name="phone" class="form-control"
+                                                   placeholder="18095555555"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   t-att-value="partner_id.phone or phone"/>
+                                        </div>
+
+
+                                        <div t-attf-class="form-group #{error.get('email') and 'has-error' or ''} col-sm-12">
+                                            <label class="control-label" for="email">Email</label>
+                                            <input type="text" name="email" class="form-control"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   t-att-value="partner_id.email or email"/>
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('street') and 'has-error' or ''} col-sm-8">
+                                            <label class="control-label" for="street">Calle y Numero</label>
+                                            <input type="text" name="street" class="form-control"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   t-att-value="partner_id.street or street"/>
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('city') and 'has-error' or ''} col-sm-4">
+                                            <label class="control-label" for="city">Ciudad</label>
+                                            <input type="text" name="city" class="form-control"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   t-att-value="partner_id.city or city"/>
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('country_id') and 'has-error' or ''} col-sm-12">
+                                            <label class="control-label" for="country_id">Pais</label>
+                                            <select id="country_id" name="country_id" class="form-control"
+                                                    t-att-readonly="'readonly' if confirmation else None">
+                                                <option value="0">Pais...</option>
+                                                <t t-foreach="country_ids" t-as="c">
+                                                    <option t-att-value="c.id"
+                                                            t-att-selected="c.id == (partner_id.country_id.id or 62)">
+                                                        <t t-esc="c.name"/>
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <h3 class="page-header mt16 col-sm-12">
+                                        Datos de Confeccion y Entrega
+                                    </h3>
+                                    <div id="web_confeccion_info" class="row">
+                                        <div t-attf-class="form-group #{error.get('event_date') and 'has-error' or ''} col-sm-6 event_date">
+                                            <label class="control-label" for="event_date">Fecha del Evento</label>
+                                            <input type="date" name="event_date" t-att-value="event_date"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   id="event_date"
+                                                   class="form-control"/>
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('event_place') and 'has-error' or ''} col-sm-6">
+                                            <label class="control-label" for="event_place">Lugar del Evento</label>
+                                            <input type="text" name="event_place" t-att-value="event_place"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   class="form-control"/>
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('tipo_confeccion') and 'has-error' or ''} col-sm-6">
+                                            <label class="control-label" for="tipo_confeccion">Tipo Confeccion</label>
+
+                                            <select name="tipo_confeccion" id="tipo_confeccion" class="form-control"
+                                                    t-att-readonly="'readonly' if confirmation else None">
+                                                <option value="">Tipo Confeccion...</option>
+                                                <option value="renta"
+                                                        t-att-selected="tipo_confeccion == 'renta'">
+                                                    <span>Renta Exclusiva</span>
+                                                </option>
+                                                <option value="cliente"
+                                                        t-att-selected="tipo_confeccion == 'cliente'">
+                                                    <span>Cliente</span>
+                                                </option>
+
+                                            </select>
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('modista_id') and 'has-error'} col-sm-6">
+                                            <label class="control-label" for="modista_id">Modista</label>
+                                            <select name="modista_id" id="modista_id" class="form-control"
+                                                    t-att-readonly="'readonly' if confirmation else None">
+                                                <option value="0">Modista...</option>
+                                                <t t-foreach="modista_ids" t-as="m">
+                                                    <option t-att-value="m.get('id')"
+                                                            t-att-selected="str(m.get('id')) == str(modista_id)">
+                                                        <t t-esc="m.get('name')"/>
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('description') and 'has-error' or ''} col-sm-6">
+                                            <label class="control-label" for="description">Descripcion</label>
+                                            <textarea class="form-control" name="description"
+                                                      t-att-readonly="'readonly' if confirmation else None">
+                                                <t t-esc="description or ''"/>
+                                            </textarea>
+                                        </div>
+                                        <div t-attf-class="form-group #{error.get('notes') and 'has-error' or ''} col-sm-6">
+                                            <label class="control-label" for="notes">Observaciones</label>
+                                            <textarea class="form-control" name="notes"
+                                                      t-att-readonly="'readonly' if confirmation else None">
+                                                <t t-esc="notes or ''"/>
+                                            </textarea>
+                                        </div>
+
+                                    </div>
+                                    <h3 t-attf-class="page-header mt16 #{confirmation and 'col-sm-8' or 'col-sm-12'}">
+                                        Medidas
+                                    </h3>
+                                    <div t-attf-class="col-sm-12" id="medidas">
+                                        <t t-foreach="metric_ids" t-as="metric">
+                                            <div t-attf-class="form-group col-sm-3">
+                                                <label class="control-label">
+                                                    <t t-esc="metric.name"/>
+                                                </label>
+                                                <t t-set="metric" t-value="'m_%s' % metric.id"/>
+                                                <input type="number" step="any" t-att-name="metric"
+                                                       t-att-value="metrics.get(metric)"
+                                                       required=""
+                                                       t-att-readonly="'readonly' if confirmation else None"
+                                                       class="form-control"/>
+                                            </div>
+
+                                        </t>
+                                    </div>
+                                    <h3 t-attf-class="page-header mt16 #{confirmation and 'col-sm-8' or 'col-sm-12'}">
+                                        Moda y Materiales
+                                    </h3>
+                                    <t t-if="confirmation">
+                                        <h3 class="page-header mt16 col-sm-4">
+                                            Costo
+                                        </h3>
+                                    </t>
+                                    <div id="web_confeccion_mod_mat" 
+                                         t-attf-class="#{confirmation and 'row col-sm-8' or 'row col-sm-12'}">
+                                        <div t-attf-class="form-group #{error.get('c_moda') and 'has-error' or ''} col-sm-3">
+                                            <label class="control-label" for="c_moda">Suministro Moda</label>
+                                            <input type="text" name="c_moda" t-att-value="c_moda"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   class="form-control"/>
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('suministro_materiales') and 'has-error' or ''} col-sm-3">
+                                            <label class="control-label" for="suministro_materiales">Suministro de
+                                                Materiales
+                                            </label>
+
+                                            <select name="suministro_materiales" id="suministro_materiales"
+                                                    class="form-control"
+                                                    t-att-readonly="'readonly' if confirmation else None"
+                                                    onchange="showsection()">
+                                                <option value="">Suministro de Materiales...</option>
+                                                <option value="p_cliente"
+                                                        t-att-selected="suministro_materiales == 'p_cliente'">
+                                                    <span>Pendiente de Recibir del Cliente</span>
+                                                </option>
+                                                <option value="e_cliente"
+                                                        t-att-selected="suministro_materiales == 'e_cliente'">
+                                                    <span>Entregada por Cliente</span>
+                                                </option>
+                                                <option value="c_tienda"
+                                                        t-att-selected="suministro_materiales == 'c_tienda'">
+                                                    <span>Pendiente de Comprar por Tienda</span>
+                                                </option>
+
+                                            </select>
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('color') and 'has-error' or ''} col-sm-3">
+                                            <label class="control-label" for="color">Color</label>
+                                            <input type="text" name="color" t-att-value="color"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   class="form-control"/>
+                                        </div>
+
+                                        <div t-attf-class="form-group #{error.get('tipo') and 'has-error' or ''} col-sm-3">
+                                            <label class="control-label" for="tipo">Tipo</label>
+                                            <input type="text" name="tipo" t-att-value="tipo"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   class="form-control"/>
+                                        </div>
+
+                                        <div t-attf-class="col-sm-6">
+                                            <label class="control-label" for="comments">Materiales y Tipo de tela
+                                                solicitada
+                                            </label>
+                                            <input type="text" name="tela" t-att-value="tela"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   class="form-control"/>
+                                        </div>
+                                        <div t-attf-class="col-sm-4" id="materiales_recibidos">
+                                            <label class="control-label" for="comments">Materiales y Tela Recibida
+                                            </label>
+                                            <input type="text" name="materiales" t-att-value="materiales"
+                                                   t-att-readonly="'readonly' if confirmation else None"
+                                                   class="form-control"/>
+                                        </div>
+
+                                        <div t-attf-class="col-sm-1" id="materiales_recibidos">
+                                            <label class="control-label" for="comments">Enviar</label>
+                                            <input type="checkbox" id="enviar" name="enviar" value="True"
+                                                   class="form-control form-check-input"
+                                                   checked="checked"/>
+                                            <input type="hidden" name="enviar" t-att-value='enviar'/>
+                                        </div>
+                                    </div>
+
+                                    <t t-if="confirmation">
+
+                                        <div class="col-sm-4">
+                                            <div t-attf-class="form-group #{error.get('costo') and 'has-error' or ''}">
+                                                <label class="control-label" for="costo">Precio Final</label>
+                                                <div>
+                                                    <input type="text" name="costo" t-att-value="costo"
+                                                           required=""
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+
+                                    <div class="col-sm-12 text-center">
+                                        <button type="submit"
+                                                t-attf-class="btn btn-lg btn-primary mt8 mb32 btn-bridetobe #{not confirmation and 'hidden' or ''}"
+                                                name="back">
+                                            Atras
+                                        </button>
+                                        <button type="submit" class="btn btn-lg btn-primary mt8 mb32 btn-bridetobe"
+                                                name="submit">
+                                            Siguiente
+                                        </button>
+                                    </div>
+
+                                    <input type="hidden" name="view_id" t-att-value="view_id"/>
+                                    <input type="hidden" name="confeccion_id" class="form-control" id="confeccion_id"
+                                           t-att-value="confeccion_id"/>
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="partner_id" t-att-value="partner_id.id"/>
+                                    <input type="hidden" name="product_ids" t-att-value="product_ids"/>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="web_confeccion_confirmation">
+            <t t-call="website.layout">
+                <form t-att-action="'/confeccion' if not action else action" method="post">
+                    <div class='cols-sm-12 text-center'>
+                        <span>
+                            <h1>Estimad@
+                                <strong t-esc="confeccion_id.partner_id.name"/>
+                            </h1>
+                        </span>
+                        <span>
+                            <h2>Su confeccion
+                                <span t-esc="confeccion_id.name"/>
+                                tendra un costo de
+                                <span t-esc="confeccion_id.costo"/>
+                            </h2>
+                        </span>
+                        <div>
+                            <input type="hidden" name="c_moda" class="form-control" id="c_moda" t-att-value="c_moda"/>
+                            <input type="hidden" name="customer_code" class="form-control" id="customer_code"
+                                   t-att-value="customer_code"/>
+                            <input type="hidden" name="color" class="form-control" id="color" t-att-value="color"/>
+                            <input type="hidden" name="event_place" class="form-control" id="event_place"
+                                   t-att-value="event_place"/>
+                            <input type="hidden" name="email" class="form-control" id="email" t-att-value="email"/>
+                            <input type="hidden" name="street" class="form-control" id="street" t-att-value="street"/>
+                            <input type="hidden" name="partner_id" class="form-control" id="partner_id"
+                                   t-att-value="partner_id"/>
+                            <input type="hidden" name="city" class="form-control" id="city" t-att-value="city"/>
+                            <input type="hidden" name="tipo" class="form-control" id="tipo" t-att-value="tipo"/>
+                            <input type="hidden" name="country_id" class="form-control" id="country_id"
+                                   t-att-value="country_id"/>
+                            <input type="hidden" name="metric" class="form-control" id="metric"
+                                   t-att-value="metric"/>
+                            <input type="hidden" name="tela" class="form-control" id="tela" t-att-value="tela"/>
+                            <input type="hidden" name="event_date" class="form-control" id="event_date"
+                                   t-att-value="event_date"/>
+                            <input type="hidden" name="materiales" class="form-control" id="materiales"
+                                   t-att-value="materiales"/>
+                            <input type="hidden" name="vat" class="form-control" id="vat" t-att-value="vat"/>
+                            <input type="hidden" name="modista_id" class="form-control" id="modista_id"
+                                   t-att-value="modista_id"/>
+                            <input type="hidden" name="description" class="form-control" id="description"
+                                   t-att-value="description"/>
+                            <input type="hidden" name="view_id" class="form-control" id="view_id"
+                                   t-att-value="view_id"/>
+                            <input type="hidden" name="phone" class="form-control" id="phone" t-att-value="phone"/>
+                            <input type="hidden" name="suministro_materiales" class="form-control"
+                                   id="suministro_materiales"
+                                   t-att-value="suministro_materiales"/>
+                            <input type="hidden" name="tipo_confeccion" class="form-control" id="tipo_confeccion"
+                                   t-att-value="tipo_confeccion"/>
+                            <input type="hidden" name="partner_name" class="form-control" id="partner_name"
+                                   t-att-value="partner_name"/>
+                            <input type="hidden" name="name" class="form-control" id="name" t-att-value="name"/>
+                            <input type="hidden" name="mobile" class="form-control" id="mobile" t-att-value="mobile"/>
+                            <input type="hidden" name="costo" class="form-control" id="costo" t-att-value="costo"/>
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="confeccion_id" class="form-control" id="confeccion_id"
+                                   t-att-value="confeccion_id.id"/>
+                            <t t-foreach="metric_ids" t-as="metric">
+                                <t t-set="metric" t-value="'m_%s' % metric.id"/>
+                                <input type="hidden" t-att-name="metric"
+                                       t-att-value="metrics.get(metric)"
+                                       class="form-control"/>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <button type="submit" class="btn btn-lg btn-primary mt8 mb32 btn-bridetobe"
+                                name="back">
+                            Rechazar
+                        </button>
+                        <button type="submit" class="btn btn-lg btn-primary mt8 mb32 btn-bridetobe"
+                                name="submit">
+                            Completar
+                        </button>
+                    </div>
+                </form>
+            </t>
+        </template>
+    </data>
+</odoo>

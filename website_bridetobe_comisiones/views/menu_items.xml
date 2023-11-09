@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_comisiones_root" name="Comisiones" groups="sales_team.group_sale_manager"/>
+        <menuitem id="menu_comisiones_configuracion" name="Configuracion" parent="menu_comisiones_root"/>
+        <menuitem id="menu_tarifa_comision" name="Tarifas Comisiones" parent="menu_comisiones_configuracion"
+                  action="action_bridetobe_tarifa_comision"/>
+
+        <menuitem id="menu_comisiones_sub" name="Comisiones" parent="menu_comisiones_root" sequence="1"
+                  action="action_bridetobe_comision"/>
+        <menuitem id="menu_pagos_sub" name="Pagos" parent="menu_comisiones_root" sequence="2"
+                  action="action_bridetobe_comision_payment"/>
+
+    </data>
+</odoo>

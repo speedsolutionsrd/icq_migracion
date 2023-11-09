@@ -1,0 +1,111 @@
+<odoo>
+    <data>
+
+        <template id="assistance" name="Asistencia">
+            <t t-call="website.layout">
+                <div id="wrap" style="text-align:center;">
+                    <div class="oe_structure">
+                        <section>
+                            <div class="container">
+                                <div class="row text-center">
+                                    <h1>Asistencia de Asesores</h1>
+                                    <div class="col-lg-4">
+                                        <section>
+                                            <table class="table table-bordered" style="text-align:center;">
+                                                <t t-foreach="assistance_ids" t-as="assistance_id">
+                                                    <tr>
+                                                        <th class="text-center"
+                                                            t-att-class="(active_assistance_id == assistance_id) and 'success'">
+                                                            <span t-field="assistance_id.employee_id.name"
+                                                                  style="text-align:center;"/>
+                                                        </th>
+                                                    </tr>
+                                                </t>
+                                            </table>
+                                        </section>
+                                    </div>
+                                    <form method="post" action="/assistance">
+                                        <div class="col-lg-8">
+                                            <section class="full-content">
+                                                <div class="oe_structure">
+                                                    <div t-attf-class='text-center'>
+                                                        <t t-if="error" t-foreach="error.values()" t-as="err">
+                                                            <span t-attf-class="text-danger" t-esc="err"/>
+                                                        </t>
+                                                    </div>
+                                                    <div style="margin: 10px 0px;">
+                                                        <t t-if="counter > 3">
+                                                            <div style="margin: 10px 0px;"
+                                                                 t-attf-class="form-group #{error.get('reason') and 'has-error' or ''}">
+                                                                <input type="text" placeholder="Motivo"
+                                                                       class="form-control"
+                                                                       name="reason"
+                                                                       style="padding: 12px 90px; text-align:center;"/>
+                                                            </div>
+                                                        </t>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="col-lg-4">
+                                                            <button type="submit"
+                                                                    name="available"
+                                                                    t-att-disabled="True if counter &gt; 3 else None"
+                                                                    class="btn btn-success btn-lg form-control"
+                                                                    value="True">
+                                                                Disponible
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <button type="submit"
+                                                                    name="unavailable"
+                                                                    title='Se habilita al 3 llamado'
+                                                                    class="btn btn-info btn-lg form-control"
+                                                                    t-att-disabled="True if counter &lt;= 3 else None"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">No Asistio</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <button type="submit"
+                                                                    title='Se habilita al 3 llamado'
+                                                                    name="sick"
+                                                                    class="btn btn-danger btn-lg form-control"
+                                                                    t-att-disabled="True if counter &lt;= 3 else None">
+                                                                <span>Indispuesto</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12" style="margin: 10px 0px;">
+                                                        <button type="submit"
+                                                                name="next"
+                                                                t-att-disabled="True if counter &gt; 3 else None"
+                                                                class="btn btn-info btn-lg"
+                                                                style="padding: 12px 104px;">
+                                                            Volver a Llamar
+                                                        </button>
+                                                    </div>
+                                                    <div>
+                                                        <input type="hidden" readonly="1" placeholder="ASESOR"
+                                                               style="padding: 12px 90px; text-align:center;"
+                                                               t-att-value="active_assistance_id.employee_id.name"/>
+                                                        <input type="hidden" name="active_assistance_id"
+                                                               t-att-value="active_assistance_id.id"/>
+                                                        <input type="hidden" name="sequence"
+                                                               t-att-value="sequence"/>
+                                                        <input type="hidden" name="counter"
+                                                               t-att-value="counter"/>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    </form>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

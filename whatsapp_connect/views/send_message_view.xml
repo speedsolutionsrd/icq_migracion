@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="send_message_form" model="ir.ui.view">
+            <field name="name">Send Message</field>
+            <field name="model">whatsapp.send.message</field>
+            <field name="arch" type="xml">
+                <form string="Send Message">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group cols="4">
+                            <field name="partner_id" attrs="{'readonly':[('state', 'in', ['send'])]}"/>
+                            <field name="mobile" attrs="{'readonly':[('state', 'in', ['send'])]}"/>
+                        </group>
+                        <group>
+                            <field name="message" attrs="{'readonly':[('state', 'in', ['send'])]}"/>
+                        </group>
+                        <button name="action_send" string="Send Message" type="object"
+                                attrs="{'invisible':[('state', 'in', ['send'])]}"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="send_message_tree" model="ir.ui.view">
+            <field name="name">Send Message</field>
+            <field name="model">whatsapp.send.message</field>
+            <field name="arch" type="xml">
+                <tree string="Send Message">
+                    <field name="partner_id"/>
+                    <field name="mobile"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_send_message" model="ir.actions.act_window">
+            <field name="name">Send Message</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">whatsapp.send.message</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_send_message" name="Send Message" parent="whatsapp_connect_base" action="action_send_message"
+                  sequence="1"/>
+
+        <record id="send_message_partner_form" model="ir.ui.view">
+            <field name="name">Send Message</field>
+            <field name="model">whatsapp.send.message</field>
+            <field name="arch" type="xml">
+                <form string="Send Whatsapp">
+                    <sheet>
+                        <group>
+                            <field name="mobile" required="1"/>
+                            <field name="message" required="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <group>
+                            <span>
+                                <button string="Send" type="object" class="oe_highlight" name="action_send"/>
+                                <button string="Cancel" class="oe_link" special="cancel"/>
+                            </span>
+                        </group>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="send_message_partner_form_action" model="ir.actions.act_window">
+            <field name="name">Send Whatsapp</field>
+            <field name="res_model">whatsapp.send.message</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="send_message_partner_form"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

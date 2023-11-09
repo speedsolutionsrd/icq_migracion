@@ -1,0 +1,7 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_bridetobe_send_custom_message_logistic,Full Access on Bridetob Send Custom Message logistic,model_sale_rental_send_custom_message,website_bridetobe.bridetobe_logistic_operation_group,1,1,1,0
+access_bridetobe_send_custom_message_model_logistic,Full Access on Bridetob Send Custom Message Model logistic,model_sale_rental_custom_message,website_bridetobe.bridetobe_logistic_operation_group,1,1,1,0
+access_bridetobe_send_custom_message_model_parameter,Full Access on Bridetob Send Custom Message Model logistic,model_sale_rental_custom_message_parameter,,1,1,1,0
+access_sale_rental_custom_message_confeccion,Full Access on Sale Rental Custom Message  to confeccion,model_sale_rental_custom_message,website_bridetobe.group_sale_bridetobe_confeccion_manager,1,1,1,0
+access_bridetobe_send_custom_message_model_parameter_confeccion,Full Access on Bridetob Send Custom Message parameter confeccion,model_sale_rental_custom_message_parameter_confeccion,website_bridetobe.group_sale_bridetobe_confeccion_manager,1,1,1,0

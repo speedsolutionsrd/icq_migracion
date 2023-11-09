@@ -1,0 +1,62 @@
+<odoo>
+    <data>
+        <template id="pickup_template" name="Pickup">
+            <t t-call="website.layout">
+                <div id="wrap" style="text-align:center;">
+                    <div class="oe_structure">
+                        <section>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3 class="page-header mt16 page-title text-center">Pickup</h3>
+                                    </div>
+                                    <form method="post" action="/pickup">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <table class="table table-condensed table-sm table-md table-xs table-lg" style="text-align:center;">
+                                            <thead class="bg-black">
+                                                <tr name="table-header">
+                                                    <th class="th-sm th-md th-xs th-lg text-center" style="width:10%">Recogida</th>
+                                                    <th class="th-sm th-md th-xs th-lg text-center" style="width:35%">Cliente</th>
+                                                    <th class="th-sm th-md th-xs th-lg text-center" style="width:35%">Direccion</th>
+                                                    <th class="th-sm th-md th-xs th-lg" style="width:20%"/>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="pickups" t-as="pickup">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-esc="pickup.id"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="pickup.partner_id.name"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-esc="pickup.partner_address"/>
+                                                        </td>
+                                                        <td>
+                                                            <button type="submit" name="try" class="btn btn-warning"
+                                                                    url="/pickup"
+                                                                    value="try">Try
+                                                            </button>
+                                                            <button type="submit" name="pickup" class="btn btn-success pull-center"
+                                                                    url="/pickup"
+                                                                    value="pickup">Pickup
+                                                            </button>
+                                                        </td>
+                                                        <input type="hidden" name="pickup_id" t-att-value="pickup.id"/>
+                                                        <input type="hidden" name="partner_name"
+                                                               t-att-value="pickup.partner_id.name"/>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

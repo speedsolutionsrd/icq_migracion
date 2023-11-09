@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_config_settings" model="ir.ui.view">
+            <field name="name">account settings</field>
+            <field name="model">account.config.settings</field>
+            <field name="inherit_id" ref="account.view_account_config_settings"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='complete_tax_set']" position="after">
+                    <group string="Whatsapp Template">
+                        <field name="whatsapp_invoice_template_id"
+                               options="{'no_create_edit': True}"
+                               domain="[('state','=','APPROVED'),('parameter_count','=',6)]"/>
+                        <field name="whatsapp_credit_template_id"
+                               options="{'no_create_edit': True}"
+                               domain="[('state','=','APPROVED'),('parameter_count','=',6)]"/>
+<!--                        <field name="whatsapp_receipt_no_test_template_id"-->
+<!--                               options="{'no_create_edit': True}"-->
+<!--                               domain="[('state','=','APPROVED'),('parameter_count','=',1)]"/>-->
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

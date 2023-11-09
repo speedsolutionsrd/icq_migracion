@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/posbox_send/static/src/js/posbox.js"></script>
+            <script type="text/javascript" src="/posbox_send/static/src/js/rsvp-3.1.0.min.js"></script>
+            <script type="text/javascript" src="/posbox_send/static/src/js/sha-256.min.js"></script>
+            <script type="text/javascript" src="/posbox_send/static/src/js/qz-tray.js"></script>
+        </xpath>
+    </template>
+</odoo>

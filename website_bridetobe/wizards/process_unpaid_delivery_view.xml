@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="stock_picking_process_wizard_form" model="ir.ui.view">
+            <field name="name">Process Unpaid pickings</field>
+            <field name="model">stock.picking.process</field>
+            <field name="arch" type="xml">
+                <form string="Rental Cancelation">
+                    <sheet>
+                        <div>
+                            <span style="font-size:20px">Existe un Monto Pendiente de pago por un valor de
+                                <strong>
+                                    <field name="order_amount" readonly="1" widget="monetary"/>
+                                </strong>
+                                debe procesar el pago antes de continuar la Entrega
+                            </span>
+                        </div>
+                        <group>
+
+                            <field name="f" password="True" string=" " style="visibility: hidden"/>
+                            <field name="employee_id" domain="[('rental_cancel_code', '!=', False)]"/>
+                            <field name="rental_cancel_code" password="True"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="cancel_rental" string="Procesar Entrega" type="object" default_focus="1"
+                                class="oe_highlight"/>
+                    </footer>
+                </form>
+
+            </field>
+        </record>
+
+        <record id="action_stock_picking_process_wizard" model="ir.actions.act_window">
+            <field name="name">Process Unpaid pickings</field>
+            <field name="res_model">stock.picking.process</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

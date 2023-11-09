@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="page_queue_tv" name="Colas">
+            <t t-call="website.layout">
+                <!-- <script type="text/javascript" src="/rentq_vestidores/static/src/js/audio_tv.js"></script> -->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="page-header mt16 text-center page-title">Alquiler</h2>
+                            <t t-set="counter" t-value="0"/>
+                            <t t-foreach="items_colas.mapped('modista_id')" t-as="modista_id">
+                                <t t-set="counter" t-value="counter + 1"/>
+                                <div class="col-sm-4">
+                                    <table class="table table-striped table-condensed table-tv">
+                                        <thead class="bg-black">
+                                            <tr>
+                                                <th colspan="4" class="text-center">
+                                                    <span t-field="modista_id.name"/>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-left">Ticket</th>
+                                                <th class="text-left">Vestidor</th>
+                                                <th class="text-left">Llegada</th>
+                                                <th class="text-left">Transcurrido</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="time_sum" t-value="False"/>
+                                            <t t-set="time_count" t-value="0"/>
+                                            <t t-foreach="items_colas.filtered(lambda x:x.modista_id == modista_id)"
+                                               t-as="item_cola">
+                                                <t t-if="time_sum">
+                                                    <t t-set="time_sum"
+                                                       t-value="time_sum + item_cola.compute_time_elapsed()"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-set="time_sum"
+                                                       t-value="item_cola.compute_time_elapsed()"/>
+                                                </t>
+
+                                                <t t-set="time_count" t-value="time_count + 1"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-field="item_cola.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <!--                                                        <t t-foreach="item_cola.producto_ids" t-as="producto_id">-->
+                                                        <!--                                                            <span t-esc="producto_id.barcode"/>-->
+                                                        <!--                                                            <br/>-->
+                                                        <!--                                                        </t>-->
+                                                        <span t-field="item_cola.vestidor_id.vestidores_ids"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="item_cola.date_start"
+                                                              t-field-options='{"format": "hh:MM a"}'/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="item_cola.time_elapsed or ''"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                        <tfoot class="bg-black">
+                                            <tr>
+                                                <th colspan="4" class="text-center">
+                                                    <t t-if="time_sum">
+                                                        <t t-set="prom_time" t-value="time_sum / time_count"/>
+                                                        <span>
+                                                            <t t-esc="'%s Horas y %s Minutos' % (prom_time.seconds/3600, prom_time.seconds%3600/60)"/>
+                                                        </span>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span>0 Horas y 0 Minutos</span>
+                                                    </t>
+                                                </th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <t t-if="counter == 3">
+                                    <div class="col-sm-12"></div>
+                                    <t t-set="counter" t-value="0"/>
+                                </t>
+
+                            </t>
+                            <!--                            <table class="table table-striped table-condensed table-tv">-->
+                            <!--                                <thead class="bg-black">-->
+                            <!--                                    <tr name="table-header">-->
+                            <!--                                        <th class="text-left">Ticket</th>-->
+                            <!--                                        <th class="text-left">Cliente</th>-->
+                            <!--                                        <th class="text-left">Vestidor</th>-->
+                            <!--                                        <th class="text-left">Modista</th>-->
+                            <!--                                        <th class="text-left">Tiempo en Cola</th>-->
+                            <!--                                    </tr>-->
+                            <!--                                </thead>-->
+                            <!--                                <tbody>-->
+                            <!--                                    <tr t-foreach="items_colas" t-as="item_cola">-->
+                            <!--                                        <td>-->
+                            <!--                                            <span t-esc="item_cola.name"/>-->
+                            <!--                                        </td>-->
+                            <!--                                        <td>-->
+                            <!--                                            <span t-esc="item_cola.cliente_id.name"/>-->
+                            <!--                                        </td>-->
+                            <!--                                        <td>-->
+                            <!--                                            <span t-field="item_cola.vestidor_id.vestidores_ids"/>-->
+                            <!--                                        </td>-->
+                            <!--                                        <td>-->
+                            <!--                                            <span t-esc="item_cola.modista_id.name"/>-->
+                            <!--                                        </td>-->
+                            <!--                                        <td>-->
+                            <!--                                            <span t-esc="item_cola.time_elapsed"/>-->
+                            <!--                                        </td>-->
+                            <!--                                    </tr>-->
+                            <!--                                </tbody>-->
+                            <!--                            </table>-->
+                        </div>
+
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

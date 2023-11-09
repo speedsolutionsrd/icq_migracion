@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_invoice_document" inherit_id="account.report_invoice_document">
+            <div class="row" t-if="len(o.tax_line_ids) > 0" position="inside">
+                <div class="col-xs-6">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Referencia</th>
+                                <th>Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.payment_ids" t-as="payment_id">
+                                <td>
+                                    <span t-field="payment_id.payment_date"/>
+                                </td>
+                                <td>
+                                    <span t-field="payment_id.journal_id"/>
+                                </td>
+                                <td>
+                                    <span t-field="payment_id.credit_card_reference"/>
+                                </td>
+                                <td>
+                                    <span t-field="payment_id.amount"/>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+<!--                    <table t-if="o.state == 'paid'" class="table table-condensed">-->
+<!--                        <thead>-->
+<!--                            <tr>-->
+<!--                                <th>Balance Factura</th>-->
+<!--                            </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                            <tr>-->
+<!--                                <td>-->
+<!--                                    <t t-esc="o.residual" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+                </div>
+            </div>
+
+        </template>
+
+        <template id="report_invoice_document_inherited"
+                  inherit_id="ncf_invoice_template.report_invoice_document_inherited">
+            <span t-field="l.name" position="replace">
+                <t t-if="l.product_id.barcode">
+                    <span t-field="l.product_id.barcode"/>
+                </t>
+                <t t-if="not l.product_id.barcode">
+                    <span t-field="l.name"/>
+                </t>
+            </span>
+        </template>
+
+
+
+    </data>
+</odoo>

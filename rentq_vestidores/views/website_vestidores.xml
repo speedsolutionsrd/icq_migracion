@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="vestidores" name="Menú Vestidores">
+            <t t-call="website.layout">
+                <div class="col-sm-12 text-center">
+                    <div class="col-xs-12" style="margin-top: 50px;">
+                        <!--<div class="col-sm-6">-->
+                        <!--<a href="/queue_making">-->
+                        <!--<img src="/website_bridetobe/static/description/images/busquedas_menu.png" style="height:30%; width:30%;"/>-->
+                        <!--</a>-->
+                        <!--</div>-->
+                        <div class="col-sm-12 text-center">
+                            <div class="col-sm-6">
+                                <a class="btn btn-primary pull-right btn-bridetobe btn-shadow" href="/queue_test">
+                                    <span>Administrador (a)</span>
+                                </a>
+                            </div>
+                            <div class="col-sm-6">
+                                <a class="btn btn-primary pull-left btn-bridetobe btn-shadow"
+                                   href="/queue_test_anfitrion">
+                                    <span>Anfitrion (a)</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:50px;">
+                        <div class="col-sm-4">
+                            <a class="btn btn-primary pull-center btn-bridetobe btn-shadow" href="/quotes">
+                                <span>Clientes</span>
+                            </a>
+                        </div>
+                        <div class="col-sm-4">
+                            <a class="btn btn-primary pull-center btn-bridetobe btn-shadow" href="/modista">
+                                <span>Modistas</span>
+                            </a>
+                        </div>
+                        <div class="col-sm-4">
+                            <a class="btn btn-primary pull-center btn-bridetobe btn-shadow" href="/views_tv">
+                                <span>Tv Cliente</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="report_cierre_caja"
+                model="report.bridetobe.cierre_caja"
+                report_type="qweb-pdf"
+                string="Cierre Caja"
+                name="website_bridetobe.cierre_caja"
+        />
+
+        <template id="website_bridetobe.cierre_caja">
+            <div class="page">
+                <div class="col-sm-12" align="center">
+                    <h3>Bride to Be</h3>
+                    <span>Cuadre de caja del dia
+                        <t t-esc="docs.date"/>
+                    </span>
+                </div>
+                <table class="tg" width="100%">
+                    <thead>
+                        <tr style="align:center;background-color:#c0c0c0;">
+                            <th class="th">Factura</th>
+                            <th class="th">Fecha Pago</th>
+                            <th class="th">Cliente</th>
+                            <th class="th">Efectivo</th>
+                            <th class="th">Tarjeta</th>
+                            <th class="th">Cheque</th>
+                            <th class="th">Transferencia</th>
+                            <th class="th">Otros</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="efectivo" t-value="0"/>
+                        <t t-set="tarjeta" t-value="0"/>
+                        <t t-set="cheque" t-value="0"/>
+                        <t t-set="transferencia" t-value="0"/>
+                        <t t-set="otros" t-value="0"/>
+                        <t t-foreach="docs.get_payments()" t-as="payment_id">
+                            <tr>
+                                <td><span t-esc="payment_id.get('invoice')"/></td>
+                                <td><span t-esc="payment_id.get('payment_date')"/></td>
+                                <td><span t-esc="payment_id.get('partner')"/></td>
+                                <td>
+                                    <span t-esc="'{0:,.2f}'.format(float(payment_id.get('efectivo', '0')))"/>
+                                    <t t-set="efectivo" t-value="float(payment_id.get('efectivo', '0')) + efectivo"/>
+                                </td>
+                                <td>
+                                    <span t-esc="'{0:,.2f}'.format(float(payment_id.get('tarjeta', '0')))"/>
+                                    <t t-set="tarjeta" t-value="float(payment_id.get('tarjeta', '0')) + tarjeta"/>
+                                </td>
+                                <td>
+                                    <span t-esc="'{0:,.2f}'.format(float(payment_id.get('cheque', '0')))"/>
+                                    <t t-set="cheque" t-value="float(payment_id.get('cheque', '0')) + cheque"/>
+                                </td>
+                                <td>
+                                    <span t-esc="'{0:,.2f}'.format(float(payment_id.get('transferencia', '0')))"/>
+                                    <span t-esc="payment_id.get('transfer_type', '')"/>
+                                    <t t-set="transferencia"
+                                       t-value="float(payment_id.get('transferencia', '0')) + transferencia"/>
+                                </td>
+                                <td>
+                                    <span t-esc="'{0:,.2f}'.format(float(payment_id.get('otros', '0')))"/>
+                                    <t t-set="otros" t-value="float(payment_id.get('otros', '0')) + otros"/>
+                                </td>
+                            </tr>
+                        </t>
+                        <tr style="color:#FFFFFF;background-color:#333333;align:center;">
+                            <td colspan="3">
+                                <strong>Total Cobros</strong>
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(efectivo)"/>
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(tarjeta)"/>
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(cheque)"/>
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(transferencia)"/>
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(otros)"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="tg" width="100%">
+                    <tr style="color:#FFFFFF;background-color:#333333;align:center;">
+                        <td>
+                            <strong>Total General</strong>
+                        </td>
+                        <td>
+                            <span t-esc="'{0:,.2f}'.format(efectivo+tarjeta+cheque+transferencia+otros)"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </template>
+
+        <record id="report_cierre_caja_view" model="ir.ui.view">
+            <field name="name">cierre_caja</field>
+            <field name="model">report.bridetobe.cierre_caja</field>
+            <field name="arch" type="xml">
+                <form string="Cierre Caja">
+                    <sheet>
+                        <group>
+                            <field name="date"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="check_report" string="Print" type="object" default_focus="1"
+                                class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="report_cierre_caja_action" model="ir.actions.act_window">
+            <field name="name">Cierre Caja</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">report.bridetobe.cierre_caja</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

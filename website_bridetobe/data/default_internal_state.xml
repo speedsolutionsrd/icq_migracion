@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="internal_state_cancelado" model="sale.rental.internal.state">
+            <field name="sequence">0</field>
+            <field name="name">Cancelado</field>
+        </record>
+
+        <record id="internal_state_new" model="sale.rental.internal.state">
+            <field name="sequence">1</field>
+            <field name="name">Sin Asignar</field>
+        </record>
+
+        <record id="internal_state_ajuste" model="sale.rental.internal.state">
+            <field name="sequence">2</field>
+            <field name="name">Ajustes</field>
+            <field name="group" ref="website_bridetobe.group_sale_bridetobe_modista"/>
+            <field name="message_send" eval="True"/>
+            <field name="message_body" type="html">
+                <p style="text-align: justify;">
+                    ESTIMADO CLIENTE LE INFORMAMOS QUE A PARTIR DEL DIA {5}, ESTARA
+                    DISPONIBLE PARA PRUEBA EL VESTIDO CODIGO {1}, CON LA MODISTA ASIGNADA {3}, RECUERDE TRAER LOS
+                    ZAPATOS QUE UTILIZARA CON EL VESTIDO. DEBE VENIR CON TIEMPO DISPONIBLE DE ESPERA EN CASO DE LOS
+                    VESTIDORES ESTAR OCUPADOS Y/O LA MODISTA ASIGNADA POR IGUAL.
+                </p>
+                <p style="text-align: justify;">
+                    <br></br>
+                </p>
+                <p>NOTA: EN CASO DE NO TRAER LOS ZAPATOS DEBERA RETORNAR A LA TIENDA CON LOS MISMO PARA DEFINIR EL LARGO
+                    DE
+                    FALDA.
+                </p>
+                <p>
+                    <br></br>
+                </p>
+                <p style="text-align: center;">
+                    <font style="color: rgb(255, 0, 0);">EN CASO DE CANCELACION O REQUERIR ALGUN CAMBIO REFERENTE A LA
+                        PRUEBA, VESTIDO Y/O ENTREGA DEL VESTIDO
+                        COMUNICARSE CON LA TIENDA A LOS NUMEROS 809-909-5688, 809-334-6055, 809-796-8509 O MEDIANTE LA
+                        RESPUESTA
+                        DE ESTE CORREO ELECTRONICO.
+                    </font>
+                </p>
+            </field>
+        </record>
+
+        <record id="internal_state_pruebas" model="sale.rental.internal.state">
+            <field name="sequence">3</field>
+            <field name="name">Pendiente de Pruebas</field>
+            <field name="message_body"></field>
+        </record>
+
+        <record id="internal_state_terminacion" model="sale.rental.internal.state">
+            <field name="sequence">4</field>
+            <field name="name">Terminacion</field>
+            <field name="group" ref="website_bridetobe.group_sale_bridetobe_terminacion"/>
+            <field name="message_body"></field>
+        </record>
+
+        <record id="internal_state_terminado" model="sale.rental.internal.state">
+            <field name="sequence">5</field>
+            <field name="name">Terminado</field>
+            <field name="message_body"></field>
+        </record>
+
+        <record id="internal_state_entregado" model="sale.rental.internal.state">
+            <field name="sequence">6</field>
+            <field name="name">Entregado</field>
+            <field name="message_body"></field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_whatsapp_promotion,Whatsapp Promotion,model_whatsapp_promotion,sales_team.group_sale_manager,1,1,1,1
+access_whatsapp_promotion_list,Whatsapp Promotion List,model_whatsapp_promotion_list,sales_team.group_sale_manager,1,1,1,1

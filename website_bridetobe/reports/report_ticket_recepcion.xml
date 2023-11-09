@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_ticket_recepcion">
+            <receipt width='40'>
+
+                <div align="center">
+                    <img t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 35px;height: 35px;"/>
+                    <div class="col-sm-12">
+                        <h3 t-esc="company.name"/>
+                    </div>
+                    <div class="col-sm-12">
+                        <t t-esc="company.street"/>
+                        <t t-esc="company.street2"/>
+                        <br></br>
+                        <t t-esc="company.city"/>
+                        <t t-esc="company.state_id.name"/>
+                        <t t-esc="company.country_id.name"/>
+                    </div>
+                    <div class="col-sm-12">
+                        Tel.:
+                        <t t-esc="company.phone"/>
+                        <br/>
+                        <t t-esc="company.email"/>
+                        <br/>
+                        <t t-esc="company.name"/>
+                        <br/>
+                        RNC:
+                        <t t-esc="company.vat"/>
+                        <br/>
+                    </div>
+                </div>
+                <div>------------------------------------------</div>
+                <div align="center">
+                    <span>Articulos Entregados</span>
+                </div>
+                <div>------------------------------------------</div>
+                <line>
+                    <left>Cliente:</left>
+                    <left><t t-esc="receipt.partner_id.name"/></left>
+                </line>
+                <div>------------------------------------------</div>
+                <line>
+                    <left>Cant</left>
+                    <left>Descripcion</left>
+                </line>
+                <div>------------------------------------------</div>
+                <t t-foreach="receipt.pack_operation_product_ids" t-as="receipt_line">
+                    <line>
+                        <left>
+                            <t t-esc="receipt_line.product_qty"/>
+                        </left>
+                        <left>
+                            <t t-esc="receipt_line.product_id.product_tmpl_id.rental_code"/>
+                        </left>
+
+                    </line>
+                </t>
+                <div>------------------------------------------</div>
+                <div align="center">Gracias por Preferirnos</div>
+
+
+            </receipt>
+        </template>
+
+        <template id="report_ticket_recepcion_invoice">
+            <receipt width='40'>
+                <div align="center">
+                    <img t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 35px;height: 35px;"/>
+                    <div class="col-sm-12">
+                        <h3 t-esc="company.name"/>
+                    </div>
+                    <div class="col-sm-12">
+                        <t t-esc="company.street"/>
+                        <t t-esc="company.street2"/>
+                        <br></br>
+                        <t t-esc="company.city"/>
+                        <t t-esc="company.state_id.name"/>
+                        <t t-esc="company.country_id.name"/>
+                    </div>
+                    <div class="col-sm-12">
+                        Tel.:
+                        <t t-esc="company.phone"/>
+                        <br/>
+                        <t t-esc="company.email"/>
+                        <br/>
+                        <t t-esc="company.name"/>
+                        <br/>
+                        RNC:
+                        <t t-esc="company.vat"/>
+                        <br/>
+                    </div>
+                </div>
+                <div>------------------------------------------</div>
+                <div align="center">
+                    <span>Articulos Entregados</span>
+                </div>
+                <div>------------------------------------------</div>
+                <line>
+                    <left>Cliente:</left>
+                    <left><t t-esc="invoice.partner_id.name"/></left>
+                </line>
+                <div>------------------------------------------</div>
+                <line>
+                    <left>Cant</left>
+                    <right>Descripcion</right>
+                </line>
+                <div>------------------------------------------</div>
+                <t t-foreach="invoice.invoice_line_ids" t-as="invoice_line">
+                    <line>
+                        <left>
+                            <t t-esc="invoice_line.quantity"/>
+                        </left>
+                        <right>
+                            <t t-esc="invoice_line.product_id.barcode"/>
+                        </right>
+
+                    </line>
+                </t>
+                <div>------------------------------------------</div>
+                <div align="center">Gracias por Preferirnos</div>
+            </receipt>
+        </template>
+
+    </data>
+</odoo>

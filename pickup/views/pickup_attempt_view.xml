@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_pickup_attempt" model="ir.actions.act_window">
+            <field name="name">Pickup Attempt</field>
+            <field name="res_model">pickup.attempt</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="view_pickup_attempt_tree">
+            <field name="name">view.pickup.attempt.tree</field>
+            <field name="model">pickup.attempt</field>
+            <field name="arch" type="xml">
+                <tree string="Pickup Attempt" create="0" edit="0">
+                    <field name="pickup_id"/>
+                    <field name="partner_id"/>
+                    <field name="delivery_id"/>
+                    <field name="reason"/>
+                    <field name="pickup_date"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_pickup_attempt_form">
+            <field name="name">view.pickup.attempt.form</field>
+            <field name="model">pickup.attempt</field>
+            <field name="arch" type="xml">
+                <form name="Pickup Attempt" string="Pickup Attempt" create="0" edit="0">
+                    <sheet>
+                        <group>
+                            <field name="pickup_id"/>
+                            <field name="partner_id"/>
+                            <field name="delivery_id"/>
+                            <field name="reason"/>
+                            <field name="pickup_date"/>
+                            <field name="status"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

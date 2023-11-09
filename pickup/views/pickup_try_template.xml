@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <template id="pickup_try_template" name="Pickup">
+            <t t-call="website.layout">
+                <div id="wrap" style="text-align:center;">
+                    <div class="oe_structure">
+                        <section>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3 class="page-header mt16 page-title text-center">Pickup Attempt</h3>
+                                    </div>
+                                    <form method="post" action="/pickup/try">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <div class="position-relative" style="height: 200px;">
+                                            <div class="position-absolute bottom-0 start-50 translate-middle-x">
+
+                                                <textarea id="reason" name="reason" value="" type="text" rows="6"
+                                                          placeholder="Motivo" class="form-control" required="1"/>
+                                                <br/>
+                                                <button type="submit" name="send"
+                                                        class="btn btn-lg btn-success pull-center" value="True">Enviar
+                                                </button>
+                                                <input type="hidden" name="pickup_id" t-att-value="pickup_id"/>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

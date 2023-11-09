@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+    <record id="seq_sucursal" model="ir.sequence">
+        <field name="name">Branch Office Sequence</field>
+        <field name="code">branch.office</field>
+        <field name="prefix">Sucursal </field>
+        <field name="padding">2</field>
+    </record>
+    <record id="seq_na_name_shop" model="ir.sequence">
+        <field name="name">N/A Name shop</field>
+        <field name="code">name.shop</field>
+        <field name="prefix">N/A </field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="sequence_customer_invoice" model="ir.sequence">
+        <field name="name">Customer invoices sequence</field>
+        <field name="code">client.invoice.number</field>
+        <field name="prefix">Fact/</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field name="padding">8</field>
+    </record>
+
+    <record id="sequence_supplier_invoice" model="ir.sequence">
+        <field name="name">Supplier invoices sequence</field>
+        <field name="code">supplier.invoice.number</field>
+        <field name="prefix">Fact-P/</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field name="padding">8</field>
+    </record>
+
+    <record id="sequence_debit_note_invoice" model="ir.sequence">
+        <field name="name">Debit Note invoices sequence</field>
+        <field name="code">debit.note.invoice.number</field>
+        <field name="prefix">ND/</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field name="padding">8</field>
+    </record>
+
+    <record id="sequence_credit_note_invoice" model="ir.sequence">
+        <field name="name">Credit Note invoices sequence</field>
+        <field name="code">credit.note.invoice.number</field>
+        <field name="prefix">NC/</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field name="padding">8</field>
+    </record>
+
+    <record id="sequences_credit_fiscal" model="ir.sequence">
+        <field name="name">Secuencia para comprobantes</field>
+        <field name="code">credit.fiscal.invoice.number</field>
+        <field name="prefix">B</field>
+        <field name="padding">8</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+
+    <record id="sequences_credit_fiscal_date_range" model="ir.sequence.date_range">
+        <field name="number_next_actual">1</field>
+        <field name="max_number_next">100</field>
+        <field eval="str(datetime.now().year)+'-01-01'" name="date_from"/>
+        <field eval="str(datetime.now().year)+'-12-31'" name="date_to"/>
+        <field name="sequence_id" ref="sequences_credit_fiscal"/>
+    </record>
+
+     <!-- <record id="1" model="account.journal">
+        <field name="sequence_id" ref="sequences_credit_fiscal"/>
+    </record> -->
+
+</odoo>
+

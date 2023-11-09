@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="website_bridetobe_statistics_sales_pivot" model="ir.ui.view">
+            <field name="name">website.bridetobe.statistics.sales.pivot</field>
+            <field name="model">bridetobe.comision</field>
+            <field name="arch" type="xml">
+                <pivot string="Ventas por Vendedor" disable_linking="True">
+                    <field name="employee_id" type="row"/>
+                    <field name="date" interval="month" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="website_bridetobe_statistics_sales" model="ir.actions.act_window">
+            <field name="name">Ventas por Vendedor</field>
+            <field name="res_model">bridetobe.comision</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot</field>
+            <field name="domain" eval="[('department_id','=',ref('hr.dep_sales'))]"/>
+            <field name="view_id" ref="website_bridetobe_statistics.website_bridetobe_statistics_sales_pivot"/>
+        </record>
+
+        <record id="website_bridetobe_statistics_sales_count_pivot" model="ir.ui.view">
+            <field name="name">website.bridetobe.statistics.sales.count.pivot</field>
+            <field name="model">sale.rental</field>
+            <field name="arch" type="xml">
+                <pivot string="Ventas por Vendedor" disable_linking="True">
+                    <field name="rental_product_id" type="row"/>
+                    <field name="start_date" interval="month" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="website_bridetobe_statistics_sales_count" model="ir.actions.act_window">
+            <field name="name">Vestidos Rentados</field>
+            <field name="res_model">sale.rental</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('state', '!=', 'cancel')]</field>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="website_bridetobe_statistics.website_bridetobe_statistics_sales_count_pivot"/>
+        </record>
+
+        <menuitem id="menu_website_bridetobe_statistics_sales" name="Ventas por Vendedor"
+                  parent="website_bridetobe_statistics" action="website_bridetobe_statistics_sales"/>
+
+        <menuitem id="menu_website_bridetobe_statistics_sales_count" name="Vestidos Rentados"
+                  parent="website_bridetobe_statistics" action="website_bridetobe_statistics_sales_count"/>
+
+    </data>
+</odoo>

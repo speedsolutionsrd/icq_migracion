@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="confecciones_product" model="product.template">
+            <field name="name">Confecciones</field>
+            <field name="type">service</field>
+        </record>
+
+        <record id="alteracion_product" model="product.template">
+            <field name="name">Alteraciones</field>
+            <field name="type">product</field>
+        </record>
+
+        <record id="alteracion_rental_product" model="product.template">
+            <field name="name">Servicio de Alteracion</field>
+            <field name="type">service</field>
+            <field name="rented_product_id" ref="alteracion_product"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="uom_id" ref="uom.product_uom_day"/>
+            <field name="uom_po_id" ref="uom.product_uom_day"/>
+            <field name="must_have_dates" eval="True"/>
+        </record>
+
+        <record id="extra_week_product" model="product.product">
+            <field name="name">Semana Adicional Codigo</field>
+            <field name="type">service</field>
+            <field name="lst_price">1000</field>
+            <field name="sale_ok" eval="True"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_sales_config" model="ir.ui.view">
+            <field name="name">res.config.settings</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <div name="catalog_setting_container" position="after">
+                    <h2>Rentals</h2>
+                    <div class="row mt16 o_settings_container" name="settin_rental">
+                        <div class="col-12 col-lg-6 o_setting_box" id="settin_rental_option">
+                            <div class="o_setting_left_pane">
+                                <field name="security_rental"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="security_rental"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,180 @@
+<odoo>
+    <data>
+        <template id="page_queue_test_set_partner_form" name="Buscar Cliente">
+            <t t-call="website.layout">
+                <div class="container">
+                    <div style="text-align:center; margin-top:10%;">
+                        <form t-attf-action="/#{view_id}" method="post">
+                            <h1>Cédula/Código o Nombre del Cliente</h1>
+                            <div t-attf-class="form-group #{error.get('partner_vat') and 'has-error' or ''}">
+                                <input type="text" name="partner_vat" class="form-control" t-attf-autofocus="autofocus"/>
+                            </div>
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="submitted" value="1"/>
+                            <input type="hidden" name="view_id" t-att-value="view_id"/>
+                            <div class="clearfix">
+                                <div t-if="error.get('partner_vat')" class="col-sm-6">
+                                    <a href="/register_customer" class="btn btn-primary mb32 btn-bridetobe btn-shadow">
+                                        <span>Registrar</span>
+                                        <span class="fa fa-plus-square"/>
+                                    </a>
+                                </div>
+                                <div t-attf-class="#{error.get('partner_vat') and 'col-sm-6' or 'col-sm-12'}">
+                                    <button type="submit" class="btn btn-primary mb32 btn-bridetobe btn-shadow">
+                                        <span>Buscar</span>
+                                        <span class="fa fa-search"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <table align="center" t-if="error">
+                            <tr>
+                                <td class="text-danger">
+                                    <i class="fa fa-times-circle fa-10x" aria-hidden="true"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <t t-foreach="error.get('error_message', [])" t-as="err">
+                                        <h1 class="text-danger" t-esc="err"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="page_queue_test_set_partner" name="Seleccionar Cliente">
+            <t t-call="website.layout">
+                <div class="container">
+                    <h3 class="page-header page-title mt16"> Listado de Clientes </h3>
+                    <table class="table table-striped table-condensed" style="background-color:white;">
+                        <tr name="table-header">
+                            <th class="text-left">Nombre</th>
+                            <th class="text-left">Telefono</th>
+                            <th class="text-left">RNC / Cedula</th>
+                            <th class="text-left">Email</th>
+                            <th></th>
+                        </tr>
+                        <tr t-foreach="partner_ids" t-as="partner_id">
+                            <td>
+                                <span t-esc="partner_id.name"/>
+                            </td>
+                            <td>
+                                <span t-esc="partner_id.phone"/>
+                            </td>
+                            <td>
+                                <span t-esc="partner_id.vat"/>
+                            </td>
+                            <td>
+                                <span t-esc="partner_id.email"/>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary pull-right" data-toggle="modal" t-att-data-target="'#' + str(partner_id.id)" type="button">
+                                    <span>Asignar a Cola</span>
+                                </button>
+                                <div class="modal fade" t-att-id="partner_id.id" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <form action="test_queue_assignation" method="post" t-att-id="partner_id.id">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h4 class="modal-title">
+                                                                Asignamiento de vestidor
+                                                            </h4>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <button type="button" class="close pull-rigth" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">X</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                            <input type="hidden" name="cliente_id" t-att-value="partner_id.id"/>
+                                                            <input type="hidden" name="cliente_nombre" t-att-value="partner_id.name" />
+                                                            <input type="hidden" name="redirect_to" value="/queue_test" />
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <span class="modal-title">Nombre: </span>
+                                                                        <span t-esc="partner_id.name"/>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <span class="modal-title">Nro. de Identificación: </span>
+                                                                        <span t-esc="partner_id.vat"/>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <span class="modal-title">Seleccionar vestido </span><br/>
+                                                                        <select class="js-example-basic-multiple form-control" name="products[]" multiple="multiple">
+                                                                            <t t-foreach="product_ids" t-as="product_id">
+                                                                                <option t-att-value="product_id.id">
+                                                                                    <t t-esc="product_id.rental_code" />
+                                                                                </option>
+                                                                            </t>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary onSubmitPartner">Asignar</button>
+                                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+        <template id="id_partner_data" inherit_id="website_bridetobe.partner_data" name="Registrar Cliente" primary="True">
+            <xpath expr="//form" position="attributes">
+                <attribute name="t-attf-action">save_customer</attribute>
+            </xpath>
+            <xpath expr="//div/h3" position="attributes">
+                <attribute name="class">page-header mt16 page-title</attribute>
+            </xpath>
+            <xpath expr="//div/form/div[12]" position="after">
+                <div class="col-sm-12">
+                    <label class="control-label">Seleccionar vestido(s)</label>
+                    <select class="js-example-basic-multiple form-control" name="products[]" multiple="multiple">
+                        <t t-foreach="product_ids" t-as="product_id">
+                            <option t-att-value="product_id.id">
+                                <t t-esc="product_id.rental_code" />
+                            </option>
+                        </t>
+                    </select>
+                </div>
+            </xpath>
+            <xpath expr="//form//button" position="replace">
+                <div style="margin-top: 15px;">
+                    <a href="/queue_test" class="btn btn-primary pull-left btn-vestidores">
+                        <span class="fa fa-arrow-left"/>
+                        <span>Volver</span>
+                    </a>
+                    <button class="btn btn-primary pull-right btn-vestidores onSubmitPartne" type="submit">
+                        <span>Guardar y Asignar</span>
+                        <span class="fa fa-plus-square"/>
+                    </button>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

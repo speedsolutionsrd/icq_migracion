@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_sick_template" model="ir.actions.act_window" >
+            <field name="name">Registro de Asistencia</field>
+            <field name="res_model">sick.sick</field>
+            <field name="view_mode">tree,search</field>
+        </record>
+        <record model="ir.ui.view" id="view_sick_tree">
+            <field name="name">view.sick.tree</field>
+            <field name="model">sick.sick</field>
+            <field name="arch" type="xml">
+                <tree string="Idea list" create="false" edit="false">
+                    <field name="type_indisposition" string="Tipo"/>
+                    <field name="employee_id" string="Asesor"/>
+                    <field name="reason" string="Motivo"/>
+                    <field name="write_date" string="Fecha"/>
+                </tree>
+            </field>
+        </record>
+
+        <menuitem id="sick_template" name="Registro de Asistencia" parent="assistance_menu_base" action="action_sick_template"/>
+    </data>
+</odoo>

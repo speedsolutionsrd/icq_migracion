@@ -1,0 +1,9 @@
+
+Migracion
+
+Revisar
+	Modulo=sale_rental
+	Archivo=sale_order.py
+	Linea=130
+	Metodo=_prepare_order_line_procurement
+	Obs=No encuentro la funcionalidad en el odoo 16

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- <record id="view_account_bank_journal_form" model="ir.ui.view">
+            <field name="name">account.view.account.bank.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <group>
+                         <field name="restricted_groups"/>
+                    </group>
+                </xpath>
+            </field>
+        </record> -->
+        <record id="view_account_journal_form" model="ir.ui.view">
+            <field name="name">account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Grupos restringidos">
+                        <field name="restricted_groups"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

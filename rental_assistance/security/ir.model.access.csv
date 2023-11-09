@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_assistance_assistance,access_assistance_assistance,model_assistance_assistance,rental_assistance.group_bridetobe_assistance,1,1,1,0
+access_sick_sick,access_sick_sick,model_sick_sick,rental_assistance.group_bridetobe_assistance,1,1,1,0

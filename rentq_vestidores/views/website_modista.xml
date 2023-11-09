@@ -1,0 +1,61 @@
+<odoo>
+    <data>
+        <template id="page_modistas" name="Modistas">
+            <t t-call="website.layout">
+                <!-- <script type="text/javascript" src="/rentq_vestidores/static/src/js/audio_modista.js"></script> -->
+                <div class="container">
+                    <h2 class="page-header mt16 page-title">Modistas</h2>
+                    <t t-set="counter" t-value="0"/>
+                    <t t-foreach="items_colas.mapped('modista_id')" t-as="modista_id">
+                        <t t-set="counter" t-value="counter + 1"/>
+                        <div class="col-sm-4">
+                            <table class="table table-striped table-condensed">
+                                <thead class="bg-black">
+                                    <tr>
+                                        <th colspan="4" class="text-center">
+                                            <span t-field="modista_id.name"/>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-left">Vestidor</th>
+                                        <th class="text-left">Cliente</th>
+                                        <th class="text-left">Vestido</th>
+                                        <th class="text-left">Llegada</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="items_colas.filtered(lambda x:x.modista_id == modista_id)"
+                                       t-as="item_cola">
+                                        <tr>
+                                            <td>
+                                                <span t-field="item_cola.vestidor_id.vestidores_ids"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="item_cola.cliente_id.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-foreach="item_cola.producto_ids" t-as="producto_id">
+                                                    <span t-esc="producto_id.barcode"/>
+                                                    <br/>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <span t-field="item_cola.date_start"
+                                                      t-field-options='{"format": "hh:MM a"}'/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                        <t t-if="counter == 3">
+                            <div class="col-sm-12"></div>
+                            <t t-set="counter" t-value="0"/>
+                        </t>
+
+                    </t>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

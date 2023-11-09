@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="set_seller" inherit_id="website_bridetobe.set_seller">
+        <xpath expr="//div[@id='web_customer_info']" position="inside">
+            <div t-attf-class="form-group #{error.get('state_id') and 'has-error' or ''} col-sm-12">
+                <label class="control-label" for="state_id">Provincia</label>
+                <select id="state_id" name="state_id" class="state_id form-control" onchange="showpickup()">
+                    <option value="0">Provincia...</option>
+                    <t t-foreach="state_ids" t-as="s">
+                        <t t-if="s.country_id.id == (partner_id.country_id.id or 62)">
+                            <option class="lala" t-att-value="s.id" t-att-data-pickup="s.pickup" t-att-selected="s.id == (partner_id.state_id.id or 677)">
+                                <t t-esc="s.name"/>
+                            </option>
+                        </t>
+                    </t>
+                </select>
+                <input type="hidden" name="state_id" t-att-value="state_id"/>
+            </div>
+
+            <div t-attf-class="pickup_val">
+                <div t-attf-class="form-group #{error.get('pickup') and 'has-error' or ''} col-sm-12">
+                    <label class="control-label" for="pickup">Recogida</label>
+                    <select id="pickup" name="pickup" class="form-control">
+                        <option value="false">
+                            <span>No</span>
+                        </option>
+                        <option value="true">
+                            <span>Si</span>
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+        </xpath>
+        <xpath expr="//input[@name='product_ids']" position="before">
+            <input type="hidden" name="pickup" t-att-value="pickup"/>
+
+        </xpath>
+    </template>
+</odoo>

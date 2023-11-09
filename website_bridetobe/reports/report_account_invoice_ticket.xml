@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model>
+    <data>
+
+        <template id="report_account_invoice_ticket">
+            <receipt width='40'>
+
+                <div align="center">
+                    <img t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 35px;height: 35px;"/>
+                    <div class="col-sm-12">
+                        <h3 t-esc="company.name"/>
+                    </div>
+                    <div class="col-sm-12">
+                        <t t-esc="company.street"/>
+                        <t t-esc="company.street2"/>
+                        <br></br>
+                        <t t-esc="company.city"/>
+                        <t t-esc="company.state_id.name"/>
+                        <t t-esc="company.country_id.name"/>
+                    </div>
+                    <div class="col-sm-12">
+                        Tel.:
+                        <t t-esc="company.phone"/>
+                        <br/>
+                        <t t-esc="company.email"/>
+                        <br/>
+                        <t t-esc="company.name"/>
+                        <br/>
+                        RNC:
+                        <t t-esc="company.vat"/>
+                        <br/>
+                    </div>
+                </div>
+                <div>------------------------------------------</div>
+                <line>
+                    <left>
+                        Factura No.
+                    </left>
+                    <right>
+                        <t t-esc="invoice.reference"/>
+                    </right>
+                </line>
+                <div>------------------------------------------</div>
+                <line>
+                    <left>
+                        NCF:
+                    </left>
+                    <right>
+                        <t t-esc="invoice.number"/>
+                    </right>
+                </line>
+                <line>
+                    <left>Fecha:
+
+                    </left>
+                    <right>
+                        <t t-esc="invoice.date_invoice"/>
+                    </right>
+                </line>
+                <line>
+                    <left>Fecha Evento:
+
+                    </left>
+                    <right>
+                        <t t-esc="invoice.event_date"/>
+                    </right>
+                </line>
+                <line>
+                    <left>Sr(a).:
+                    </left>
+                    <right>
+                        <t t-esc="invoice.partner_id.name"/>
+                    </right>
+                </line>
+                <line>
+                    <left>Tel.:</left>
+                    <right><t t-esc="invoice.partner_id.mobile"/>,
+                        <t t-esc="invoice.partner_id.phone"/>
+                    </right>
+                </line>
+                <line>
+                    <left>RNC/Cedula:</left>
+                    <right>
+                        <t t-esc="invoice.partner_id.vat"/>
+                    </right>
+                </line>
+                <line>
+                    <left>Vendedor(a):</left>
+                    <right>
+                        <t t-esc="invoice.user_id.name"/>
+                    </right>
+                </line>
+                <div>------------------------------------------</div>
+                <line>
+                    <left>Cant</left>
+                    <left>Descripcion</left>
+                    <right>Precio</right>
+                    <right>Total</right>
+                </line>
+                <div>------------------------------------------</div>
+                <t t-foreach="invoice.invoice_line_ids" t-as="invoice_line">
+                    <line>
+                        <left>
+                            <t t-esc="invoice_line.quantity"/>
+                        </left>
+                        <left>
+                            <t t-esc="invoice_line.product_id.barcode"/>
+                        </left>
+                        <right>
+                            <t t-esc="invoice_line.price_unit"/>
+                        </right>
+                        <right>
+                            <t t-esc="invoice_line.price_subtotal"/>
+                        </right>
+                    </line>
+                </t>
+                <div>------------------------------------------</div>
+                <br/>
+                <line>
+                    <left>Subtotal ----------></left>
+                    <right>
+                        <t t-esc="invoice.amount_untaxed"/>
+                    </right>
+                </line>
+                <line>
+                    <left>ITBIS -------------></left>
+                    <right>
+                        <t t-esc="invoice.amount_tax"/>
+                    </right>
+                </line>
+                <line>
+                    <left>TOTAL -------------></left>
+                    <right>
+                        <t t-esc="invoice.amount_total"/>
+                    </right>
+                </line>
+                <div>------------------------------------------</div>
+                <br/>
+                <t t-if="invoice.state != 'paid'">
+                    <line>
+                        <left>ABONO -------------></left>
+                        <right>
+                            <t t-if="invoice.residual &gt; 0" t-esc="invoice.amount_total - invoice.residual"/>
+                            <t t-if="invoice.residual &lt;= 0" t-esc="invoice.residual"/>
+                        </right>
+                    </line>
+                    <line>
+                        <left>Balance Factura ---></left>
+                        <right>
+                            <t t-if="invoice.residual &gt; 0" t-esc="invoice.residual"/>
+                            <t t-if="invoice.residual &lt;= 0" t-esc="invoice.amount_total"/>
+                        </right>
+                    </line>
+                </t>
+                <t t-if="invoice.state == 'paid'">
+                    <line>
+                        <left>Balance Factura ---></left>
+                        <right>
+                            <t t-esc="invoice.residual"/>
+                        </right>
+                    </line>
+                </t>
+
+                <div>------------------------------------------</div>
+                <br/>
+                <p>
+                    FAVOR DE REVISAR SU FACTURA ANTES DE SALIR
+                </p>
+                <br/>
+
+                <t t-foreach="str((invoice.comment).encode('utf-8')).split('*')" t-as="line">
+                    <div>
+                        *
+                        <t t-esc="line"/>
+                        <br/>
+                    </div>
+                </t>
+
+            </receipt>
+        </template>
+
+        <template id="report_account_invoice_ticket_no_test">
+            <receipt width='40'>
+                <div align="center">
+                    <img t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 35px;height: 35px;"/>
+                    <div class="col-sm-12">
+                        <h3 t-esc="company.name"/>
+                    </div>
+                    <div class="col-sm-12">
+                        <t t-esc="company.street"/>
+                        <t t-esc="company.street2"/>
+                        <br></br>
+                        <t t-esc="company.city"/>
+                        <t t-esc="company.state_id.name"/>
+                        <t t-esc="company.country_id.name"/>
+                    </div>
+                    <div class="col-sm-12">
+                        Tel.:
+                        <t t-esc="company.phone"/>
+                        <br/>
+                        <t t-esc="company.email"/>
+                        <br/>
+                        <t t-esc="company.name"/>
+                        <br/>
+                        RNC:
+                        <t t-esc="company.vat"/>
+                        <br/>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <div align="center">
+                    <span align="center" t-esc="message_body"/>
+                </div>
+                <br/>
+                <br/>
+                <div align="center">-----------------------------------</div>
+                <div align="center">
+                    Firma del cliente
+                </div>
+            </receipt>
+        </template>
+    </data>
+</model>

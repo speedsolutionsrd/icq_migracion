@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="paperformat_payment_receipt" model="report.paperformat">
+            <field name="name">Payment Receipt</field>
+            <field name="default" eval="False"/>
+            <field name="format">custom</field>
+            <field name="page_width">50</field>
+            <field name="page_height">100</field>
+            <field name="margin_top">3</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="orientation">Portrait</field>
+        </record>
+
+        <report
+                id="payment_receipt_bridetobe_menu"
+                model="account.invoice"
+                string="Payment Receipt"
+                report_type="qweb-pdf"
+                name="website_bridetobe.payment_receipt_bridetobe"
+                menu="False"
+                paperformat="website_bridetobe.paperformat_payment_receipt"
+        />
+
+        <template id="payment_receipt_bridetobe">
+
+            <div class="page" style="font-size:8px">
+                <t t-if="not o or not 'company_id' in o">
+                    <t t-set="company" t-value="res_company"></t>
+                </t>
+
+                <t t-call="website_bridetobe.pos_invoice_header"/>
+
+                <div class="col-sm-12 dashed_tb_band text-center">
+                    <span>COMPROBANTE DE INGRESO</span>
+                </div>
+                <div>
+                    Hemos recibido de : <span t-esc="docs.partner_id.name"/><br/>
+                    Codigo : <span t-esc="docs.partner_id.customer_code"/>
+                </div>
+                <div class="uppercase">
+                    <t t-set="amount" t-value="docs.amount_total - docs.residual"/>
+                    La Suma de : <t t-esc="docs.ntw(int(amount), 'es', False)" /> con <t t-esc="int(float('{0:,.2f}'.format(amount%1))*100)"/>/100<br/>
+                    <t t-esc="'{0:,.2f}'.format(amount)"/>
+                </div>
+                <di>
+                    Balance Cliente ----> <t t-if="docs.residual" t-esc="docs.residual"/> <t t-if="not docs.residual">0.0</t><br/>
+                    Concepto : SALDO FACTURA No.<t t-if="docs.reference" t-esc="docs.reference"/> <t t-if="not docs.reference" t-esc="docs.number"/>
+                    <br/><br/><br/><br/><br/>
+                </di>
+                <div class="dashed_t_th text-center">
+                    Cajero
+                </div>
+
+            </div>
+        </template>
+
+    </data>
+</openerp>

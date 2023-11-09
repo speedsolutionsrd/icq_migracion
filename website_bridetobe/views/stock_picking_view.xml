@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+
+                <!-- <field name="name" position="before">
+                    <div class="oe_button_box" name="button_box" >
+                        <button name="action_view_invoice" type="object" class="oe_stat_button"
+                                icon="fa-times" style="color:red;">
+                            <span>
+                                Pendiente de Pago:
+                                <field name="amount_due" widget="monetary" options=""/>
+                            </span>
+                        </button>
+                    </div>
+                </field> -->
+                <field name="partner_id" position="after">
+                    <field name="invoiced"/>
+                </field>
+                <notebook position="inside">
+                    <page string="Observaciones">
+                        <field name="comments"/>
+                    </page>
+                </notebook>
+
+            </field>
+        </record>
+
+        <record id="view_picking_internal_search" model="ir.ui.view">
+            <field name="name">stock.picking.internal.search</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="origin"/>
+                    <field name="product_barcodes"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="vpicktree" model="ir.ui.view">
+            <field name="name">stock.picking.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref=""/>
+            <field name="arch" type="xml">
+                <tree decoration-danger="amount_due &gt; 0" string="Picking list" edit="false" create="false">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="date" invisible="1"/>
+                    <field name="group_id" invisible="1"/>
+                    <field name="origin"/>
+                    <field name="priority" invisible="1"/>
+                    <field name="picking_type_id" invisible="1"/>
+                    <field name="state" />
+                    <field name="product_barcodes" string="Codigo Producto"/>
+                    <field name="amount_due"/>
+                    <field name="picking_type_code" invisible="1"/>
+                    <!--<button name="do_new_transfer" states="draft,partially_available,assigned" string="Procesar"-->
+                            <!--type="object" class="oe_highlight"/>-->
+                    <button name="process_transfer" string="Procesar"
+                            type="object"
+                    />
+                    <button name="print_ticket" string="Print Ticket" attrs="{'invisible': [('picking_type_code','!=','incoming')]}"
+                            type="object"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_stock_pickings_sale_rental_in" model="ir.actions.act_window">
+            <field name="name">Recepciones</field>
+            <field name="res_model">stock.picking</field>
+            <field name="context">{}</field>
+            <field name="domain">[('location_dest_id.name','=', 'Rental In'),
+                ('state','in',('confirmed','partially_available','assigned')),
+                ('min_date','&gt;=',(context_today()-datetime.timedelta(days=90)).strftime('%Y-%m-%d'))]
+            </field>
+            <field name="view_mode">tree</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                        (0, 0, {'view_mode': 'tree', 'view_id': ref('vpicktree')})]"/>
+        </record>
+
+        <record id="view_stock_pickings_sale_rental_out" model="ir.actions.act_window">
+            <field name="name">Entregas</field>
+            <field name="res_model">stock.picking</field>
+            <field name="context">{}</field>
+            <field name="domain">[('location_dest_id.name','=', 'Rental Out'),
+                ('state','in',('confirmed','partially_available','assigned')),
+                ('min_date','&gt;=',(context_today()-datetime.timedelta(days=90)).strftime('%Y-%m-%d'))]
+            </field>
+            <field name="view_mode">tree</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                        (0, 0, {'view_mode': 'tree', 'view_id': ref('vpicktree')})]"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_assistance_template" model="ir.actions.act_window">
+            <field name="name">Menú de Asistencia</field>
+            <field name="res_model">assistance.assistance</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="view_assistance_tree">
+            <field name="name">view.assistance.tree</field>
+            <field name="model">assistance.assistance</field>
+            <field name="arch" type="xml">
+                <tree string="Idea list" editable="top">
+                    <field name="sequence" widget="handle"/>
+                    <field name="employee_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_assistance_form">
+            <field name="name">view.assistance.form</field>
+            <field name="model">assistance.assistance</field>
+            <field name="arch" type="xml">
+                <form name="Asesores" string="Asesores">
+                    <sheet>
+                        <group>
+                            <field name="sequence" readonly="True"/>
+                            <field name="employee_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <menuitem id="assistance_menu_base" name="Asistencia" sequence="30" groups="rental_assistance.group_bridetobe_assistance,sales_team.group_sale_salesman"/>
+        <menuitem id="assistance_template" name="Asesores" parent="assistance_menu_base"
+                  action="action_assistance_template"/>
+
+        <record id="action_assistance" model="ir.actions.act_url">
+            <field name="name">Asesores</field>
+            <field name="type">ir.actions.act_url</field>
+            <field name="target">self</field>
+            <field name="url">/assistance</field>
+        </record>
+
+        <menuitem id="assistance_menu_web" name="Asistencia Website" sequence="30"
+                  groups="rental_assistance.group_bridetobe_assistance,sales_team.group_sale_salesman" action="action_assistance"
+        />
+    </data>
+</odoo>
